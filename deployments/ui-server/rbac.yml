@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ui-server
+  namespace: wl-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ui-server
+rules:
+  # ODAG CRDs (read + retry)
+  - apiGroups: ["wl.io"]
+    resources: ["odags"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: ["wl.io"]
+    resources: ["odags/status"]
+    verbs: ["get"]
+  # ODAGTemplate CRDs (read + create runs)
+  - apiGroups: ["wl.io"]
+    resources: ["odagtemplates"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["wl.io"]
+    resources: ["odagtemplates/status"]
+    verbs: ["get"]
+  # Pods (read-only, for log links and task node info)
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+  # Events (read-only)
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ui-server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ui-server
+subjects:
+  - kind: ServiceAccount
+    name: ui-server
+    namespace: wl-system

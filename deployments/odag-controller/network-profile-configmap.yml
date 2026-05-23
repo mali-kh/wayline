@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wl-network-profile
+  namespace: wl-system
+data:
+  # Node-pair bandwidth in bytes/sec.
+  # Format: "srcNode_to_dstNode": "bytesPerSecond"
+  # Pairs not listed use defaultBandwidth.
+  #
+  # Current testbed: unshaped 1 Gbps LAN across all nodes. Per-pair overrides
+  # intentionally omitted — everything resolves to defaultBandwidth.
+  #
+  # If tc shaping is re-applied (see benchmarks/multi-odag-heft/setup-tc.sh),
+  # restore the per-pair entries to match.
+
+  defaultBandwidth: "125000000"

@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: odag-controller
+  namespace: wl-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: odag-controller
+rules:
+  # ODAG CRD
+  - apiGroups: ["wl.io"]
+    resources: ["odags"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["wl.io"]
+    resources: ["odags/status"]
+    verbs: ["update", "patch"]
+  # ODAGTemplate CRD
+  - apiGroups: ["wl.io"]
+    resources: ["odagtemplates"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+  - apiGroups: ["wl.io"]
+    resources: ["odagtemplates/status"]
+    verbs: ["update", "patch"]
+  # Pods and Services (create and manage task pods + their services)
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get", "list", "watch", "create", "delete", "patch"]
+  # Events (emit status events)
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+  # Nodes (query cluster state for scheduler)
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+  # ConfigMaps (read user-defined scheduler scripts)
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: odag-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: odag-controller
+subjects:
+  - kind: ServiceAccount
+    name: odag-controller
+    namespace: wl-system

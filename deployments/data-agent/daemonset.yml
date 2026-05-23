@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: data-agent
+  namespace: wl-system
+spec:
+  selector:
+    matchLabels:
+      app: data-agent
+  template:
+    metadata:
+      labels:
+        app: data-agent
+    spec:
+      # system-node-critical keeps kubelet from evicting the data-agent under
+      # transient DiskPressure. An evicted data-agent breaks in-flight ODAG
+      # pushes that target this node and wedges the whole pipeline.
+      priorityClassName: system-node-critical
+      tolerations:
+        - operator: Exists  # run on all nodes including master
+      containers:
+        - name: data-agent
+          image: 192.168.1.163:5000/wl-data-agent:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+              hostPort: 8082   # reachable at <node-ip>:8082 from any pod
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - name: wl-outputs
+              mountPath: /data/wl-outputs
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8082
+            initialDelaySeconds: 5
+            periodSeconds: 30
+      volumes:
+        - name: wl-outputs
+          hostPath:
+            path: /data/wl-outputs
+            type: DirectoryOrCreate

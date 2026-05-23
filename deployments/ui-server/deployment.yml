@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-server
+  namespace: wl-system
+  labels:
+    app: ui-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui-server
+  template:
+    metadata:
+      labels:
+        app: ui-server
+    spec:
+      serviceAccountName: ui-server
+      tolerations:
+        - key: node.kubernetes.io/unschedulable
+          operator: Exists
+          effect: NoSchedule
+      nodeSelector:
+        kubernetes.io/hostname: anrg-2
+      containers:
+        - name: ui-server
+          image: 192.168.1.163:5000/wl-ui-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: sqlite-data
+              mountPath: /data
+          env:
+            - name: WL_DB_PATH
+              value: /data/wl-history.db
+            - name: WL_LISTEN_ADDR
+              value: ":8080"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+      volumes:
+        - name: sqlite-data
+          hostPath:
+            path: /var/lib/wayline
+            type: DirectoryOrCreate
