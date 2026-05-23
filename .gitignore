@@ -1,0 +1,24 @@
+# Compiled binaries
+bin/
+# Go binaries left at repo root by `go build -o <name>`
+/wayline
+/odag-controller
+/data-agent
+/ui-server
+
+# Frontend build output and dependencies
+ui/dist/
+ui/node_modules/
+
+# SQLite databases (local dev state for ui-server / profiler)
+*.db
+*.db-shm
+*.db-wal
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Editor / OS
+.DS_Store
