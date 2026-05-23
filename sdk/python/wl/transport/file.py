@@ -27,7 +27,7 @@ close():
 
 State protocol (locked, see project_atc2026_data_plane_state_model)
 -------------------------------------------------------------------
-Two independent signals tracked by the local data-agent at WL_NODE_IP:8081:
+Two independent signals tracked by the local data-agent at WL_NODE_IP:8082:
 
   Task lifecycle      PUT /state/<odag>/<task>  body ∈ {Pending, Running,
                                                        ComputeDone, Failed}
@@ -64,7 +64,7 @@ import os
 import urllib.request
 
 
-_DATA_AGENT_PORT = 8081
+_DATA_AGENT_PORT = 8082
 # Generous local-install timeout: the PUT is to localhost over hostPort, so
 # wall-clock is bounded by local disk write + fsync. 5 minutes covers any
 # payload size we expect on edge nodes (multi-GB would already exceed disk
