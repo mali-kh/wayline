@@ -1,0 +1,1 @@
+[{"fromTask":"track-2","toTask":"cross-camera-match","srcNode":"anrg-6","dstNode":"anrg-9","dataSize":47024,"startUnix":1778761841.2283552,"endUnix":1778761841.2465081,"ok":true},{"fromTask":"track-1","toTask":"cross-camera-match","srcNode":"anrg-6","dstNode":"anrg-9","dataSize":63573,"startUnix":1778761849.5690875,"endUnix":1778761849.5886297,"ok":true}]

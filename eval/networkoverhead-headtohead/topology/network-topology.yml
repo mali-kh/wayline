@@ -1,0 +1,38 @@
+# NetworkTopology CR matching the CRD schema (v1alpha1):
+#   spec.configmapName, spec.weights[*].topologyList[*].originList[*].costList[*]
+#
+# Zones (already applied via node-labels.sh):
+#   edge:    anrg-1, anrg-3, anrg-4, anrg-5
+#   compute: anrg-6, anrg-7, anrg-8
+#   gateway: anrg-9
+#
+# Costs: F (1Gbps same-tier) -> cost 1, M (100Mbps cross-tier) -> cost 10.
+# Per-(node,node) S-link bottlenecks cannot be encoded at zone granularity —
+# that's a NetworkOverhead limitation we surface in Related Work.
+apiVersion: networktopology.diktyo.x-k8s.io/v1alpha1
+kind: NetworkTopology
+metadata:
+  name: matrix-v2
+  namespace: default
+spec:
+  configmapName: "matrix-v2-metrics"
+  weights:
+    - name: "UserDefined"
+      topologyList:
+        - topologyKey: "topology.kubernetes.io/zone"
+          originList:
+            - origin: "edge"
+              costList:
+                - { destination: "edge",    bandwidthCapacity: "1Gi",  networkCost: 1  }
+                - { destination: "compute", bandwidthCapacity: "100Mi", networkCost: 10 }
+                - { destination: "gateway", bandwidthCapacity: "100Mi", networkCost: 10 }
+            - origin: "compute"
+              costList:
+                - { destination: "edge",    bandwidthCapacity: "100Mi", networkCost: 10 }
+                - { destination: "compute", bandwidthCapacity: "1Gi",  networkCost: 1  }
+                - { destination: "gateway", bandwidthCapacity: "100Mi", networkCost: 10 }
+            - origin: "gateway"
+              costList:
+                - { destination: "edge",    bandwidthCapacity: "100Mi", networkCost: 10 }
+                - { destination: "compute", bandwidthCapacity: "100Mi", networkCost: 10 }
+                - { destination: "gateway", bandwidthCapacity: "100Mi", networkCost: 1  }

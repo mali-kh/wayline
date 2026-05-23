@@ -1,0 +1,9 @@
+rep,wf_name,phase,makespan_s,wall_s,bytes_in_total,bytes_out_total,report_md5
+1,vemcmt-n4-d30-jpg-argo-dist-dist-jx2z6,Succeeded,142,151,NA,NA,2482db4707d4a7227de9150da6576ab4
+2,vemcmt-n4-d30-jpg-argo-dist-dist-5xcpm,Succeeded,142,151,NA,NA,05b3a127e7e4f4912eb7caa0caf62c99
+3,vemcmt-n4-d30-jpg-argo-dist-dist-s6ddw,Succeeded,131,136,NA,NA,e55caef91ab66ebd00ed3675729898f4
+4,vemcmt-n4-d30-jpg-argo-dist-dist-snhvd,Succeeded,152,167,NA,NA,b90b0fa1299044947e87d5b624256ba8
+5,vemcmt-n4-d30-jpg-argo-dist-dist-6rsjr,Succeeded,141,151,NA,NA,6a156779380a24c19df38f8d1e0ecd0d
+6,vemcmt-n4-d30-jpg-argo-dist-dist-d9xr7,Succeeded,151,166,NA,NA,c94c48b5bf024aa8ff0d194518a3d06a
+7,vemcmt-n4-d30-jpg-argo-dist-dist-9q2tt,Succeeded,136,136,NA,NA,4ad91a6557fcfff3f35e68b37e22c0e0
+8,vemcmt-n4-d30-jpg-argo-dist-dist-c48p7,Succeeded,145,151,NA,NA,b2012ee2ef73607cb791cb6acb259d5b

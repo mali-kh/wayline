@@ -1,0 +1,11 @@
+rep,wf_name,phase,makespan_s,wall_s,bytes_in_total,bytes_out_total,report_md5
+1,vemcmt-n4-d120-png-argo-dist-7flkd,Succeeded,183,197,NA,NA,4099acf8bc07df46875d184b5518c1e9
+2,vemcmt-n4-d120-png-argo-dist-wmmhb,Succeeded,210,212,NA,NA,e88caf3d1409032481413be24aaaf150
+3,vemcmt-n4-d120-png-argo-dist-b8mjk,Succeeded,184,196,NA,NA,5e03f41a5b622fc858cfcab3f8ad0425
+4,vemcmt-n4-d120-png-argo-dist-244v6,Succeeded,208,212,NA,NA,0fb98257462fe23418a20a8924ad18e2
+5,vemcmt-n4-d120-png-argo-dist-pgpdl,Succeeded,194,196,NA,NA,08f1aecd55642aa996d59436b795436f
+6,vemcmt-n4-d120-png-argo-dist-k2k4d,Succeeded,182,196,NA,NA,c73be84b4aeb4cc52652ba5a8f4909c5
+7,vemcmt-n4-d120-png-argo-dist-ltr9l,Succeeded,211,212,NA,NA,2f16f164512136fd75f527157fe6957a
+8,vemcmt-n4-d120-png-argo-dist-n4ttg,Succeeded,187,196,NA,NA,5c5b5961e8d46849c03327264ed84ca7
+9,vemcmt-n4-d120-png-argo-dist-xwzw4,Succeeded,204,212,NA,NA,1d54c8406aedb5314170700597aefca9
+10,vemcmt-n4-d120-png-argo-dist-fnwrx,Succeeded,182,196,NA,NA,9d44b184c54e4d7d47bbe6ae7bd19916

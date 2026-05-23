@@ -1,0 +1,109 @@
+# Ray microbenchmark cluster — 2 Pods, one on each of the E0
+# producer/consumer nodes (anrg-3 and anrg-6, the same pair the
+# Wayline two-hop microbench uses), plus a driver Job that runs the
+# producer/consumer experiment.
+#
+# Each Ray node advertises a custom resource label so we can pin
+# producer/consumer tasks to specific nodes via @ray.remote(resources=...).
+# That gives us deterministic same-node / cross-node placement.
+#
+#   kubectl apply -f ray-cluster.yml
+#   kubectl -n ray-bench wait --for=condition=Ready pod/ray-head pod/ray-worker --timeout=180s
+#   # then run the driver Job (separate file)
+#   kubectl delete ns ray-bench   # to teardown
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ray-bench
+---
+# Headless service for ray-head so worker can resolve it by hostname.
+apiVersion: v1
+kind: Service
+metadata:
+  name: ray-head
+  namespace: ray-bench
+spec:
+  clusterIP: None
+  selector:
+    component: head
+  ports:
+    - { port: 6379,  name: gcs }
+    - { port: 10001, name: client }
+    - { port: 8265,  name: dashboard }
+    - { port: 8076,  name: object-manager }
+    - { port: 8077,  name: node-manager }
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ray-head
+  namespace: ray-bench
+  labels: { app: ray, component: head }
+spec:
+  hostname: ray-head
+  subdomain: ray-head
+  nodeName: anrg-3
+  containers:
+    - name: ray
+      image: rayproject/ray:2.30.0-py311
+      # Override entrypoint to start ray ourselves
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          ray start --head \
+            --port=6379 \
+            --ray-client-server-port=10001 \
+            --dashboard-host=0.0.0.0 \
+            --object-manager-port=8076 \
+            --node-manager-port=8077 \
+            --num-cpus=4 \
+            --resources='{"node_anrg3": 1}' \
+            --block
+      ports:
+        - { containerPort: 6379 }
+        - { containerPort: 10001 }
+        - { containerPort: 8265 }
+      env:
+        - { name: RAY_GRAFANA_HOST, value: "" }
+      resources:
+        requests: { cpu: "1", memory: "2Gi" }
+        limits:   { cpu: "4", memory: "4Gi" }
+      readinessProbe:
+        tcpSocket: { port: 10001 }
+        initialDelaySeconds: 10
+        periodSeconds: 5
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ray-worker
+  namespace: ray-bench
+  labels: { app: ray, component: worker }
+spec:
+  hostname: ray-worker
+  nodeName: anrg-6
+  containers:
+    - name: ray
+      image: rayproject/ray:2.30.0-py311
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          # Wait for head to be ready (use python since nc isn't in image)
+          for i in $(seq 1 60); do
+            if python3 -c "import socket,sys; s=socket.socket(); s.settimeout(1); s.connect(('ray-head.ray-head.ray-bench.svc.cluster.local',6379)); s.close()" 2>/dev/null; then
+              echo "head reachable, joining..."
+              break
+            fi
+            sleep 2
+          done
+          ray start --address=ray-head.ray-head.ray-bench.svc.cluster.local:6379 \
+            --object-manager-port=8076 \
+            --node-manager-port=8077 \
+            --num-cpus=4 \
+            --resources='{"node_anrg6": 1}' \
+            --block
+      env:
+        - { name: RAY_GRAFANA_HOST, value: "" }
+      resources:
+        requests: { cpu: "1", memory: "2Gi" }
+        limits:   { cpu: "4", memory: "4Gi" }

@@ -1,0 +1,4 @@
+# Python / docker scratch (the only things we keep out of the artifact repo).
+__pycache__/
+*.pyc
+.pytest_cache/

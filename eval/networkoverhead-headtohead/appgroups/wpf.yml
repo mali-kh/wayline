@@ -1,0 +1,60 @@
+apiVersion: appgroup.diktyo.x-k8s.io/v1alpha1
+kind: AppGroup
+metadata:
+  name: e2-wpf
+  namespace: argo
+spec:
+  numMembers: 10
+  topologySortingAlgorithm: KahnSort
+  workloads:
+    - workload: { kind: Pod, name: source, selector: source, apiVersion: v1, namespace: argo }
+
+    - workload: { kind: Pod, name: extract, selector: extract, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: source, selector: source, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+    - workload: { kind: Pod, name: scan, selector: scan, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: source, selector: source, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+    - workload: { kind: Pod, name: index, selector: index, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: source, selector: source, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+
+    - workload: { kind: Pod, name: merge, selector: merge, apiVersion: v1, namespace: argo }
+      dependencies:
+        - { workload: { kind: Pod, name: extract, selector: extract, apiVersion: v1, namespace: argo }, minBandwidth: "400Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: scan,    selector: scan,    apiVersion: v1, namespace: argo }, minBandwidth: "400Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: index,   selector: index,   apiVersion: v1, namespace: argo }, minBandwidth: "400Mi", maxNetworkCost: 10 }
+
+    - workload: { kind: Pod, name: filter-a, selector: filter-a, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: merge, selector: merge, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+    - workload: { kind: Pod, name: filter-b, selector: filter-b, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: merge, selector: merge, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+    - workload: { kind: Pod, name: filter-c, selector: filter-c, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: merge, selector: merge, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+
+    - workload: { kind: Pod, name: aggregate, selector: aggregate, apiVersion: v1, namespace: argo }
+      dependencies:
+        - { workload: { kind: Pod, name: filter-a, selector: filter-a, apiVersion: v1, namespace: argo }, minBandwidth: "240Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: filter-b, selector: filter-b, apiVersion: v1, namespace: argo }, minBandwidth: "240Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: filter-c, selector: filter-c, apiVersion: v1, namespace: argo }, minBandwidth: "240Mi", maxNetworkCost: 10 }
+
+    - workload: { kind: Pod, name: output, selector: output, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: aggregate, selector: aggregate, apiVersion: v1, namespace: argo }
+          minBandwidth: "80Mi"
+          maxNetworkCost: 10

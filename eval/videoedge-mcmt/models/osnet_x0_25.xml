@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<net name="main_graph" version="11">
+	<layers>
+		<layer id="0" name="input" type="Parameter" version="opset1">
+			<data shape="?,3,256,128" element_type="f32" />
+			<output>
+				<port id="0" precision="FP32" names="input">
+					<dim>-1</dim>
+					<dim>3</dim>
+					<dim>256</dim>
+					<dim>128</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="1" name="/flat/AveragePool" type="AvgPool" version="opset1">
+			<data kernel="32, 32" strides="32, 32" pads_begin="0, 0" pads_end="0, 0" exclude-pad="true" auto_pad="explicit" rounding_type="floor" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>3</dim>
+					<dim>256</dim>
+					<dim>128</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/flat/AveragePool_output_0">
+					<dim>-1</dim>
+					<dim>3</dim>
+					<dim>8</dim>
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="2" name="Concat_110" type="Const" version="opset1">
+			<data element_type="i64" shape="2" offset="0" size="16" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="3" name="/Flatten" type="Reshape" version="opset1">
+			<data special_zero="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>3</dim>
+					<dim>8</dim>
+					<dim>4</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Flatten_output_0">
+					<dim>-1</dim>
+					<dim>96</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="4" name="proj.weight" type="Const" version="opset1">
+			<data element_type="f32" shape="512, 96" offset="16" size="196608" />
+			<output>
+				<port id="0" precision="FP32" names="proj.weight">
+					<dim>512</dim>
+					<dim>96</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="5" name="/proj/Gemm/WithoutBiases" type="MatMul" version="opset1">
+			<data transpose_a="false" transpose_b="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>96</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>512</dim>
+					<dim>96</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>-1</dim>
+					<dim>512</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="6" name="Constant_1579" type="Const" version="opset1">
+			<data element_type="f32" shape="1, 512" offset="196624" size="2048" />
+			<output>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="7" name="/proj/Gemm" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>512</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/proj/Gemm_output_0">
+					<dim>-1</dim>
+					<dim>512</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="8" name="Constant_13" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="198672" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="9" name="/ReduceL2" type="ReduceL2" version="opset4">
+			<data keep_dims="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>512</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/ReduceL2_output_0">
+					<dim>-1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="10" name="/Clip" type="Clamp" version="opset1">
+			<data min="9.999999960041972e-13" max="3.4028234663852886e+38" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/Clip_output_0,/Expand_output_0">
+					<dim>-1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="11" name="output" type="Divide" version="opset1">
+			<data auto_broadcast="numpy" m_pythondiv="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>512</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>-1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="output">
+					<dim>-1</dim>
+					<dim>512</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="12" name="output/sink_port_0" type="Result" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>-1</dim>
+					<dim>512</dim>
+				</port>
+			</input>
+		</layer>
+	</layers>
+	<edges>
+		<edge from-layer="0" from-port="0" to-layer="1" to-port="0" />
+		<edge from-layer="1" from-port="1" to-layer="3" to-port="0" />
+		<edge from-layer="2" from-port="0" to-layer="3" to-port="1" />
+		<edge from-layer="3" from-port="2" to-layer="5" to-port="0" />
+		<edge from-layer="4" from-port="0" to-layer="5" to-port="1" />
+		<edge from-layer="5" from-port="2" to-layer="7" to-port="0" />
+		<edge from-layer="6" from-port="0" to-layer="7" to-port="1" />
+		<edge from-layer="7" from-port="2" to-layer="9" to-port="0" />
+		<edge from-layer="7" from-port="2" to-layer="11" to-port="0" />
+		<edge from-layer="8" from-port="0" to-layer="9" to-port="1" />
+		<edge from-layer="9" from-port="2" to-layer="10" to-port="0" />
+		<edge from-layer="10" from-port="1" to-layer="11" to-port="1" />
+		<edge from-layer="11" from-port="2" to-layer="12" to-port="0" />
+	</edges>
+	<rt_info>
+		<Runtime_version value="2024.4.0-16579-c3152d32c9c-releases/2024/4" />
+		<conversion_parameters>
+			<is_python_object value="False" />
+			<output_model value="osnet_x0_25" />
+		</conversion_parameters>
+	</rt_info>
+</net>

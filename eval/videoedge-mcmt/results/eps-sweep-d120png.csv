@@ -1,0 +1,17 @@
+eps,rep,phase,makespan_s,n_distinct_detect_nodes,placement
+0,1,Succeeded,125,1 | {'anrg-8': 4}
+0,2,Succeeded,125,1 | {'anrg-8': 4}
+0,3,Succeeded,131,1 | {'anrg-8': 4}
+0,4,Succeeded,132,1 | {'anrg-8': 4}
+20,1,Succeeded,132,1 | {'anrg-8': 4}
+20,2,Succeeded,130,1 | {'anrg-8': 4}
+20,3,Succeeded,140,1 | {'anrg-8': 4}
+20,4,Succeeded,108,2 | {'anrg-6': 1, 'anrg-8': 3}
+40,1,Succeeded,112,2 | {'anrg-6': 2, 'anrg-8': 2}
+40,2,Succeeded,115,2 | {'anrg-8': 2, 'anrg-6': 2}
+40,3,Succeeded,119,2 | {'anrg-8': 2, 'anrg-6': 2}
+40,4,Succeeded,109,2 | {'anrg-8': 2, 'anrg-6': 2}
+60,1,Succeeded,109,3 | {'anrg-8': 1, 'anrg-6': 2, 'anrg-7': 1}
+60,2,Succeeded,109,3 | {'anrg-6': 2, 'anrg-7': 1, 'anrg-8': 1}
+60,3,Succeeded,108,3 | {'anrg-8': 1, 'anrg-6': 2, 'anrg-7': 1}
+60,4,Succeeded,108,3 | {'anrg-8': 1, 'anrg-6': 2, 'anrg-7': 1}

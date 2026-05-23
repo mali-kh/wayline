@@ -1,0 +1,82 @@
+# AppGroup describing the iobt DAG. NetworkOverhead + TopologicalSort
+# use this to (i) schedule pods in dependency order and (ii) score
+# candidate placements by the total edge cost.
+#
+# Pod-to-workload matching is by label: each pod carries
+#   appgroup.diktyo.x-k8s.io/name: e2-iobt
+#   appgroup.diktyo.x-k8s.io/selector: <task-name>
+apiVersion: appgroup.diktyo.x-k8s.io/v1alpha1
+kind: AppGroup
+metadata:
+  name: e2-iobt
+  namespace: argo
+spec:
+  numMembers: 14
+  topologySortingAlgorithm: KahnSort
+  workloads:
+    # capture-i: roots (no upstream).
+    - workload: { kind: Pod, name: capture-1, selector: capture-1, apiVersion: v1, namespace: argo }
+    - workload: { kind: Pod, name: capture-2, selector: capture-2, apiVersion: v1, namespace: argo }
+    - workload: { kind: Pod, name: capture-3, selector: capture-3, apiVersion: v1, namespace: argo }
+    - workload: { kind: Pod, name: capture-4, selector: capture-4, apiVersion: v1, namespace: argo }
+
+    # preprocess-i depends on capture-i. Edge cost reflects the
+    # ~100 MB transfer.
+    - workload: { kind: Pod, name: preprocess-1, selector: preprocess-1, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: capture-1, selector: capture-1, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 5
+    - workload: { kind: Pod, name: preprocess-2, selector: preprocess-2, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: capture-2, selector: capture-2, apiVersion: v1, namespace: argo }
+          minBandwidth: "1Gi"
+          maxNetworkCost: 5
+    - workload: { kind: Pod, name: preprocess-3, selector: preprocess-3, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: capture-3, selector: capture-3, apiVersion: v1, namespace: argo }
+          minBandwidth: "640Mi"
+          maxNetworkCost: 5
+    - workload: { kind: Pod, name: preprocess-4, selector: preprocess-4, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: capture-4, selector: capture-4, apiVersion: v1, namespace: argo }
+          minBandwidth: "1.2Gi"
+          maxNetworkCost: 5
+
+    # infer-i depends on preprocess-i. Same payload size; multi-candidate
+    # on the compute tier.
+    - workload: { kind: Pod, name: infer-1, selector: infer-1, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: preprocess-1, selector: preprocess-1, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+    - workload: { kind: Pod, name: infer-2, selector: infer-2, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: preprocess-2, selector: preprocess-2, apiVersion: v1, namespace: argo }
+          minBandwidth: "1Gi"
+          maxNetworkCost: 10
+    - workload: { kind: Pod, name: infer-3, selector: infer-3, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: preprocess-3, selector: preprocess-3, apiVersion: v1, namespace: argo }
+          minBandwidth: "640Mi"
+          maxNetworkCost: 10
+    - workload: { kind: Pod, name: infer-4, selector: infer-4, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: preprocess-4, selector: preprocess-4, apiVersion: v1, namespace: argo }
+          minBandwidth: "1.2Gi"
+          maxNetworkCost: 10
+
+    # fuse-tracks fan-in from all infer-i (small JSON payload).
+    - workload: { kind: Pod, name: fuse-tracks, selector: fuse-tracks, apiVersion: v1, namespace: argo }
+      dependencies:
+        - { workload: { kind: Pod, name: infer-1, selector: infer-1, apiVersion: v1, namespace: argo }, minBandwidth: "10Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: infer-2, selector: infer-2, apiVersion: v1, namespace: argo }, minBandwidth: "10Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: infer-3, selector: infer-3, apiVersion: v1, namespace: argo }, minBandwidth: "10Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: infer-4, selector: infer-4, apiVersion: v1, namespace: argo }, minBandwidth: "10Mi", maxNetworkCost: 10 }
+
+    # report depends on fuse.
+    - workload: { kind: Pod, name: generate-report, selector: generate-report, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: fuse-tracks, selector: fuse-tracks, apiVersion: v1, namespace: argo }
+          minBandwidth: "10Mi"
+          maxNetworkCost: 10

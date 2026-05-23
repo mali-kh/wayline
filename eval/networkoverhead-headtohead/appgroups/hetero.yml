@@ -1,0 +1,33 @@
+apiVersion: appgroup.diktyo.x-k8s.io/v1alpha1
+kind: AppGroup
+metadata:
+  name: e2-hetero
+  namespace: argo
+spec:
+  numMembers: 5
+  topologySortingAlgorithm: KahnSort
+  workloads:
+    - workload: { kind: Pod, name: preprocess, selector: preprocess, apiVersion: v1, namespace: argo }
+
+    - workload: { kind: Pod, name: train, selector: train, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: preprocess, selector: preprocess, apiVersion: v1, namespace: argo }
+          minBandwidth: "160Mi"
+          maxNetworkCost: 5
+
+    - workload: { kind: Pod, name: evaluate, selector: evaluate, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: train, selector: train, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+
+    - workload: { kind: Pod, name: export, selector: export, apiVersion: v1, namespace: argo }
+      dependencies:
+        - workload: { kind: Pod, name: train, selector: train, apiVersion: v1, namespace: argo }
+          minBandwidth: "800Mi"
+          maxNetworkCost: 10
+
+    - workload: { kind: Pod, name: report, selector: report, apiVersion: v1, namespace: argo }
+      dependencies:
+        - { workload: { kind: Pod, name: evaluate, selector: evaluate, apiVersion: v1, namespace: argo }, minBandwidth: "40Mi", maxNetworkCost: 10 }
+        - { workload: { kind: Pod, name: export,   selector: export,   apiVersion: v1, namespace: argo }, minBandwidth: "400Mi", maxNetworkCost: 10 }
