@@ -1,0 +1,102 @@
+apiVersion: wl.io/v1
+kind: ODAGTemplate
+metadata:
+  name: multi-input-odag
+  namespace: wl-system
+spec:
+  description: "6-task fan-in DAG: source-a/b → transform → merge → report-x/y"
+  scheduler: heft
+  profiling:
+    enabled: true
+    warmupRuns: 0
+    minSamples: 2
+    emaAlpha: 0.3
+    maxSamples: 50
+  defaults:
+    runtime: 5
+    dataSize: "30MB"
+  retention:
+    maxRuns: 10
+    data:
+      policy: keepLatest
+      keepRuns: 3
+  tasks:
+    # ── Layer 0 ──────────────────────────────────────────────────────────────
+    # source-a and source-b run in parallel (no dependencies).
+    # source-a is pinned to anrg-1; source-b to anrg-5.
+    # This guarantees cross-node transfers to merge (anrg-3) from both.
+
+    - name: source-a
+      image: 192.168.1.163:5000/multi-input-source-a:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "30MB"    # observed output: 30 000 412 bytes
+      runtime: 3          # observed wall-clock time (seconds)
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-1]   # same node as transform → same-node send to transform
+
+    - name: source-b
+      image: 192.168.1.163:5000/multi-input-source-b:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "30MB"    # observed output: 30 000 311 bytes
+      runtime: 2          # observed wall-clock time (seconds)
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-5]   # cross-node to merge (anrg-5 → anrg-3)
+
+    # ── Layer 1 ──────────────────────────────────────────────────────────────
+    - name: transform
+      image: 192.168.1.163:5000/multi-input-transform:latest
+      command: ["python", "task.py"]
+      dependencies: ["source-a"]
+      dataSize: "60MB"    # observed output: 60 000 531 bytes
+      runtime: 5          # observed wall-clock time (seconds)
+      resources:
+        cpu: "300m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-1]   # same node as source-a → same-node recv
+
+    # ── Layer 2 ──────────────────────────────────────────────────────────────
+    - name: merge
+      image: 192.168.1.163:5000/multi-input-merge:latest
+      command: ["python", "task.py"]
+      dependencies: ["source-a", "transform", "source-b"]
+      dataSize: "250MB"   # observed output: 250 001 217 bytes
+      runtime: 6          # observed wall-clock time (seconds)
+      resources:
+        cpu: "500m"
+        memory: "2Gi"
+      constraints:
+        nodeNames: [anrg-3]   # cross-node from anrg-1 (source-a, transform) and anrg-5 (source-b)
+
+    # ── Layer 3 ──────────────────────────────────────────────────────────────
+    - name: report-x
+      image: 192.168.1.163:5000/multi-input-report-x:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      dataSize: "0"
+      runtime: 4          # observed wall-clock time (seconds)
+      resources:
+        cpu: "300m"
+        memory: "1Gi"
+      constraints:
+        nodeNames: [anrg-7]   # cross-node from merge (anrg-3 → anrg-7)
+
+    - name: report-y
+      image: 192.168.1.163:5000/multi-input-report-y:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      dataSize: "0"
+      runtime: 6          # observed wall-clock time (seconds)
+      resources:
+        cpu: "300m"
+        memory: "1Gi"
+      constraints:
+        nodeNames: [anrg-3]   # same node as merge → same-node recv

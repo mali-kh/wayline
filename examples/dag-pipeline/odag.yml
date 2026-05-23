@@ -1,0 +1,56 @@
+apiVersion: wl.io/v1
+kind: ODAG
+metadata:
+  name: dag-pipeline
+  namespace: default
+spec:
+  scheduler: random
+  retryPolicy:
+    maxRetries: 2
+  tasks:
+    # Stage 1: generate — produces a dataset and sends it downstream.
+    - name: generate
+      image: 192.168.1.163:5000/dag-pipeline-generate:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      resources:
+        cpu: "200m"
+        memory: "128Mi"
+      dataSize: "1MB"
+      runtime: 10
+      constraints:
+        nodeNames:
+          - anrg-1
+          - anrg-3
+          - anrg-5
+
+    # Stage 2: transform — receives from generate, transforms, sends to output.
+    - name: transform
+      image: 192.168.1.163:5000/dag-pipeline-transform:latest
+      command: ["python", "task.py"]
+      dependencies: ["generate"]
+      resources:
+        cpu: "300m"
+        memory: "128Mi"
+      dataSize: "1MB"
+      runtime: 10
+      constraints:
+        nodeNames:
+          - anrg-4
+          - anrg-6
+          - anrg-8
+
+    # Stage 3: output — receives from transform and prints the final result.
+    - name: output
+      image: 192.168.1.163:5000/dag-pipeline-output:latest
+      command: ["python", "task.py"]
+      dependencies: ["transform"]
+      resources:
+        cpu: "100m"
+        memory: "64Mi"
+      dataSize: "0"
+      runtime: 2
+      constraints:
+        nodeNames:
+          - anrg-7
+          - anrg-9

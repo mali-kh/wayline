@@ -1,0 +1,55 @@
+apiVersion: wl.io/v1
+kind: ODAG
+metadata:
+  name: video-transcode
+  namespace: wl-system
+spec:
+  scheduler: heft
+  retryPolicy:
+    maxRetries: 2
+  tasks:
+    - name: ingest
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      resources:
+        cpu: "200m"
+        memory: "512Mi"
+      dataSize: "200MB"
+      runtime: 5
+      constraints:
+        nodeNames: [anrg-3, anrg-4]
+
+    - name: decode
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["ingest"]
+      resources:
+        cpu: "400m"
+        memory: "1Gi"
+      dataSize: "500MB"
+      runtime: 8
+      constraints:
+        nodeNames: [anrg-3, anrg-5]
+
+    - name: encode
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["decode"]
+      resources:
+        cpu: "500m"
+        memory: "1Gi"
+      dataSize: "300MB"
+      runtime: 15
+      constraints:
+        nodeNames: [anrg-4, anrg-6]
+
+    - name: package
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["encode"]
+      resources:
+        cpu: "100m"
+        memory: "512Mi"
+      dataSize: "50MB"
+      runtime: 3

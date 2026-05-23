@@ -1,0 +1,224 @@
+apiVersion: wl.io/v1
+kind: ODAGTemplate
+metadata:
+  name: iobt-mission-snapshot
+  namespace: wl-system
+spec:
+  description: "IoBT rapid ISR snapshot: 4 sensors → preprocess → infer → fuse → report"
+  scheduler: heft
+  schedulerConfig:
+    # Candidate nodes whose predicted EFT is within 1.0s of the minimum are
+    # treated as tied; least-loaded wins. Absorbs profiler noise and avoids
+    # "all infers concentrate on one node" pathology when learned runtimes
+    # are nearly equal across compute candidates.
+    spreadEpsilon: 1.0
+  profiling:
+    enabled: true
+    warmupRuns: 0
+    minSamples: 2
+    emaAlpha: 0.7
+    maxSamples: 50
+  defaults:
+    runtime: 5
+    dataSize: "20MB"
+  retention:
+    maxRuns: 10
+    data:
+      policy: keepLatest
+      keepRuns: 2
+      maxSizePerNode: "2Gi"
+  tasks:
+    # ====================================================================
+    # Layer 0 — Capture (sensor nodes, no dependencies)
+    # Each capture-i is pinned to a specific sensor node.
+    # Replace node names with your actual kubectl get nodes output,
+    # or use gen_odag.py to auto-generate this file.
+    # ====================================================================
+
+    - name: capture-1
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "100MB"
+      runtime: 3
+      resources:
+        cpu: "200m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-1]        # sensor node 1
+
+    - name: capture-2
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "120MB"
+      runtime: 3
+      resources:
+        cpu: "200m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-3]        # sensor node 2
+
+    - name: capture-3
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "80MB"
+      runtime: 3
+      resources:
+        cpu: "200m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-4]        # sensor node 3
+
+    - name: capture-4
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "150MB"
+      runtime: 3
+      resources:
+        cpu: "200m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-5]        # sensor node 4
+
+    # ====================================================================
+    # Layer 1 — Preprocess (co-located with capture for sensor locality)
+    # Each preprocess-i is pinned to the SAME node as capture-i.
+    # ====================================================================
+
+    - name: preprocess-1
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
+      command: ["python", "task.py"]
+      dependencies: ["capture-1"]
+      dataSize: "100MB"
+      runtime: 4
+      resources:
+        cpu: "300m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-1]        # same as capture-1
+
+    - name: preprocess-2
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
+      command: ["python", "task.py"]
+      dependencies: ["capture-2"]
+      dataSize: "120MB"
+      runtime: 4
+      resources:
+        cpu: "300m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-3]        # same as capture-2
+
+    - name: preprocess-3
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
+      command: ["python", "task.py"]
+      dependencies: ["capture-3"]
+      dataSize: "80MB"
+      runtime: 4
+      resources:
+        cpu: "300m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-4]        # same as capture-3
+
+    - name: preprocess-4
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
+      command: ["python", "task.py"]
+      dependencies: ["capture-4"]
+      dataSize: "150MB"
+      runtime: 4
+      resources:
+        cpu: "300m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-5]        # same as capture-4
+
+    # ====================================================================
+    # Layer 2 — Inference (constrained to compute-capable nodes)
+    # infer-i tasks run on a subset of nodes with sufficient resources.
+    # ====================================================================
+
+    - name: infer-1
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
+      command: ["python", "task.py"]
+      dependencies: ["preprocess-1"]
+      dataSize: "1MB"
+      runtime: 10
+      resources:
+        cpu: "500m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8]
+
+    - name: infer-2
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
+      command: ["python", "task.py"]
+      dependencies: ["preprocess-2"]
+      dataSize: "1MB"
+      runtime: 10
+      resources:
+        cpu: "500m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8]
+
+    - name: infer-3
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
+      command: ["python", "task.py"]
+      dependencies: ["preprocess-3"]
+      dataSize: "1MB"
+      runtime: 10
+      resources:
+        cpu: "500m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8]
+
+    - name: infer-4
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
+      command: ["python", "task.py"]
+      dependencies: ["preprocess-4"]
+      dataSize: "1MB"
+      runtime: 10
+      resources:
+        cpu: "500m"
+        memory: "512Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8]
+
+    # ====================================================================
+    # Layer 3 — Fusion (fan-in from all 4 infer tasks)
+    # Restricted to a pair of nodes near the inference tier.
+    # ====================================================================
+
+    - name: fuse-tracks
+      image: 192.168.1.163:5000/wl-iobt-fuse:latest
+      command: ["python", "task.py"]
+      dependencies: ["infer-1", "infer-2", "infer-3", "infer-4"]
+      dataSize: "1MB"
+      runtime: 3
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-7, anrg-8]
+
+    # ====================================================================
+    # Layer 4 — Report (gateway node)
+    # Pinned to a single gateway node for egress.
+    # ====================================================================
+
+    - name: generate-report
+      image: 192.168.1.163:5000/wl-iobt-report:latest
+      command: ["python", "task.py"]
+      dependencies: ["fuse-tracks"]
+      dataSize: "0"
+      runtime: 2
+      resources:
+        cpu: "200m"
+        memory: "128Mi"
+      constraints:
+        nodeNames: [anrg-9]        # gateway node

@@ -1,0 +1,240 @@
+apiVersion: wl.io/v1
+kind: ODAGTemplate
+metadata:
+  name: rag-refresh
+  namespace: wl-system
+spec:
+  description: "RAG KB refresh: ingest → chunk → embed → index → merge → eval → report"
+  scheduler: heft
+  profiling:
+    enabled: true
+    warmupRuns: 0
+    minSamples: 2
+    emaAlpha: 0.3
+    maxSamples: 50
+  defaults:
+    runtime: 10
+    dataSize: "5MB"
+  retention:
+    maxRuns: 10
+    data:
+      policy: keepLatest
+      keepRuns: 3
+      maxSizePerNode: "2Gi"
+  tasks:
+    # ====================================================================
+    # Layer 0 — Ingest & Shard (data-local node)
+    # Generates synthetic corpus, packs 4 shards into a single blob.
+    # All 4 chunk tasks receive the same blob and extract their shard.
+    # ====================================================================
+
+    - name: ingest-shard
+      image: 192.168.1.163:5000/wl-rag-ingest:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "20MB"
+      runtime: 5
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-1]        # data-local node
+
+    # ====================================================================
+    # Layer 1 — Chunk (co-located with ingest for data locality)
+    # Each chunk-shard-i extracts its shard and splits into passages.
+    # ====================================================================
+
+    - name: chunk-shard-1
+      image: 192.168.1.163:5000/wl-rag-chunk:latest
+      command: ["python", "task.py"]
+      dependencies: ["ingest-shard"]
+      dataSize: "6MB"
+      runtime: 5
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-1]        # same as ingest (data locality)
+
+    - name: chunk-shard-2
+      image: 192.168.1.163:5000/wl-rag-chunk:latest
+      command: ["python", "task.py"]
+      dependencies: ["ingest-shard"]
+      dataSize: "6MB"
+      runtime: 5
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-1]
+
+    - name: chunk-shard-3
+      image: 192.168.1.163:5000/wl-rag-chunk:latest
+      command: ["python", "task.py"]
+      dependencies: ["ingest-shard"]
+      dataSize: "6MB"
+      runtime: 5
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-1]
+
+    - name: chunk-shard-4
+      image: 192.168.1.163:5000/wl-rag-chunk:latest
+      command: ["python", "task.py"]
+      dependencies: ["ingest-shard"]
+      dataSize: "6MB"
+      runtime: 5
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-1]
+
+    # ====================================================================
+    # Layer 2 — Embed (feasible-node constraint: embedding-capable nodes)
+    # Feature-hash embeddings (D=128). CPU busy loop for runtime budget.
+    # ====================================================================
+
+    - name: embed-shard-1
+      image: 192.168.1.163:5000/wl-rag-embed:latest
+      command: ["python", "task.py"]
+      dependencies: ["chunk-shard-1"]
+      dataSize: "5MB"
+      runtime: 20
+      resources:
+        cpu: "500m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8, anrg-9]
+
+    - name: embed-shard-2
+      image: 192.168.1.163:5000/wl-rag-embed:latest
+      command: ["python", "task.py"]
+      dependencies: ["chunk-shard-2"]
+      dataSize: "5MB"
+      runtime: 20
+      resources:
+        cpu: "500m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8, anrg-9]
+
+    - name: embed-shard-3
+      image: 192.168.1.163:5000/wl-rag-embed:latest
+      command: ["python", "task.py"]
+      dependencies: ["chunk-shard-3"]
+      dataSize: "5MB"
+      runtime: 20
+      resources:
+        cpu: "500m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8, anrg-9]
+
+    - name: embed-shard-4
+      image: 192.168.1.163:5000/wl-rag-embed:latest
+      command: ["python", "task.py"]
+      dependencies: ["chunk-shard-4"]
+      dataSize: "5MB"
+      runtime: 20
+      resources:
+        cpu: "500m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-6, anrg-7, anrg-8, anrg-9]
+
+    # ====================================================================
+    # Layer 3 — Build Index (unconstrained, scheduler picks)
+    # Adds coarse bucket inverted index on top of vectors.
+    # ====================================================================
+
+    - name: build-index-1
+      image: 192.168.1.163:5000/wl-rag-index:latest
+      command: ["python", "task.py"]
+      dependencies: ["embed-shard-1"]
+      dataSize: "6MB"
+      runtime: 3
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+
+    - name: build-index-2
+      image: 192.168.1.163:5000/wl-rag-index:latest
+      command: ["python", "task.py"]
+      dependencies: ["embed-shard-2"]
+      dataSize: "6MB"
+      runtime: 3
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+
+    - name: build-index-3
+      image: 192.168.1.163:5000/wl-rag-index:latest
+      command: ["python", "task.py"]
+      dependencies: ["embed-shard-3"]
+      dataSize: "6MB"
+      runtime: 3
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+
+    - name: build-index-4
+      image: 192.168.1.163:5000/wl-rag-index:latest
+      command: ["python", "task.py"]
+      dependencies: ["embed-shard-4"]
+      dataSize: "6MB"
+      runtime: 3
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+
+    # ====================================================================
+    # Layer 4 — Merge Index (fan-in from all 4 build-index tasks)
+    # ====================================================================
+
+    - name: merge-index
+      image: 192.168.1.163:5000/wl-rag-merge:latest
+      command: ["python", "task.py"]
+      dependencies: ["build-index-1", "build-index-2", "build-index-3", "build-index-4"]
+      dataSize: "22MB"
+      runtime: 5
+      resources:
+        cpu: "300m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-8, anrg-9]
+
+    # ====================================================================
+    # Layer 5 — Eval Queries (brute-force retrieval + latency stats)
+    # ====================================================================
+
+    - name: eval-queries
+      image: 192.168.1.163:5000/wl-rag-eval:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge-index"]
+      dataSize: "1MB"
+      runtime: 15
+      resources:
+        cpu: "500m"
+        memory: "256Mi"
+      constraints:
+        nodeNames: [anrg-8, anrg-9]
+
+    # ====================================================================
+    # Layer 6 — Report (gateway node)
+    # ====================================================================
+
+    - name: report
+      image: 192.168.1.163:5000/wl-rag-report:latest
+      command: ["python", "task.py"]
+      dependencies: ["eval-queries"]
+      dataSize: "0"
+      runtime: 2
+      resources:
+        cpu: "200m"
+        memory: "128Mi"
+      constraints:
+        nodeNames: [anrg-9]        # gateway node

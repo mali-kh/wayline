@@ -1,0 +1,55 @@
+apiVersion: wl.io/v1
+kind: ODAGTemplate
+metadata:
+  name: large-transfer
+  namespace: wl-system
+spec:
+  description: "3-stage pipeline with large data transfers across tc-shaped links"
+  scheduler: heft
+  profiling:
+    enabled: true
+    warmupRuns: 0
+    minSamples: 1
+    emaAlpha: 0.3
+    maxSamples: 50
+  defaults:
+    runtime: 5
+    dataSize: "50MB"
+  retention:
+    maxRuns: 10
+    data:
+      policy: keepLatest
+      keepRuns: 2
+      maxSizePerNode: "5Gi"
+  tasks:
+    # Stage 1: produce on anrg-3 (fast link to anrg-5, slow to anrg-6)
+    - name: produce
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      dataSize: "50MB"
+      runtime: 3
+      constraints:
+        nodeNames: [anrg-3]
+
+    # Stage 2: process on anrg-6 (slow 100 Mbps link from anrg-3)
+    # 50MB at 12.5 MB/s = ~4s transfer time
+    - name: process
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["produce"]
+      dataSize: "30MB"
+      runtime: 5
+      constraints:
+        nodeNames: [anrg-6]
+
+    # Stage 3: sink on anrg-5 (slow 100 Mbps link from anrg-6)
+    # 30MB at 12.5 MB/s = ~2.4s transfer time
+    - name: sink
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["process"]
+      dataSize: "0"
+      runtime: 2
+      constraints:
+        nodeNames: [anrg-5]

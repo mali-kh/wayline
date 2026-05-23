@@ -1,0 +1,141 @@
+apiVersion: wl.io/v1
+kind: ODAGTemplate
+metadata:
+  name: wide-pipeline
+  namespace: wl-system
+spec:
+  description: >
+    10-task fan-out/fan-in pipeline designed to exercise concurrency in both
+    the execution band (multiple tasks on the same node) and the network band
+    (multiple flows sharing a NIC). Constraints are chosen so:
+      • extract and scan co-locate on anrg-3 (same-node parallel execution)
+      • source produces 3 concurrent egress flows to anrg-3, anrg-3, anrg-4
+      • merge on anrg-6 receives 3 concurrent ingress flows from anrg-3, anrg-3, anrg-4
+      • filter-a and filter-b co-locate on anrg-6 with merge (same-node deps, no flow)
+      • filter-c on anrg-7 forces a cross-node flow from anrg-6
+      • aggregate on anrg-8 receives 3 concurrent ingress flows (2 from anrg-6, 1 from anrg-7)
+  scheduler: heft
+  profiling:
+    enabled: true
+    warmupRuns: 0
+    minSamples: 1
+    emaAlpha: 0.7
+    maxSamples: 50
+    runtimeSource: profiler
+    bandwidthSource: external
+  retention:
+    maxRuns: 10
+    data:
+      policy: immediate
+  defaults:
+    runtime: 3
+    dataSize: "50MB"
+  tasks:
+    # Root: fans out 3 ways with large payloads to force concurrent egress.
+    - name: source
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      runtime: 3
+      dataSize: "100MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-1"]
+
+    # Tier 1: extract + scan on anrg-3 (same-node parallel exec),
+    # index on anrg-4. All three receive from source concurrently.
+    - name: extract
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      runtime: 4
+      dataSize: "50MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-3"]
+
+    - name: scan
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      runtime: 4
+      dataSize: "50MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-3"]
+
+    - name: index
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      runtime: 4
+      dataSize: "50MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-4"]
+
+    # Tier 2: merge on anrg-6, receives 3 cross-node flows concurrently.
+    - name: merge
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["extract", "scan", "index"]
+      runtime: 3
+      dataSize: "100MB"
+      resources: { cpu: "300m", memory: "256Mi" }
+      constraints:
+        nodeNames: ["anrg-6"]
+
+    # Tier 3: filter-a + filter-b co-locate with merge (same-node, no flow),
+    # filter-c on anrg-7 forces a cross-node flow from anrg-6.
+    - name: filter-a
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      runtime: 3
+      dataSize: "30MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-6"]
+
+    - name: filter-b
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      runtime: 3
+      dataSize: "30MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-6"]
+
+    - name: filter-c
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      runtime: 3
+      dataSize: "30MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-7"]
+
+    # Tier 4: aggregate on anrg-8 receives 3 concurrent ingress flows
+    # (2 from anrg-6, 1 from anrg-7).
+    - name: aggregate
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["filter-a", "filter-b", "filter-c"]
+      runtime: 2
+      dataSize: "10MB"
+      resources: { cpu: "300m", memory: "256Mi" }
+      constraints:
+        nodeNames: ["anrg-8"]
+
+    # Leaf: output on anrg-9 (single cross-node flow).
+    - name: output
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["aggregate"]
+      runtime: 1
+      dataSize: "0"
+      resources: { cpu: "100m", memory: "64Mi" }
+      constraints:
+        nodeNames: ["anrg-9"]

@@ -1,0 +1,154 @@
+apiVersion: wl.io/v1
+kind: ODAGTemplate
+metadata:
+  name: wide-pipeline-flex
+  namespace: wl-system
+spec:
+  description: >
+    Multi-candidate variant of wide-pipeline. Same fan-out/fan-in topology
+    and data-size profile, but the middle tiers accept multiple candidate
+    nodes so the scheduler has real placement freedom. Designed for
+    HEFT vs random vs ε-HEFT comparison in the network-aware scheduling
+    evaluation.
+
+    Placement:
+      • source   pinned to anrg-1   (producer)
+      • tier 1   extract/scan/index → {anrg-3, anrg-4, anrg-5}
+      • tier 2   merge              → {anrg-6, anrg-7, anrg-8}
+      • tier 3   filter-a/b/c       → {anrg-6, anrg-7, anrg-8}
+      • tier 4   aggregate          → {anrg-6, anrg-7, anrg-8}
+      • output   pinned to anrg-9   (sink)
+  scheduler: heft
+  schedulerConfig:
+    # Absorbs profiler jitter so near-identical runtimes across candidates
+    # don't cause concentration. Set to 0 to ablate against strict HEFT.
+    spreadEpsilon: 1.0
+  profiling:
+    enabled: true
+    warmupRuns: 0
+    minSamples: 1
+    emaAlpha: 0.7
+    maxSamples: 50
+    runtimeSource: profiler
+    bandwidthSource: external
+  retention:
+    maxRuns: 10
+    data:
+      policy: immediate
+  defaults:
+    runtime: 3
+    dataSize: "50MB"
+  tasks:
+    # Root: fans out 3 ways with large payloads. Pinned to simulate a
+    # dedicated producer (sensor, ingest, etc.).
+    - name: source
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      runtime: 3
+      dataSize: "100MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-1"]
+
+    # Tier 1: three parallel branches. Three candidate nodes each — HEFT
+    # chooses which node takes which branch, and ε-HEFT spreads across
+    # the three when EFTs are near-tied.
+    - name: extract
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      runtime: 4
+      dataSize: "50MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-3", "anrg-4", "anrg-5"]
+
+    - name: scan
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      runtime: 4
+      dataSize: "50MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-3", "anrg-4", "anrg-5"]
+
+    - name: index
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      runtime: 4
+      dataSize: "50MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-3", "anrg-4", "anrg-5"]
+
+    # Tier 2: fan-in. HEFT picks where to land merge among three compute
+    # nodes; choice affects ingress contention from all three tier-1 nodes.
+    - name: merge
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["extract", "scan", "index"]
+      runtime: 3
+      dataSize: "100MB"
+      resources: { cpu: "300m", memory: "256Mi" }
+      constraints:
+        nodeNames: ["anrg-6", "anrg-7", "anrg-8"]
+
+    # Tier 3: three parallel filters. If merge lands on e.g. anrg-6,
+    # HEFT can keep filter-a co-located (free edge) and push filter-b/c
+    # to anrg-7/anrg-8 — or concentrate all three on merge's node.
+    # ε-HEFT balances this decision against the 30 MB transfer cost.
+    - name: filter-a
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      runtime: 3
+      dataSize: "30MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-6", "anrg-7", "anrg-8"]
+
+    - name: filter-b
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      runtime: 3
+      dataSize: "30MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-6", "anrg-7", "anrg-8"]
+
+    - name: filter-c
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["merge"]
+      runtime: 3
+      dataSize: "30MB"
+      resources: { cpu: "200m", memory: "128Mi" }
+      constraints:
+        nodeNames: ["anrg-6", "anrg-7", "anrg-8"]
+
+    # Tier 4: fan-in again. aggregate can follow any of the three filters
+    # for a free same-node edge, or pay cross-node transfer for the other two.
+    - name: aggregate
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["filter-a", "filter-b", "filter-c"]
+      runtime: 2
+      dataSize: "10MB"
+      resources: { cpu: "300m", memory: "256Mi" }
+      constraints:
+        nodeNames: ["anrg-6", "anrg-7", "anrg-8"]
+
+    # Leaf: pinned to gateway/sink.
+    - name: output
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["aggregate"]
+      runtime: 1
+      dataSize: "0"
+      resources: { cpu: "100m", memory: "64Mi" }
+      constraints:
+        nodeNames: ["anrg-9"]

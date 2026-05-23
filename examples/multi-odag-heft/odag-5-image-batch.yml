@@ -1,0 +1,69 @@
+apiVersion: wl.io/v1
+kind: ODAG
+metadata:
+  name: image-batch
+  namespace: wl-system
+spec:
+  scheduler: heft
+  retryPolicy:
+    maxRetries: 2
+  tasks:
+    - name: download
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      resources:
+        cpu: "200m"
+        memory: "768Mi"
+      dataSize: "500MB"
+      runtime: 4
+      constraints:
+        nodeNames: [anrg-3, anrg-4]
+
+    - name: resize
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["download"]
+      resources:
+        cpu: "300m"
+        memory: "1Gi"
+      dataSize: "200MB"
+      runtime: 6
+      constraints:
+        nodeNames: [anrg-4, anrg-5]
+
+    - name: filter
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["resize"]
+      resources:
+        cpu: "400m"
+        memory: "640Mi"
+      dataSize: "200MB"
+      runtime: 8
+      constraints:
+        nodeNames: [anrg-5, anrg-6]
+
+    - name: watermark
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["filter"]
+      resources:
+        cpu: "200m"
+        memory: "640Mi"
+      dataSize: "200MB"
+      runtime: 5
+      constraints:
+        nodeNames: [anrg-5, anrg-6]
+
+    - name: upload
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["watermark"]
+      resources:
+        cpu: "100m"
+        memory: "384Mi"
+      dataSize: "0"
+      runtime: 3
+      constraints:
+        nodeNames: [anrg-6]

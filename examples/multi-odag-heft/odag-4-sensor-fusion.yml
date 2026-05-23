@@ -1,0 +1,93 @@
+apiVersion: wl.io/v1
+kind: ODAG
+metadata:
+  name: sensor-fusion
+  namespace: wl-system
+spec:
+  scheduler: heft
+  retryPolicy:
+    maxRetries: 2
+  tasks:
+    - name: sensor-1
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      resources:
+        cpu: "200m"
+        memory: "256Mi"
+      dataSize: "50MB"
+      runtime: 3
+      constraints:
+        nodeNames: [anrg-3]
+
+    - name: sensor-2
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      resources:
+        cpu: "200m"
+        memory: "256Mi"
+      dataSize: "80MB"
+      runtime: 4
+      constraints:
+        nodeNames: [anrg-4]
+
+    - name: sensor-3
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      resources:
+        cpu: "100m"
+        memory: "256Mi"
+      dataSize: "60MB"
+      runtime: 2
+      constraints:
+        nodeNames: [anrg-5]
+
+    - name: fuse-ab
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["sensor-1", "sensor-2"]
+      resources:
+        cpu: "400m"
+        memory: "512Mi"
+      dataSize: "200MB"
+      runtime: 10
+      constraints:
+        nodeNames: [anrg-3, anrg-4]
+
+    - name: fuse-bc
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["sensor-2", "sensor-3"]
+      resources:
+        cpu: "400m"
+        memory: "512Mi"
+      dataSize: "150MB"
+      runtime: 8
+      constraints:
+        nodeNames: [anrg-4, anrg-5]
+
+    - name: analyze
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["fuse-ab", "fuse-bc"]
+      resources:
+        cpu: "500m"
+        memory: "640Mi"
+      dataSize: "100MB"
+      runtime: 12
+      constraints:
+        nodeNames: [anrg-5, anrg-6]
+
+    - name: report
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["analyze"]
+      resources:
+        cpu: "100m"
+        memory: "256Mi"
+      dataSize: "5MB"
+      runtime: 3
+      constraints:
+        nodeNames: [anrg-6]

@@ -1,0 +1,53 @@
+apiVersion: wl.io/v1
+kind: ODAG
+metadata:
+  name: dag-diamond
+  namespace: default
+spec:
+  scheduler: random
+  retryPolicy:
+    maxRetries: 3
+  tasks:
+    - name: source
+      image: busybox
+      command: ["sh", "-c"]
+      args: ["echo 'source output' > /tmp/out.txt; sleep 5"]
+      dependencies: []
+      resources:
+        cpu: "100m"
+        memory: "64Mi"
+      dataSize: "1MB"
+      runtime: 5
+
+    - name: branch-a
+      image: busybox
+      command: ["sh", "-c"]
+      args: ["echo 'branch-a processing'; sleep 6"]
+      dependencies: ["source"]
+      resources:
+        cpu: "200m"
+        memory: "128Mi"
+      dataSize: "2MB"
+      runtime: 6
+
+    - name: branch-b
+      image: busybox
+      command: ["sh", "-c"]
+      args: ["echo 'branch-b processing'; sleep 4"]
+      dependencies: ["source"]
+      resources:
+        cpu: "200m"
+        memory: "128Mi"
+      dataSize: "2MB"
+      runtime: 4
+
+    - name: sink
+      image: busybox
+      command: ["sh", "-c"]
+      args: ["echo 'sink merging results'; sleep 3"]
+      dependencies: ["branch-a", "branch-b"]
+      resources:
+        cpu: "100m"
+        memory: "64Mi"
+      dataSize: "1MB"
+      runtime: 3

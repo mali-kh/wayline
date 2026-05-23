@@ -1,0 +1,73 @@
+apiVersion: wl.io/v1
+kind: ODAGTemplate
+metadata:
+  name: dag-diamond
+  namespace: wl-system
+spec:
+  description: "Diamond DAG with cross-node fan-out/fan-in for bandwidth contention testing"
+  scheduler: heft
+  profiling:
+    enabled: true
+    warmupRuns: 0
+    minSamples: 2
+    emaAlpha: 0.3
+    maxSamples: 50
+  defaults:
+    runtime: 5
+    dataSize: "50MB"
+  retention:
+    maxRuns: 20
+  tasks:
+    # Source on anrg-1: produces 100MB, fans out to two branches on different nodes.
+    # Egress contention at anrg-1: both downstream transfers share the NIC.
+    - name: source
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: []
+      resources:
+        cpu: "200m"
+        memory: "512Mi"
+      dataSize: "100MB"
+      runtime: 3
+      constraints:
+        nodeNames: [anrg-1]
+
+    # Branch-a on anrg-3: receives 100MB from source (anrg-1), produces 80MB.
+    - name: branch-a
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      resources:
+        cpu: "300m"
+        memory: "512Mi"
+      dataSize: "80MB"
+      runtime: 4
+      constraints:
+        nodeNames: [anrg-3]
+
+    # Branch-b on anrg-4: receives 100MB from source (anrg-1), produces 80MB.
+    - name: branch-b
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["source"]
+      resources:
+        cpu: "300m"
+        memory: "512Mi"
+      dataSize: "80MB"
+      runtime: 4
+      constraints:
+        nodeNames: [anrg-4]
+
+    # Sink on anrg-5: receives 80MB from each branch.
+    # Ingress contention at anrg-5: both upstream transfers share the NIC.
+    - name: sink
+      image: 192.168.1.163:5000/multi-odag-task:latest
+      command: ["python", "task.py"]
+      dependencies: ["branch-a", "branch-b"]
+      resources:
+        cpu: "200m"
+        memory: "512Mi"
+      dataSize: "0"
+      runtime: 2
+      constraints:
+        nodeNames: [anrg-5]
