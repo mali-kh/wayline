@@ -1,13 +1,13 @@
 """
-E0 two-hop microbenchmark — DSF producer.
+E0 two-hop microbenchmark — Wayline producer.
 
 Reads:
-    DSF_E0_BYTES   : payload size in bytes (e.g. "104857600" for 100 MiB)
-    DSF_E0_COMPUTE : compute-sleep seconds (default 5.0)
+    WL_E0_BYTES   : payload size in bytes (e.g. "104857600" for 100 MiB)
+    WL_E0_COMPUTE : compute-sleep seconds (default 5.0)
 
 Emits one tagged JSON line to stdout for the harvester:
 
-    DSF_E0_TIMESTAMPS {"role":"producer","pod":"...","node":"...",
+    WL_E0_TIMESTAMPS {"role":"producer","pod":"...","node":"...",
                        "t0_wall":<seconds since epoch>,
                        "t1_wall":<seconds since epoch>,
                        "bytes":<int>}
@@ -22,22 +22,22 @@ import os
 import sys
 import time
 
-from dsf_sdk import DSFTask
+from wl import WlTask
 
 
-PAYLOAD_BYTES = int(os.environ.get("DSF_E0_BYTES", "1048576"))
-COMPUTE_SEC   = float(os.environ.get("DSF_E0_COMPUTE", "5.0"))
+PAYLOAD_BYTES = int(os.environ.get("WL_E0_BYTES", "1048576"))
+COMPUTE_SEC   = float(os.environ.get("WL_E0_COMPUTE", "5.0"))
 
 
 def emit(role: str, **fields) -> None:
     record = {"role": role, **fields}
-    sys.stdout.write("DSF_E0_TIMESTAMPS " + json.dumps(record) + "\n")
+    sys.stdout.write("WL_E0_TIMESTAMPS " + json.dumps(record) + "\n")
     sys.stdout.flush()
 
 
 def main() -> int:
     t0_wall = time.time()
-    task = DSFTask()
+    task = WlTask()
 
     # Compute phase — fixed sleep keeps cells comparable without
     # introducing CPU variance.

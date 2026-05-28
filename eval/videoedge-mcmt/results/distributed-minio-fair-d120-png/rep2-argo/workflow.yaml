@@ -3,20 +3,20 @@ kind: Workflow
 metadata:
   annotations:
     workflows.argoproj.io/pod-name-format: v2
-  creationTimestamp: "2026-05-22T10:45:26Z"
-  generateName: vemcmt-n4-d120-png-argo-dist-dist-
+  creationTimestamp: "2026-05-25T03:56:51Z"
+  generateName: wl-vemcmt-n4-d120-png-argo-dist-dist-
   generation: 19
   labels:
     workflows.argoproj.io/completed: "true"
     workflows.argoproj.io/phase: Succeeded
-  name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+  name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
   namespace: argo
-  resourceVersion: "21826565"
-  uid: 1da985a2-66b5-4036-85fa-10f61c4f43fa
+  resourceVersion: "22857173"
+  uid: cbf368ef-435d-481b-8462-8f1791f067cd
 spec:
   arguments: {}
   workflowTemplateRef:
-    name: vemcmt-n4-d120-png-argo-dist
+    name: wl-vemcmt-n4-d120-png-argo-dist
 status:
   artifactGCStatus:
     notSpecified: true
@@ -42,363 +42,453 @@ status:
     type: PodRunning
   - status: "True"
     type: Completed
-  finishedAt: "2026-05-22T10:49:02Z"
+  finishedAt: "2026-05-25T04:00:41Z"
   nodes:
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd:
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk:
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3031218965
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2913775632
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2997663727
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3014441346
-      displayName: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      finishedAt: "2026-05-22T10:49:02Z"
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3416824931
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3467157788
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3517490645
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3500713026
+      displayName: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      finishedAt: "2026-05-25T04:00:41Z"
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       outboundNodes:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2255990137
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-2647297778
       phase: Succeeded
       progress: 18/18
       resourcesDuration:
-        cpu: 434
-        memory: 4749
-      startedAt: "2026-05-22T10:45:26Z"
+        cpu: 433
+        memory: 4755
+      startedAt: "2026-05-25T03:56:51Z"
       templateName: dag
       templateScope: local/
       type: DAG
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1182399120:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-636936472:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1987098919
-      displayName: track-1
-      finishedAt: "2026-05-22T10:47:30Z"
-      hostNodeName: anrg-6
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1182399120
-      inputs:
-        artifacts:
-        - name: input
-          path: /in/detect-embed/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2957932226/output.tgz
-        parameters:
-        - name: node
-          value: anrg-6
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.track-1
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1182399120/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 1
-        memory: 11
-      startedAt: "2026-05-22T10:47:25Z"
-      templateName: track
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1215954358:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1987098919
-      displayName: track-3
-      finishedAt: "2026-05-22T10:48:37Z"
-      hostNodeName: anrg-8
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1215954358
-      inputs:
-        artifacts:
-        - name: input
-          path: /in/detect-embed/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2924376988/output.tgz
-        parameters:
-        - name: node
-          value: anrg-8
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.track-3
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1215954358/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 1
-        memory: 11
-      startedAt: "2026-05-22T10:48:32Z"
-      templateName: track
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1232731977:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1987098919
-      displayName: track-2
-      finishedAt: "2026-05-22T10:47:10Z"
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1534486812
+      displayName: detect-embed-2
+      finishedAt: "2026-05-25T03:58:31Z"
       hostNodeName: anrg-7
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1232731977
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-636936472
       inputs:
         artifacts:
         - name: input
-          path: /in/detect-embed/output
+          path: /in/preprocess/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2941154607/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1796737793/output.tgz
         parameters:
         - name: node
           value: anrg-7
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.track-2
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.detect-embed-2
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1232731977/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-636936472/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
-        cpu: 1
-        memory: 11
-      startedAt: "2026-05-22T10:47:05Z"
-      templateName: track
+        cpu: 62
+        memory: 663
+      startedAt: "2026-05-25T03:57:44Z"
+      templateName: detect-embed
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1266287215:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-653714091:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1987098919
-      displayName: track-4
-      finishedAt: "2026-05-22T10:48:39Z"
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1551264431
+      displayName: detect-embed-3
+      finishedAt: "2026-05-25T03:59:52Z"
+      hostNodeName: anrg-8
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-653714091
+      inputs:
+        artifacts:
+        - name: input
+          path: /in/preprocess/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1779960174/output.tgz
+        parameters:
+        - name: node
+          value: anrg-8
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.detect-embed-3
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-653714091/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 88
+        memory: 944
+      startedAt: "2026-05-25T03:58:43Z"
+      templateName: detect-embed
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-687269329:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1584819669
+      displayName: detect-embed-1
+      finishedAt: "2026-05-25T03:58:28Z"
       hostNodeName: anrg-6
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1266287215
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-687269329
+      inputs:
+        artifacts:
+        - name: input
+          path: /in/preprocess/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1746404936/output.tgz
+        parameters:
+        - name: node
+          value: anrg-6
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.detect-embed-1
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-687269329/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 68
+        memory: 722
+      startedAt: "2026-05-25T03:57:44Z"
+      templateName: detect-embed
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-737602186:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1500931574
+      displayName: detect-embed-4
+      finishedAt: "2026-05-25T04:00:05Z"
+      hostNodeName: anrg-6
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-737602186
+      inputs:
+        artifacts:
+        - name: input
+          path: /in/preprocess/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1830293031/output.tgz
+        parameters:
+        - name: node
+          value: anrg-6
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.detect-embed-4
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-737602186/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 94
+        memory: 1013
+      startedAt: "2026-05-25T03:58:43Z"
+      templateName: detect-embed
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1500931574:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3258364072
+      displayName: track-4
+      finishedAt: "2026-05-25T04:00:16Z"
+      hostNodeName: anrg-6
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1500931574
       inputs:
         artifacts:
         - name: input
           path: /in/detect-embed/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2907599369/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-737602186/output.tgz
         parameters:
         - name: node
           value: anrg-6
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.track-4
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.track-4
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1266287215/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 1
-        memory: 11
-      startedAt: "2026-05-22T10:48:32Z"
-      templateName: track
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1987098919:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2255990137
-      displayName: cross-camera-match
-      finishedAt: "2026-05-22T10:48:46Z"
-      hostNodeName: anrg-9
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1987098919
-      inputs:
-        artifacts:
-        - name: track-1
-          path: /in/track-1/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1182399120/output.tgz
-        - name: track-2
-          path: /in/track-2/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1232731977/output.tgz
-        - name: track-3
-          path: /in/track-3/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1215954358/output.tgz
-        - name: track-4
-          path: /in/track-4/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-track-1266287215/output.tgz
-        parameters:
-        - name: node
-          value: anrg-9
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.cross-camera-match
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-cross-camera-match-1987098919/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1500931574/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
         cpu: 0
         memory: 6
-      startedAt: "2026-05-22T10:48:42Z"
-      templateName: cross-camera-match
+      startedAt: "2026-05-25T04:00:11Z"
+      templateName: track
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2056084339:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1534486812:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2957932226
-      displayName: preprocess-1
-      finishedAt: "2026-05-22T10:46:09Z"
-      hostNodeName: anrg-1
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2056084339
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3258364072
+      displayName: track-2
+      finishedAt: "2026-05-25T03:58:48Z"
+      hostNodeName: anrg-7
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1534486812
       inputs:
         artifacts:
         - name: input
-          path: /in/decode/output
+          path: /in/detect-embed/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-2997663727/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-636936472/output.tgz
         parameters:
         - name: node
-          value: anrg-1
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.preprocess-1
+          value: anrg-7
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.track-2
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2056084339/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1534486812/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 1
+        memory: 11
+      startedAt: "2026-05-25T03:58:43Z"
+      templateName: track
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1551264431:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3258364072
+      displayName: track-3
+      finishedAt: "2026-05-25T04:00:08Z"
+      hostNodeName: anrg-8
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1551264431
+      inputs:
+        artifacts:
+        - name: input
+          path: /in/detect-embed/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-653714091/output.tgz
+        parameters:
+        - name: node
+          value: anrg-8
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.track-3
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1551264431/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 1
+        memory: 11
+      startedAt: "2026-05-25T04:00:01Z"
+      templateName: track
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1584819669:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3258364072
+      displayName: track-1
+      finishedAt: "2026-05-25T03:58:37Z"
+      hostNodeName: anrg-6
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1584819669
+      inputs:
+        artifacts:
+        - name: input
+          path: /in/detect-embed/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-detect-embed-687269329/output.tgz
+        parameters:
+        - name: node
+          value: anrg-6
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.track-1
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1584819669/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 1
+        memory: 16
+      startedAt: "2026-05-25T03:58:33Z"
+      templateName: track
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1746404936:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-687269329
+      displayName: preprocess-1
+      finishedAt: "2026-05-25T03:57:38Z"
+      hostNodeName: anrg-1
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1746404936
+      inputs:
+        artifacts:
+        - name: input
+          path: /in/decode/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3467157788/output.tgz
+        parameters:
+        - name: node
+          value: anrg-1
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.preprocess-1
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1746404936/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
         cpu: 7
-        memory: 82
-      startedAt: "2026-05-22T10:45:47Z"
+        memory: 85
+      startedAt: "2026-05-25T03:57:13Z"
       templateName: preprocess
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2072861958:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1779960174:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2941154607
-      displayName: preprocess-2
-      finishedAt: "2026-05-22T10:46:16Z"
-      hostNodeName: anrg-3
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2072861958
-      inputs:
-        artifacts:
-        - name: input
-          path: /in/decode/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-3014441346/output.tgz
-        parameters:
-        - name: node
-          value: anrg-3
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.preprocess-2
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2072861958/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 9
-        memory: 109
-      startedAt: "2026-05-22T10:45:47Z"
-      templateName: preprocess
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2089639577:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2924376988
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-653714091
       displayName: preprocess-3
-      finishedAt: "2026-05-22T10:47:07Z"
+      finishedAt: "2026-05-25T03:58:33Z"
       hostNodeName: anrg-4
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2089639577
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1779960174
       inputs:
         artifacts:
         - name: input
           path: /in/decode/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-3031218965/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3500713026/output.tgz
         parameters:
         - name: node
           value: anrg-4
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.preprocess-3
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.preprocess-3
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2089639577/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1779960174/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
         cpu: 15
-        memory: 181
-      startedAt: "2026-05-22T10:46:19Z"
+        memory: 182
+      startedAt: "2026-05-25T03:57:44Z"
       templateName: preprocess
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2106417196:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1796737793:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2907599369
-      displayName: preprocess-4
-      finishedAt: "2026-05-22T10:47:02Z"
-      hostNodeName: anrg-5
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2106417196
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-636936472
+      displayName: preprocess-2
+      finishedAt: "2026-05-25T03:57:38Z"
+      hostNodeName: anrg-3
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1796737793
       inputs:
         artifacts:
         - name: input
           path: /in/decode/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-2913775632/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3517490645/output.tgz
         parameters:
         - name: node
-          value: anrg-5
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.preprocess-4
+          value: anrg-3
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.preprocess-2
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2106417196/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1796737793/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 9
+        memory: 107
+      startedAt: "2026-05-25T03:57:13Z"
+      templateName: preprocess
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1830293031:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-737602186
+      displayName: preprocess-4
+      finishedAt: "2026-05-25T03:58:33Z"
+      hostNodeName: anrg-5
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1830293031
+      inputs:
+        artifacts:
+        - name: input
+          path: /in/decode/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3416824931/output.tgz
+        parameters:
+        - name: node
+          value: anrg-5
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.preprocess-4
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-preprocess-1830293031/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
         cpu: 17
-        memory: 200
-      startedAt: "2026-05-22T10:46:19Z"
+        memory: 203
+      startedAt: "2026-05-25T03:57:44Z"
       templateName: preprocess
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2255990137:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-2647297778:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       displayName: report
-      finishedAt: "2026-05-22T10:48:57Z"
+      finishedAt: "2026-05-25T04:00:36Z"
       hostNodeName: anrg-9
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2255990137
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-2647297778
       inputs:
         artifacts:
         - name: input
           path: /in/cross-camera-match/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-cross-camera-match-1987098919/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-cross-camera-match-3258364072/output.tgz
         parameters:
         - name: node
           value: anrg-9
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.report
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.report
       outputs:
         exitCode: "0"
       phase: Succeeded
@@ -406,52 +496,64 @@ status:
       resourcesDuration:
         cpu: 0
         memory: 3
-      startedAt: "2026-05-22T10:48:52Z"
+      startedAt: "2026-05-25T04:00:31Z"
       templateName: report
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2907599369:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3258364072:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1266287215
-      displayName: detect-embed-4
-      finishedAt: "2026-05-22T10:48:28Z"
-      hostNodeName: anrg-6
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2907599369
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-2647297778
+      displayName: cross-camera-match
+      finishedAt: "2026-05-25T04:00:26Z"
+      hostNodeName: anrg-9
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3258364072
       inputs:
         artifacts:
-        - name: input
-          path: /in/preprocess/output
+        - name: track-1
+          path: /in/track-1/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2106417196/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1584819669/output.tgz
+        - name: track-2
+          path: /in/track-2/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1534486812/output.tgz
+        - name: track-3
+          path: /in/track-3/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1551264431/output.tgz
+        - name: track-4
+          path: /in/track-4/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-track-1500931574/output.tgz
         parameters:
         - name: node
-          value: anrg-6
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.detect-embed-4
+          value: anrg-9
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.cross-camera-match
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2907599369/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-cross-camera-match-3258364072/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
-        cpu: 94
-        memory: 1006
-      startedAt: "2026-05-22T10:47:15Z"
-      templateName: detect-embed
+        cpu: 0
+        memory: 6
+      startedAt: "2026-05-25T04:00:21Z"
+      templateName: cross-camera-match
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2913775632:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3416824931:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2106417196
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1830293031
       displayName: decode-4
-      finishedAt: "2026-05-22T10:46:12Z"
+      finishedAt: "2026-05-25T03:57:32Z"
       hostNodeName: anrg-5
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2913775632
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3416824931
       inputs:
         parameters:
         - name: camera
@@ -460,133 +562,31 @@ status:
           value: /dataset/cam-4/clip_120s.mp4
         - name: node
           value: anrg-5
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.decode-4
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.decode-4
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-2913775632/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3416824931/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
-        cpu: 28
-        memory: 314
-      startedAt: "2026-05-22T10:45:26Z"
+        cpu: 26
+        memory: 290
+      startedAt: "2026-05-25T03:56:51Z"
       templateName: decode
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2924376988:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3467157788:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1215954358
-      displayName: detect-embed-3
-      finishedAt: "2026-05-22T10:48:22Z"
-      hostNodeName: anrg-8
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2924376988
-      inputs:
-        artifacts:
-        - name: input
-          path: /in/preprocess/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2089639577/output.tgz
-        parameters:
-        - name: node
-          value: anrg-8
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.detect-embed-3
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2924376988/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 88
-        memory: 942
-      startedAt: "2026-05-22T10:47:15Z"
-      templateName: detect-embed
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2941154607:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1232731977
-      displayName: detect-embed-2
-      finishedAt: "2026-05-22T10:47:01Z"
-      hostNodeName: anrg-7
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2941154607
-      inputs:
-        artifacts:
-        - name: input
-          path: /in/preprocess/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2072861958/output.tgz
-        parameters:
-        - name: node
-          value: anrg-7
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.detect-embed-2
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2941154607/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 60
-        memory: 639
-      startedAt: "2026-05-22T10:46:19Z"
-      templateName: detect-embed
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2957932226:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1182399120
-      displayName: detect-embed-1
-      finishedAt: "2026-05-22T10:47:19Z"
-      hostNodeName: anrg-6
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2957932226
-      inputs:
-        artifacts:
-        - name: input
-          path: /in/preprocess/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-preprocess-2056084339/output.tgz
-        parameters:
-        - name: node
-          value: anrg-6
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.detect-embed-1
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-detect-embed-2957932226/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 68
-        memory: 732
-      startedAt: "2026-05-22T10:46:19Z"
-      templateName: detect-embed
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2997663727:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2056084339
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1746404936
       displayName: decode-1
-      finishedAt: "2026-05-22T10:45:41Z"
+      finishedAt: "2026-05-25T03:57:05Z"
       hostNodeName: anrg-1
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2997663727
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3467157788
       inputs:
         parameters:
         - name: camera
@@ -595,64 +595,31 @@ status:
           value: /dataset/cam-1/clip_120s.mp4
         - name: node
           value: anrg-1
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.decode-1
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.decode-1
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-2997663727/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3467157788/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
         cpu: 9
-        memory: 100
-      startedAt: "2026-05-22T10:45:26Z"
+        memory: 99
+      startedAt: "2026-05-25T03:56:51Z"
       templateName: decode
       templateScope: local/
       type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3014441346:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3500713026:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
       children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2072861958
-      displayName: decode-2
-      finishedAt: "2026-05-22T10:45:42Z"
-      hostNodeName: anrg-3
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3014441346
-      inputs:
-        parameters:
-        - name: camera
-          value: cam-2
-        - name: clip
-          value: /dataset/cam-2/clip_120s.mp4
-        - name: node
-          value: anrg-3
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.decode-2
-      outputs:
-        artifacts:
-        - name: output
-          path: /out/output
-          s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-3014441346/output.tgz
-        exitCode: "0"
-      phase: Succeeded
-      progress: 1/1
-      resourcesDuration:
-        cpu: 9
-        memory: 100
-      startedAt: "2026-05-22T10:45:26Z"
-      templateName: decode
-      templateScope: local/
-      type: Pod
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3031218965:
-      boundaryID: vemcmt-n4-d120-png-argo-dist-dist-tgcrd
-      children:
-      - vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2089639577
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1779960174
       displayName: decode-3
-      finishedAt: "2026-05-22T10:46:08Z"
+      finishedAt: "2026-05-25T03:57:38Z"
       hostNodeName: anrg-4
-      id: vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3031218965
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3500713026
       inputs:
         parameters:
         - name: camera
@@ -661,31 +628,64 @@ status:
           value: /dataset/cam-3/clip_120s.mp4
         - name: node
           value: anrg-4
-      name: vemcmt-n4-d120-png-argo-dist-dist-tgcrd.decode-3
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.decode-3
       outputs:
         artifacts:
         - name: output
           path: /out/output
           s3:
-            key: vemcmt-n4-d120-png-argo-dist-dist-tgcrd/vemcmt-n4-d120-png-argo-dist-dist-tgcrd-decode-3031218965/output.tgz
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3500713026/output.tgz
         exitCode: "0"
       phase: Succeeded
       progress: 1/1
       resourcesDuration:
         cpu: 26
-        memory: 291
-      startedAt: "2026-05-22T10:45:26Z"
+        memory: 294
+      startedAt: "2026-05-25T03:56:51Z"
+      templateName: decode
+      templateScope: local/
+      type: Pod
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3517490645:
+      boundaryID: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk
+      children:
+      - wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1796737793
+      displayName: decode-2
+      finishedAt: "2026-05-25T03:57:07Z"
+      hostNodeName: anrg-3
+      id: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3517490645
+      inputs:
+        parameters:
+        - name: camera
+          value: cam-2
+        - name: clip
+          value: /dataset/cam-2/clip_120s.mp4
+        - name: node
+          value: anrg-3
+      name: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk.decode-2
+      outputs:
+        artifacts:
+        - name: output
+          path: /out/output
+          s3:
+            key: wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk/wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-decode-3517490645/output.tgz
+        exitCode: "0"
+      phase: Succeeded
+      progress: 1/1
+      resourcesDuration:
+        cpu: 9
+        memory: 100
+      startedAt: "2026-05-25T03:56:51Z"
       templateName: decode
       templateScope: local/
       type: Pod
   phase: Succeeded
   progress: 18/18
   resourcesDuration:
-    cpu: 434
-    memory: 4749
-  startedAt: "2026-05-22T10:45:26Z"
+    cpu: 433
+    memory: 4755
+  startedAt: "2026-05-25T03:56:51Z"
   storedTemplates:
-    namespaced/vemcmt-n4-d120-png-argo-dist/cross-camera-match:
+    namespaced/wl-vemcmt-n4-d120-png-argo-dist/cross-camera-match:
       container:
         command:
         - python
@@ -697,7 +697,7 @@ status:
           value: /out/output
         - name: VEMCMT_SIM_THRESH
           value: "0.55"
-        image: 192.168.1.163:5000/vemcmt-cross-camera-match:latest
+        image: 192.168.1.163:5000/wl-vemcmt-cross-camera-match:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -727,7 +727,7 @@ status:
         artifacts:
         - name: output
           path: /out/output
-    namespaced/vemcmt-n4-d120-png-argo-dist/dag:
+    namespaced/wl-vemcmt-n4-d120-png-argo-dist/dag:
       dag:
         tasks:
         - arguments:
@@ -941,7 +941,7 @@ status:
       metadata: {}
       name: dag
       outputs: {}
-    namespaced/vemcmt-n4-d120-png-argo-dist/decode:
+    namespaced/wl-vemcmt-n4-d120-png-argo-dist/decode:
       container:
         command:
         - python3
@@ -955,7 +955,7 @@ status:
           value: "5"
         - name: VEMCMT_OUT
           value: /out/output
-        image: 192.168.1.163:5000/vemcmt-decode:latest
+        image: 192.168.1.163:5000/wl-vemcmt-decode:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -996,7 +996,7 @@ status:
           path: /var/lib/dsf-workloads/aicity
           type: Directory
         name: aicity-dataset
-    namespaced/vemcmt-n4-d120-png-argo-dist/detect-embed:
+    namespaced/wl-vemcmt-n4-d120-png-argo-dist/detect-embed:
       container:
         command:
         - python3
@@ -1012,7 +1012,7 @@ status:
           value: /models/yolov8n.xml
         - name: VEMCMT_REID_MODEL
           value: /models/osnet_x0_25.xml
-        image: 192.168.1.163:5000/vemcmt-detect-embed:latest
+        image: 192.168.1.163:5000/wl-vemcmt-detect-embed:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1047,7 +1047,7 @@ status:
           path: /dev/dri
           type: Directory
         name: dev-dri
-    namespaced/vemcmt-n4-d120-png-argo-dist/preprocess:
+    namespaced/wl-vemcmt-n4-d120-png-argo-dist/preprocess:
       container:
         command:
         - python
@@ -1059,7 +1059,7 @@ status:
           value: /out/output
         - name: VEMCMT_FMT
           value: png
-        image: 192.168.1.163:5000/vemcmt-preprocess:latest
+        image: 192.168.1.163:5000/wl-vemcmt-preprocess:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1094,7 +1094,7 @@ status:
           path: /dev/dri
           type: Directory
         name: dev-dri
-    namespaced/vemcmt-n4-d120-png-argo-dist/report:
+    namespaced/wl-vemcmt-n4-d120-png-argo-dist/report:
       container:
         command:
         - python
@@ -1104,7 +1104,7 @@ status:
           value: /in/cross-camera-match/output
         - name: VEMCMT_REPORT_ROOT
           value: /reports
-        image: 192.168.1.163:5000/vemcmt-report:latest
+        image: 192.168.1.163:5000/wl-vemcmt-report:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1133,7 +1133,7 @@ status:
           path: /var/lib/dsf-workloads/reports
           type: DirectoryOrCreate
         name: reports
-    namespaced/vemcmt-n4-d120-png-argo-dist/track:
+    namespaced/wl-vemcmt-n4-d120-png-argo-dist/track:
       container:
         command:
         - python
@@ -1143,7 +1143,7 @@ status:
           value: /in/detect-embed/output
         - name: VEMCMT_OUT
           value: /out/output
-        image: 192.168.1.163:5000/vemcmt-track:latest
+        image: 192.168.1.163:5000/wl-vemcmt-track:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1401,7 +1401,7 @@ status:
           value: "5"
         - name: VEMCMT_OUT
           value: /out/output
-        image: 192.168.1.163:5000/vemcmt-decode:latest
+        image: 192.168.1.163:5000/wl-vemcmt-decode:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1453,7 +1453,7 @@ status:
           value: /out/output
         - name: VEMCMT_FMT
           value: png
-        image: 192.168.1.163:5000/vemcmt-preprocess:latest
+        image: 192.168.1.163:5000/wl-vemcmt-preprocess:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1503,7 +1503,7 @@ status:
           value: /models/yolov8n.xml
         - name: VEMCMT_REID_MODEL
           value: /models/osnet_x0_25.xml
-        image: 192.168.1.163:5000/vemcmt-detect-embed:latest
+        image: 192.168.1.163:5000/wl-vemcmt-detect-embed:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1547,7 +1547,7 @@ status:
           value: /in/detect-embed/output
         - name: VEMCMT_OUT
           value: /out/output
-        image: 192.168.1.163:5000/vemcmt-track:latest
+        image: 192.168.1.163:5000/wl-vemcmt-track:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1582,7 +1582,7 @@ status:
           value: /out/output
         - name: VEMCMT_SIM_THRESH
           value: "0.55"
-        image: 192.168.1.163:5000/vemcmt-cross-camera-match:latest
+        image: 192.168.1.163:5000/wl-vemcmt-cross-camera-match:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1621,7 +1621,7 @@ status:
           value: /in/cross-camera-match/output
         - name: VEMCMT_REPORT_ROOT
           value: /reports
-        image: 192.168.1.163:5000/vemcmt-report:latest
+        image: 192.168.1.163:5000/wl-vemcmt-report:latest
         imagePullPolicy: Always
         name: ""
         resources:
@@ -1651,23 +1651,23 @@ status:
           type: DirectoryOrCreate
         name: reports
     workflowTemplateRef:
-      name: vemcmt-n4-d120-png-argo-dist
+      name: wl-vemcmt-n4-d120-png-argo-dist
   taskResultsCompletionStatus:
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1182399120: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1215954358: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1232731977: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1266287215: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-1987098919: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2056084339: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2072861958: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2089639577: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2106417196: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2255990137: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2907599369: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2913775632: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2924376988: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2941154607: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2957932226: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-2997663727: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3014441346: true
-    vemcmt-n4-d120-png-argo-dist-dist-tgcrd-3031218965: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-636936472: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-653714091: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-687269329: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-737602186: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1500931574: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1534486812: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1551264431: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1584819669: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1746404936: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1779960174: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1796737793: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-1830293031: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-2647297778: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3258364072: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3416824931: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3467157788: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3500713026: true
+    wl-vemcmt-n4-d120-png-argo-dist-dist-gvrqk-3517490645: true

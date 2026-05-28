@@ -30,7 +30,7 @@
 # Undo:   ./teardown-tc-matrix.sh
 set -euo pipefail
 
-NS=dsf-system
+NS=wl-system
 
 # Node IP map (InternalIP, per `kubectl get nodes -o wide`).
 declare -A IP=(

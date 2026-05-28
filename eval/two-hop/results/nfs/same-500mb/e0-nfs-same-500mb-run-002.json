@@ -1,29 +1,29 @@
 {
   "run_name": "e0-nfs-same-500mb-run-002",
-  "producer_pod": "e0-nfs-same-500mb-run-002-producer-dktz4",
-  "consumer_pod": "e0-nfs-same-500mb-run-002-consumer-29cb6",
+  "producer_pod": "e0-nfs-same-500mb-run-002-producer-bgrlt",
+  "consumer_pod": "e0-nfs-same-500mb-run-002-consumer-drw6b",
   "producer_log": {
     "role": "producer",
-    "pod": "e0-nfs-same-500mb-run-002-producer-dktz4",
+    "pod": "e0-nfs-same-500mb-run-002-producer-bgrlt",
     "node": "anrg-3",
-    "t0_wall": 1779462266.548769,
-    "t1_wall": 1779462271.5490422,
-    "t1p_wall": 1779462276.276073,
+    "t0_wall": 1779646459.580499,
+    "t1_wall": 1779646464.5807705,
+    "t1p_wall": 1779646510.153826,
     "bytes": 524288000
   },
   "consumer_log": {
     "role": "consumer",
-    "pod": "e0-nfs-same-500mb-run-002-consumer-29cb6",
+    "pod": "e0-nfs-same-500mb-run-002-consumer-drw6b",
     "node": "anrg-3",
-    "t3_wall": 1779462266.5466716,
-    "t_found_wall": 1779462276.3013434,
-    "t4_wall": 1779462276.3503823,
+    "t3_wall": 1779646459.5812461,
+    "t_found_wall": 1779646510.1786819,
+    "t4_wall": 1779646510.2296164,
     "bytes": 524288000
   },
   "pod_api": {
-    "producer_started": "2026-05-22T15:04:26Z",
-    "producer_finished": "2026-05-22T15:04:36Z",
-    "consumer_started": "2026-05-22T15:04:26Z",
-    "consumer_finished": "2026-05-22T15:04:36Z"
+    "producer_started": "2026-05-24T18:14:19Z",
+    "producer_finished": "2026-05-24T18:15:10Z",
+    "consumer_started": "2026-05-24T18:14:19Z",
+    "consumer_finished": "2026-05-24T18:15:10Z"
   }
 }

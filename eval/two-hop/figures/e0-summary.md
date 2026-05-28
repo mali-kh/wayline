@@ -6,36 +6,36 @@ Stats are taken from the warm window (runs 5+, when ≥5 reps exist).
 
 | Coloc | Payload | System | n | mean (s) | std (s) | p95 (s) |
 |---|---|---|---:|---:|---:|---:|
-| same | 1MB | Wayline | 16 | 9.575 | 0.548 | 10.608 |
-| same | 1MB | MinIO (baseline) | 16 | 5.372 | 0.018 | 5.385 |
-| same | 10MB | Wayline | 16 | 9.619 | 0.448 | 10.249 |
-| same | 10MB | MinIO (baseline) | 16 | 7.118 | 0.097 | 7.277 |
-| same | 100MB | Wayline | 16 | 10.442 | 0.548 | 11.207 |
-| same | 100MB | MinIO (baseline) | 16 | 24.349 | 0.562 | 24.382 |
-| same | 500MB | Wayline | 16 | 17.237 | 0.918 | 18.326 |
-| same | 500MB | MinIO (baseline) | 16 | 98.833 | 0.135 | 99.016 |
-| cross | 1MB | Wayline | 16 | 9.613 | 0.459 | 10.401 |
-| cross | 1MB | MinIO (baseline) | 16 | 5.373 | 0.016 | 5.398 |
-| cross | 10MB | Wayline | 16 | 11.524 | 0.512 | 12.264 |
-| cross | 10MB | MinIO (baseline) | 16 | 7.068 | 0.017 | 7.093 |
-| cross | 100MB | Wayline | 16 | 28.096 | 0.549 | 28.980 |
-| cross | 100MB | MinIO (baseline) | 16 | 24.206 | 0.119 | 24.352 |
-| cross | 500MB | Wayline | 16 | 104.687 | 0.992 | 105.980 |
-| cross | 500MB | MinIO (baseline) | 8 | 98.738 | 0.126 | 98.861 |
+| same | 1MB | Wayline | 16 | 7.663 | 0.148 | 7.890 |
+| same | 1MB | MinIO (baseline) | 17 | 5.349 | 0.007 | 5.361 |
+| same | 10MB | Wayline | 16 | 7.781 | 0.167 | 8.010 |
+| same | 10MB | MinIO (baseline) | 16 | 7.051 | 0.012 | 7.069 |
+| same | 100MB | Wayline | 16 | 8.789 | 0.170 | 9.001 |
+| same | 100MB | MinIO (baseline) | 16 | 24.059 | 0.016 | 24.075 |
+| same | 500MB | Wayline | 16 | 13.626 | 0.220 | 13.846 |
+| same | 500MB | MinIO (baseline) | 16 | 98.003 | 0.096 | 98.102 |
+| cross | 1MB | Wayline | 16 | 7.824 | 0.165 | 8.048 |
+| cross | 1MB | MinIO (baseline) | 16 | 5.338 | 0.007 | 5.347 |
+| cross | 10MB | Wayline | 16 | 9.495 | 0.147 | 9.683 |
+| cross | 10MB | MinIO (baseline) | 16 | 7.052 | 0.014 | 7.065 |
+| cross | 100MB | Wayline | 16 | 26.917 | 0.124 | 27.070 |
+| cross | 100MB | MinIO (baseline) | 16 | 24.041 | 0.011 | 24.050 |
+| cross | 500MB | Wayline | 16 | 102.395 | 0.821 | 104.183 |
+| cross | 500MB | MinIO (baseline) | 16 | 98.110 | 0.700 | 99.531 |
 
 ## DSF vs MinIO ratios (warm mean)
 
 | Coloc | Payload | MinIO (s) | DSF (s) | Ratio (MinIO/DSF) |
 |---|---|---:|---:|---:|
-| same | 1MB | 5.372 | 9.575 | 0.56× |
-| same | 10MB | 7.118 | 9.619 | 0.74× |
-| same | 100MB | 24.349 | 10.442 | 2.33× |
-| same | 500MB | 98.833 | 17.237 | 5.73× |
-| cross | 1MB | 5.373 | 9.613 | 0.56× |
-| cross | 10MB | 7.068 | 11.524 | 0.61× |
-| cross | 100MB | 24.206 | 28.096 | 0.86× |
-| cross | 500MB | 98.738 | 104.687 | 0.94× |
+| same | 1MB | 5.349 | 7.669 | 0.70× |
+| same | 10MB | 7.051 | 7.871 | 0.90× |
+| same | 100MB | 24.059 | 8.744 | 2.75× |
+| same | 500MB | 98.003 | 13.617 | 7.20× |
+| cross | 1MB | 5.338 | 7.625 | 0.70× |
+| cross | 10MB | 7.052 | 7.937 | 0.89× |
+| cross | 100MB | 24.041 | 10.434 | 2.30× |
+| cross | 500MB | 98.110 | 20.886 | 4.70× |
 
 ## Pass/fail
 
-✅ **PASS** — minimum same-node ≥100MB ratio = **2.33×** (≥ 2× target).
+✅ **PASS** — minimum same-node ≥100MB ratio = **2.75×** (≥ 2× target).

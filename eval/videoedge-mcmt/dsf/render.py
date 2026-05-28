@@ -144,7 +144,7 @@ def _emit_task(
     command_str = _yaml_list([f'"{c}"' for c in command])
     return (
         f"    - name: {name}\n"
-        f"      image: {REGISTRY}/{image_tag}:latest\n"
+        f"      image: {REGISTRY}/wl-{image_tag}:latest\n"
         f"      command: {command_str}\n"
         f"      dependencies: {deps_str}\n"
         f"      dataSize: \"{ds}\"\n"
@@ -173,11 +173,11 @@ def render(n_cameras: int, clip_duration: int, scheduler: str, template_name: st
         raise ValueError(f"clip_duration must be 30/60/120, got {clip_duration}")
 
     head = (
-        f"apiVersion: dsf.io/v1\n"
+        f"apiVersion: wl.io/v1\n"
         f"kind: ODAGTemplate\n"
         f"metadata:\n"
         f"  name: {template_name}\n"
-        f"  namespace: dsf-system\n"
+        f"  namespace: wl-system\n"
         f"spec:\n"
         f"  description: >\n"
         f"    VideoEdge MCMT — {n_cameras} cameras × {clip_duration}s clips,\n"

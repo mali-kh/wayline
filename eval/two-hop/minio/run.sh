@@ -179,6 +179,7 @@ run_cell() {
 
     sleep 1
     harvest_run "$run_name" "$cell_dir" || yellow "[$cell_tag/$i] harvest had issues"
+    kubectl -n e0-bench exec deploy/minio -- sh -c 'mc alias set local http://minio:9000 e0admin e0adminpw >/dev/null 2>&1; mc rm --recursive --force local/e0-bench/ >/dev/null 2>&1' >/dev/null 2>&1 || true   # per-rep reclaim
 
     # Delete the Jobs so the next iteration starts clean. The TTL would
     # also reap them, but explicit delete keeps preflight clean.

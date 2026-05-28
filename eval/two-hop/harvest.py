@@ -146,7 +146,7 @@ def main():
 
     rows = []
     for system_dir in sorted(args.results_dir.iterdir()):
-        if not system_dir.is_dir() or system_dir.name not in ("dsf", "minio", "nfs"):
+        if not system_dir.is_dir() or system_dir.name not in ("wayline", "dsf", "minio", "nfs"):
             continue
         for cell_dir in sorted(system_dir.iterdir()):
             if not cell_dir.is_dir():

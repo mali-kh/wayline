@@ -1,8 +1,8 @@
-apiVersion: dsf.io/v1
+apiVersion: wl.io/v1
 kind: ODAGTemplate
 metadata:
   name: ${E0_TEMPLATE_NAME}
-  namespace: dsf-system
+  namespace: wl-system
 spec:
   description: "E0 two-hop microbenchmark — ${E0_COLOCATION}, ${E0_PAYLOAD_LABEL}."
   scheduler: random
@@ -17,7 +17,7 @@ spec:
     dataSize: "${E0_PAYLOAD_LABEL}"
   tasks:
     - name: producer
-      image: 192.168.1.163:5000/two-hop-dsf-producer:latest
+      image: 192.168.1.163:5000/wl-two-hop-producer:latest
       command: ["python", "-u", "task.py"]
       dependencies: []
       dataSize: "${E0_PAYLOAD_LABEL}"
@@ -26,12 +26,12 @@ spec:
         cpu: "200m"
         memory: "768Mi"
       env:
-        - { name: DSF_E0_BYTES,   value: "${E0_BYTES}" }
-        - { name: DSF_E0_COMPUTE, value: "5.0" }
+        - { name: WL_E0_BYTES,   value: "${E0_BYTES}" }
+        - { name: WL_E0_COMPUTE, value: "5.0" }
       constraints:
         nodeNames: [${E0_PRODUCER_NODE}]
     - name: consumer
-      image: 192.168.1.163:5000/two-hop-dsf-consumer:latest
+      image: 192.168.1.163:5000/wl-two-hop-consumer:latest
       command: ["python", "-u", "task.py"]
       dependencies: [producer]
       dataSize: "1KB"
@@ -40,6 +40,6 @@ spec:
         cpu: "200m"
         memory: "768Mi"
       env:
-        - { name: DSF_E0_BYTES, value: "${E0_BYTES}" }
+        - { name: WL_E0_BYTES, value: "${E0_BYTES}" }
       constraints:
         nodeNames: [${E0_CONSUMER_NODE}]

@@ -7,7 +7,7 @@
 # already be running in another terminal/process to capture resource
 # pressure during the run.
 #
-#   ./run-stress.sh [K=3] [TEMPLATE=vemcmt-n4-d60-jpg-heft]
+#   ./run-stress.sh [K=3] [TEMPLATE=wl-vemcmt-n4-d60-jpg-heft]
 #
 # Emits one row per ODAG to results.csv: K, run_idx, run_name, phase,
 # makespan_s, wall_s. The interesting metric is whether all K finish
@@ -15,8 +15,8 @@
 set -euo pipefail
 
 K=${1:-3}
-TEMPLATE=${2:-vemcmt-n4-d60-jpg-heft}
-NS=dsf-system
+TEMPLATE=${2:-wl-vemcmt-n4-d60-jpg-heft}
+NS=wl-system
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$HERE/../.." && pwd)"
 OUT="$HERE/results/concurrent-K${K}-${TEMPLATE}"
@@ -25,7 +25,7 @@ SUM="$OUT/results.csv"
 [[ -f "$SUM" ]] || echo "K,run_idx,run_name,phase,makespan_s,wall_s" > "$SUM"
 
 # Sanity check — template must exist.
-if ! kubectl -n "$NS" get odagtemplate "$TEMPLATE" >/dev/null 2>&1; then
+if ! kubectl -n "$NS" get odagtemplates.wl.io "$TEMPLATE" >/dev/null 2>&1; then
     echo "ERROR: template $TEMPLATE not found in $NS"
     exit 1
 fi
@@ -41,7 +41,7 @@ start=$(date +%s)
 declare -a RUNS=()
 TMP=$(mktemp -d)
 for i in $(seq 1 "$K"); do
-    "$REPO/bin/dsf" odag run "$TEMPLATE" -n "$NS" > "$TMP/sub-$i.txt" 2>&1 &
+    "$REPO/bin/wayline" run "$TEMPLATE" -n "$NS" > "$TMP/sub-$i.txt" 2>&1 &
 done
 wait
 
@@ -64,7 +64,7 @@ for ((iter=0; iter<200; iter++)); do
     sleep 15
     DONE=()
     for name in "${RUNS[@]}"; do
-        p=$(kubectl -n "$NS" get odag "$name" -o jsonpath='{.status.phase}' 2>/dev/null || echo "")
+        p=$(kubectl -n "$NS" get odags.wl.io "$name" -o jsonpath='{.status.phase}' 2>/dev/null || echo "")
         case "$p" in Succeeded|Failed) DONE+=("$name:$p") ;; esac
     done
     n_done=${#DONE[@]}
@@ -80,8 +80,8 @@ echo
 echo "Collecting per-run stats..."
 for idx in "${!RUNS[@]}"; do
     name="${RUNS[$idx]}"
-    phase=$(kubectl -n "$NS" get odag "$name" -o jsonpath='{.status.phase}' 2>/dev/null)
-    ms=$(kubectl -n "$NS" get odag "$name" -o jsonpath='{.status.makespan}' 2>/dev/null)
+    phase=$(kubectl -n "$NS" get odags.wl.io "$name" -o jsonpath='{.status.phase}' 2>/dev/null)
+    ms=$(kubectl -n "$NS" get odags.wl.io "$name" -o jsonpath='{.status.makespan}' 2>/dev/null)
     echo "$K,$((idx+1)),$name,$phase,$ms,$wall_total" >> "$SUM"
     echo "  $name: phase=$phase makespan=${ms}s"
 done
@@ -94,6 +94,6 @@ column -t -s, < "$SUM"
 
 # Cleanup
 for name in "${RUNS[@]}"; do
-    kubectl -n "$NS" delete odag "$name" --wait=false >/dev/null 2>&1 || true
+    kubectl -n "$NS" delete odags.wl.io "$name" --wait=false >/dev/null 2>&1 || true
 done
 rm -rf "$TMP"

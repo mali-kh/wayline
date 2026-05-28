@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
 N="${N:-6}"; OUT=/tmp/nfs-mcmt-results.csv; echo "rep,phase,makespan_s" > "$OUT"
-TPL=vemcmt-n4-d120-png-argo-nfs
+TPL=wl-vemcmt-n4-d120-png-argo-nfs
 wait_idle(){ for i in $(seq 1 60); do m=$(kubectl -n argo get pods --no-headers 2>/dev/null|grep -ivE 'argo-server|workflow-controller|httpbin'|grep -vcE 'Succeeded|Completed'); [ "${m:-0}" = 0 ]&&return; sleep 4; done; }
 for r in $(seq 1 "$N"); do
   wait_idle

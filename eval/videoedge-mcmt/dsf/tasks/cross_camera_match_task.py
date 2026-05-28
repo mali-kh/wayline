@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DSF wrapper for the cross-camera fan-in stage.
+"""Wayline wrapper for the cross-camera fan-in stage.
 
 Receives one tar.gz blob per camera (recv_all returns a dict keyed by
 upstream task name). Unpacks each into a subdir named after the camera,
@@ -13,7 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, "/app")
 
-from dsf_sdk import DSFTask                          # noqa: E402
+from wl import WlTask                          # noqa: E402
 from lib.match import cross_camera_match             # noqa: E402
 from lib.payload import pack_dir, unpack_to_dir      # noqa: E402
 
@@ -27,7 +27,7 @@ def _camera_name_for(dep_name: str) -> str:
 
 
 def main() -> None:
-    task = DSFTask()
+    task = WlTask()
     sim_thresh = float(os.environ.get("VEMCMT_SIM_THRESH", "0.55"))
 
     inputs = task.recv_all_raw()  # dict[dep_name] -> bytes (no JSON decoding)

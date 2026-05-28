@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: dsf-network-profile
-  namespace: dsf-system
+  namespace: wl-system
 data:
   # Matches setup-tc-matrix.sh:
   #   F = 125_000_000 B/s (1 Gbps)

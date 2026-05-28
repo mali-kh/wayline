@@ -6,7 +6,7 @@
 # reproducible.
 set -euo pipefail
 
-NS=${NS:-dsf-system}
+NS=${NS:-wl-system}
 DEPLOY=odag-controller
 
 echo "[profiler] wiping /data/dsf-profiler.db{,-shm,-wal}..."

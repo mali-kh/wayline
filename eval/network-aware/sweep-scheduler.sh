@@ -20,19 +20,19 @@
 #   CONFIGS     space-separated list of config suffixes (default:
 #               "random heft heft-eps"). For the iobt epsilon sweep,
 #               set CONFIGS="random heft heft-eps05 heft-eps heft-eps20".
-#   NS          namespace (default dsf-system)
+#   NS          namespace (default wl-system)
 #   TIMEOUT     per-run timeout in seconds (default 300)
 #
 set -euo pipefail
 
 EVAL_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$EVAL_DIR/../.." && pwd)"
-DSF="${REPO_ROOT}/bin/dsf"
+DSF="${REPO_ROOT}/bin/wayline"
 REPEAT="${REPO_ROOT}/scripts/benchmarks/repeat-template.sh"
 
 ODAG_DIR_ARG="${1:?usage: $0 <odag-dir> [N]}"
 N="${2:-20}"
-NS="${NS:-dsf-system}"
+NS="${NS:-wl-system}"
 TIMEOUT="${TIMEOUT:-300}"
 CONFIGS="${CONFIGS:-random heft heft-eps}"
 
@@ -67,7 +67,7 @@ for cfg in $CONFIGS; do
   # Apply the template (pick up any edits; idempotent).
   kubectl apply -f "$tpl" >/dev/null
 
-  # Parse template name (metadata.name) so we can dsf odag run it.
+  # Parse template name (metadata.name) so we can wayline run it.
   tpl_name="$(awk '/^metadata:/{in_meta=1;next} in_meta && /^ *name:/{print $2; exit}' "$tpl")"
   [[ -n "$tpl_name" ]] || { echo "ERROR: could not parse template name from $tpl"; exit 1; }
 
@@ -107,7 +107,7 @@ for cfg in $CONFIGS; do
     ms="${ms%s}"; wall="${wall%s}"
     printf '%d,%s,%s,%s,%s\n' "$i" "$name" "$phase" "$ms" "$wall" >> "$summary_csv"
     # Dump full ODAG status for downstream analysis (placement, predictions).
-    kubectl get odag "$name" -n "$NS" -o json > "${cfg_dir}/${name}.json" 2>/dev/null || true
+    kubectl get odags.wl.io "$name" -n "$NS" -o json > "${cfg_dir}/${name}.json" 2>/dev/null || true
     i=$((i+1))
   done < "${cfg_dir}/raw-rows.tmp"
   rm -f "${cfg_dir}/raw-rows.tmp"

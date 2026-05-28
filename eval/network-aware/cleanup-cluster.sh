@@ -8,7 +8,7 @@
 # you want a fully-clean cluster state. It is safe to re-run.
 set -euo pipefail
 
-NS=${NS:-dsf-system}
+NS=${NS:-wl-system}
 
 echo "[cleanup] deleting all ODAG runs in $NS..."
 kubectl delete odags.dsf.io --all -n "$NS" --ignore-not-found --wait=false >/dev/null 2>&1 || true
@@ -17,7 +17,7 @@ echo "[cleanup] deleting all CDAG runs in $NS..."
 kubectl delete cdags.dsf.io --all -n "$NS" --ignore-not-found --wait=false >/dev/null 2>&1 || true
 
 echo "[cleanup] deleting task pods (labels: dsf-odag, dsf-cdag)..."
-kubectl delete pods -n "$NS" -l dsf-odag --ignore-not-found --wait=false >/dev/null 2>&1 || true
+kubectl delete pods -n "$NS" -l wl-odag --ignore-not-found --wait=false >/dev/null 2>&1 || true
 kubectl delete pods -n "$NS" -l dsf-cdag --ignore-not-found --wait=false >/dev/null 2>&1 || true
 
 echo "[cleanup] waiting up to 60s for task pods to drain..."

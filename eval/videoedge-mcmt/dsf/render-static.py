@@ -35,15 +35,15 @@ from render import (  # noqa: E402
 # Sensor-tier tasks (decode, preprocess) are forced by sensor constraints
 # in the base render — only compute-tier and aggregation-tier choices vary.
 STATIC_COMPUTE = {
-    # task_name -> single node
-    "detect-embed-1": "anrg-8",
-    "detect-embed-2": "anrg-8",
+    # task_name -> single node (RR-matched to Argo render.py _compute_node_for)
+    "detect-embed-1": "anrg-6",
+    "detect-embed-2": "anrg-7",
     "detect-embed-3": "anrg-8",
-    "detect-embed-4": "anrg-7",
+    "detect-embed-4": "anrg-6",
     "track-1": "anrg-6",
-    "track-2": "anrg-6",
+    "track-2": "anrg-7",
     "track-3": "anrg-8",
-    "track-4": "anrg-7",
+    "track-4": "anrg-6",
 }
 
 
@@ -53,11 +53,11 @@ def render(n_cameras: int, clip_duration: int, template_name: str,
         raise ValueError("static placement only defined for N=4 (run the matrix at other N first)")
 
     head = (
-        f"apiVersion: dsf.io/v1\n"
+        f"apiVersion: wl.io/v1\n"
         f"kind: ODAGTemplate\n"
         f"metadata:\n"
         f"  name: {template_name}\n"
-        f"  namespace: dsf-system\n"
+        f"  namespace: wl-system\n"
         f"spec:\n"
         f"  description: >\n"
         f"    VideoEdge MCMT static-placement ablation — {n_cameras} cameras x\n"

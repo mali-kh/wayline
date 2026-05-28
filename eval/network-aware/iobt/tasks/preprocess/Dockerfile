@@ -3,6 +3,6 @@
 #     -t <REGISTRY>/dsf-iobt-preprocess:latest .
 FROM python:3.11-slim
 WORKDIR /app
-COPY sdk/python/dsf_sdk ./dsf_sdk
+COPY sdk/python/wl ./wl
 COPY examples/iobt-mission-snapshot-odag/tasks/preprocess/task.py .
 CMD ["python", "task.py"]

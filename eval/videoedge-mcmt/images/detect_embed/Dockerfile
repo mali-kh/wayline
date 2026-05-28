@@ -17,7 +17,7 @@ RUN pip3 install --no-cache-dir --break-system-packages \
 
 WORKDIR /app
 
-COPY sdk/python/dsf_sdk ./dsf_sdk
+COPY sdk/python/wl ./wl
 COPY eval/videoedge-mcmt/lib ./lib
 COPY eval/videoedge-mcmt/dsf/tasks/detect_embed_task.py   ./dsf_detect_embed_task.py
 COPY eval/videoedge-mcmt/argo/tasks/detect_embed_task.py  ./argo_detect_embed_task.py

@@ -3,6 +3,6 @@
 #     -t 192.168.1.163:5000/two-hop-dsf-consumer:latest .
 FROM python:3.11-slim
 WORKDIR /app
-COPY sdk/python/dsf_sdk ./dsf_sdk
+COPY sdk/python/wl ./wl
 COPY eval/two-hop/dsf/consumer/task.py .
 CMD ["python", "-u", "task.py"]

@@ -1,8 +1,8 @@
-apiVersion: dsf.io/v1
+apiVersion: wl.io/v1
 kind: ODAGTemplate
 metadata:
   name: iobt-eval-random
-  namespace: dsf-system
+  namespace: wl-system
 spec:
   description: "IoBT eval (random scheduler): data-heavy transfers to stress network"
   scheduler: random
@@ -19,7 +19,7 @@ spec:
   tasks:
     # Layer 0 — Capture (pinned, generates large raw data)
     - name: capture-1
-      image: 192.168.1.163:5000/dsf-iobt-capture:latest
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
       command: ["python", "task.py"]
       dependencies: []
       dataSize: "150MB"
@@ -31,7 +31,7 @@ spec:
         nodeNames: [anrg-3]
 
     - name: capture-2
-      image: 192.168.1.163:5000/dsf-iobt-capture:latest
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
       command: ["python", "task.py"]
       dependencies: []
       dataSize: "150MB"
@@ -43,7 +43,7 @@ spec:
         nodeNames: [anrg-4]
 
     - name: capture-3
-      image: 192.168.1.163:5000/dsf-iobt-capture:latest
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
       command: ["python", "task.py"]
       dependencies: []
       dataSize: "120MB"
@@ -55,7 +55,7 @@ spec:
         nodeNames: [anrg-5]
 
     - name: capture-4
-      image: 192.168.1.163:5000/dsf-iobt-capture:latest
+      image: 192.168.1.163:5000/wl-iobt-capture:latest
       command: ["python", "task.py"]
       dependencies: []
       dataSize: "200MB"
@@ -68,7 +68,7 @@ spec:
 
     # Layer 1 — Preprocess (co-located, produces LARGE output for cross-node transfer)
     - name: preprocess-1
-      image: 192.168.1.163:5000/dsf-iobt-preprocess:latest
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
       command: ["python", "task.py"]
       dependencies: ["capture-1"]
       dataSize: "100MB"
@@ -80,7 +80,7 @@ spec:
         nodeNames: [anrg-3]
 
     - name: preprocess-2
-      image: 192.168.1.163:5000/dsf-iobt-preprocess:latest
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
       command: ["python", "task.py"]
       dependencies: ["capture-2"]
       dataSize: "100MB"
@@ -92,7 +92,7 @@ spec:
         nodeNames: [anrg-4]
 
     - name: preprocess-3
-      image: 192.168.1.163:5000/dsf-iobt-preprocess:latest
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
       command: ["python", "task.py"]
       dependencies: ["capture-3"]
       dataSize: "80MB"
@@ -104,7 +104,7 @@ spec:
         nodeNames: [anrg-5]
 
     - name: preprocess-4
-      image: 192.168.1.163:5000/dsf-iobt-preprocess:latest
+      image: 192.168.1.163:5000/wl-iobt-preprocess:latest
       command: ["python", "task.py"]
       dependencies: ["capture-4"]
       dataSize: "150MB"
@@ -117,7 +117,7 @@ spec:
 
     # Layer 2 — Inference (SHORT compute, so transfer time dominates)
     - name: infer-1
-      image: 192.168.1.163:5000/dsf-iobt-infer:latest
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
       command: ["python", "task.py"]
       dependencies: ["preprocess-1"]
       dataSize: "1MB"
@@ -129,7 +129,7 @@ spec:
         nodeNames: [anrg-3, anrg-4, anrg-5, anrg-6]
 
     - name: infer-2
-      image: 192.168.1.163:5000/dsf-iobt-infer:latest
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
       command: ["python", "task.py"]
       dependencies: ["preprocess-2"]
       dataSize: "1MB"
@@ -141,7 +141,7 @@ spec:
         nodeNames: [anrg-3, anrg-4, anrg-5, anrg-6]
 
     - name: infer-3
-      image: 192.168.1.163:5000/dsf-iobt-infer:latest
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
       command: ["python", "task.py"]
       dependencies: ["preprocess-3"]
       dataSize: "1MB"
@@ -153,7 +153,7 @@ spec:
         nodeNames: [anrg-3, anrg-4, anrg-5, anrg-6]
 
     - name: infer-4
-      image: 192.168.1.163:5000/dsf-iobt-infer:latest
+      image: 192.168.1.163:5000/wl-iobt-infer:latest
       command: ["python", "task.py"]
       dependencies: ["preprocess-4"]
       dataSize: "1MB"
@@ -166,7 +166,7 @@ spec:
 
     # Layer 3 — Fusion
     - name: fuse-tracks
-      image: 192.168.1.163:5000/dsf-iobt-fuse:latest
+      image: 192.168.1.163:5000/wl-iobt-fuse:latest
       command: ["python", "task.py"]
       dependencies: ["infer-1", "infer-2", "infer-3", "infer-4"]
       dataSize: "1MB"
@@ -179,7 +179,7 @@ spec:
 
     # Layer 4 — Report
     - name: generate-report
-      image: 192.168.1.163:5000/dsf-iobt-report:latest
+      image: 192.168.1.163:5000/wl-iobt-report:latest
       command: ["python", "task.py"]
       dependencies: ["fuse-tracks"]
       dataSize: "0"

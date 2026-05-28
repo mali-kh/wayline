@@ -11,7 +11,7 @@ set -euo pipefail
 
 E1_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$E1_DIR/../.." && pwd)"
-DSF="${REPO_ROOT}/bin/dsf"
+DSF="${REPO_ROOT}/bin/wayline"
 
 SYS="${1:?usage: run.sh <argo|dsf> <iobt|hetero|wpf> [N]}"
 BM="${2:?usage: run.sh <argo|dsf> <iobt|hetero|wpf> [N]}"
@@ -60,7 +60,7 @@ preflight() {
     return 1
   fi
   local nondone_odag
-  nondone_odag=$(kubectl -A get odags.dsf.io -o jsonpath='{range .items[*]}{.status.phase}{"\n"}{end}' 2>/dev/null \
+  nondone_odag=$(kubectl -A get odags.wl.io -o jsonpath='{range .items[*]}{.status.phase}{"\n"}{end}' 2>/dev/null \
                  | grep -vE '^(Succeeded|Failed)$' | grep -v '^$' | wc -l)
   if (( nondone_odag > 0 )); then
     yellow "  preflight: $nondone_odag non-terminal ODAGs alive"
@@ -74,7 +74,7 @@ preflight() {
 cleanup() {
   kubectl -n argo delete workflows --all --field-selector='status.phase=Succeeded' --wait=false >/dev/null 2>&1 || true
   kubectl -n argo delete workflows --all --field-selector='status.phase=Failed'    --wait=false >/dev/null 2>&1 || true
-  kubectl -n dsf-system delete odags.dsf.io --all --field-selector='status.phase=Succeeded' --wait=false >/dev/null 2>&1 || true
+  kubectl -n wl-system delete odags.wl.io --all --field-selector='status.phase=Succeeded' --wait=false >/dev/null 2>&1 || true
   # Quick mc rm of all objects under argo-bench/. Background, ignore failures.
   kubectl -n e0-bench exec deploy/minio -- sh -c '
     mc alias set local http://minio:9000 e0admin e0adminpw >/dev/null 2>&1
@@ -128,7 +128,7 @@ except Exception:
 run_dsf() {
   local i=$1
   local out name
-  out=$("$DSF" odag run "$TPL" -n dsf-system 2>&1)
+  out=$("$DSF" run "$TPL" -n wl-system 2>&1)
   name=$(echo "$out" | sed -nE 's/^Created run ([^ ]+).*/\1/p')
   if [[ -z "$name" ]]; then red "[$i] submit failed"; return 1; fi
 
@@ -136,13 +136,13 @@ run_dsf() {
   local start=$(date +%s)
   while [[ $(date +%s) -lt $end ]]; do
     local phase
-    phase=$(kubectl -n dsf-system get odag "$name" -o jsonpath='{.status.phase}' 2>/dev/null || echo "")
+    phase=$(kubectl -n wl-system get odags.wl.io "$name" -o jsonpath='{.status.phase}' 2>/dev/null || echo "")
     case "$phase" in
       Succeeded|Failed) break ;;
     esac
     sleep 2
   done
-  local makespan=$(kubectl -n dsf-system get odag "$name" -o jsonpath='{.status.makespan}' 2>/dev/null)
+  local makespan=$(kubectl -n wl-system get odags.wl.io "$name" -o jsonpath='{.status.makespan}' 2>/dev/null)
   local wall=$(( $(date +%s) - start ))
   echo "${i},${name},${phase:-Timeout},${makespan:-?},${wall}"
 }

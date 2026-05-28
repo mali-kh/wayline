@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DSF wrapper for the detect+embed stage.
+"""Wayline wrapper for the detect+embed stage.
 
 Models (YOLOv8n + OSNet-x0_25) live in /models inside the image, in
 OpenVINO IR form. VEMCMT_DEVICE selects the OpenVINO device target:
@@ -11,13 +11,13 @@ import tempfile
 
 sys.path.insert(0, "/app")
 
-from dsf_sdk import DSFTask                              # noqa: E402
+from wl import WlTask                              # noqa: E402
 from lib.detect_embed import detect_and_embed            # noqa: E402
 from lib.payload import pack_dir, unpack_to_dir          # noqa: E402
 
 
 def main() -> None:
-    task = DSFTask()
+    task = WlTask()
     device = os.environ.get("VEMCMT_DEVICE", "GPU")
     det_model = os.environ.get("VEMCMT_DET_MODEL", "/models/yolov8n.xml")
     reid_model = os.environ.get("VEMCMT_REID_MODEL", "/models/osnet_x0_25.xml")

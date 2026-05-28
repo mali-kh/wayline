@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""DSF wrapper for the preprocess stage."""
+"""Wayline wrapper for the preprocess stage."""
 import os
 import sys
 import tempfile
 
 sys.path.insert(0, "/app")
 
-from dsf_sdk import DSFTask                          # noqa: E402
+from wl import WlTask                          # noqa: E402
 from lib.payload import pack_dir, unpack_to_dir      # noqa: E402
 from lib.preprocess import preprocess_frames         # noqa: E402
 
 
 def main() -> None:
-    task = DSFTask()
+    task = WlTask()
     target = int(os.environ.get("VEMCMT_TARGET_SIZE", "640"))
     fmt = os.environ.get("VEMCMT_FMT", "png")           # png | jpg
     quality = int(os.environ.get("VEMCMT_JPEG_QUALITY", "88"))

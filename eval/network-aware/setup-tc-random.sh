@@ -3,7 +3,7 @@
 # via a privileged pod on each worker. Saves the matrix (gen-tc-random.py).
 #   ./setup-tc-random.sh <seed>     ./setup-tc-random.sh <seed> teardown
 set -uo pipefail
-HERE="$(cd "$(dirname "$0")" && pwd)"; NS=dsf-system
+HERE="$(cd "$(dirname "$0")" && pwd)"; NS=wl-system
 SEED="${1:?usage: setup-tc-random.sh <seed> [teardown]}"; MODE="${2:-apply}"
 declare -A IP=([anrg-1]=192.168.1.189 [anrg-3]=192.168.1.164 [anrg-4]=192.168.1.156 [anrg-5]=192.168.1.154 \
                [anrg-6]=192.168.1.208 [anrg-7]=192.168.1.193 [anrg-8]=192.168.1.168 [anrg-9]=192.168.1.166)

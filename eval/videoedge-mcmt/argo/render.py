@@ -153,7 +153,7 @@ def render(n_cameras: int, clip_duration: int, name: str, artifact_repo: str,
         - {{ name: dev-dri, hostPath: {{ path: /dev/dri, type: Directory }} }}
         - {{ name: aicity-dataset, hostPath: {{ path: {DATASET_ROOT}, type: Directory }} }}
       container:
-        image: {REGISTRY}/vemcmt-decode:latest
+        image: {REGISTRY}/wl-vemcmt-decode:latest
         imagePullPolicy: Always
         command: ["python3", "argo_decode_task.py"]
         env:
@@ -179,7 +179,7 @@ def render(n_cameras: int, clip_duration: int, name: str, artifact_repo: str,
       securityContext: {{ supplementalGroups: [{RENDER_GID}] }}
       volumes: [{{ name: dev-dri, hostPath: {{ path: /dev/dri, type: Directory }} }}]
       container:
-        image: {REGISTRY}/vemcmt-preprocess:latest
+        image: {REGISTRY}/wl-vemcmt-preprocess:latest
         imagePullPolicy: Always
         command: ["python", "argo_preprocess_task.py"]
         env:
@@ -201,7 +201,7 @@ def render(n_cameras: int, clip_duration: int, name: str, artifact_repo: str,
       securityContext: {{ supplementalGroups: [{RENDER_GID}] }}
       volumes: [{{ name: dev-dri, hostPath: {{ path: /dev/dri, type: Directory }} }}]
       container:
-        image: {REGISTRY}/vemcmt-detect-embed:latest
+        image: {REGISTRY}/wl-vemcmt-detect-embed:latest
         imagePullPolicy: Always
         command: ["python3", "argo_detect_embed_task.py"]
         env:
@@ -223,7 +223,7 @@ def render(n_cameras: int, clip_duration: int, name: str, artifact_repo: str,
         artifacts: [{{ name: input, path: /in/detect-embed/output }}]
       nodeSelector: {{ kubernetes.io/hostname: "{{{{inputs.parameters.node}}}}" }}
       container:
-        image: {REGISTRY}/vemcmt-track:latest
+        image: {REGISTRY}/wl-vemcmt-track:latest
         imagePullPolicy: Always
         command: ["python", "argo_track_task.py"]
         env:
@@ -242,7 +242,7 @@ def render(n_cameras: int, clip_duration: int, name: str, artifact_repo: str,
 {chr(10).join(f"          - {{ name: track-{i}, path: /in/track-{i}/output }}" for i in range(1, n_cameras + 1))}
       nodeSelector: {{ kubernetes.io/hostname: "{{{{inputs.parameters.node}}}}" }}
       container:
-        image: {REGISTRY}/vemcmt-cross-camera-match:latest
+        image: {REGISTRY}/wl-vemcmt-cross-camera-match:latest
         imagePullPolicy: Always
         command: ["python", "argo_cross_camera_match_task.py"]
         env:
@@ -262,7 +262,7 @@ def render(n_cameras: int, clip_duration: int, name: str, artifact_repo: str,
       nodeSelector: {{ kubernetes.io/hostname: "{{{{inputs.parameters.node}}}}" }}
       volumes: [{{ name: reports, hostPath: {{ path: {REPORT_ROOT}, type: DirectoryOrCreate }} }}]
       container:
-        image: {REGISTRY}/vemcmt-report:latest
+        image: {REGISTRY}/wl-vemcmt-report:latest
         imagePullPolicy: Always
         command: ["python", "argo_report_task.py"]
         env:

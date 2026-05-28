@@ -4,7 +4,7 @@
 # Ray pins head->anrg-3, worker->anrg-6 (the former 50Mbit bottleneck pair),
 # so it MUST NOT overlap the MCMT sweep that uses those nodes.
 set -uo pipefail
-REPO=/home/anrg/dsf
+REPO=/home/anrg/wayline
 RAY="$REPO/eval/ray-microbench"
 OUT="$RAY/ray-e0-notc.csv"
 
@@ -12,7 +12,7 @@ echo "[$(date '+%F %T')] waiting for MCMT sweep (notc-sweep.sh) to finish..."
 while pgrep -f notc-sweep.sh >/dev/null 2>&1; do sleep 30; done
 echo "[$(date '+%F %T')] sweep finished. waiting for cluster idle..."
 for i in $(seq 1 60); do
-  n=$(kubectl get pods -n dsf-system -l dsf-odag --field-selector=status.phase!=Succeeded,status.phase!=Failed --no-headers 2>/dev/null | wc -l)
+  n=$(kubectl get pods -n wl-system -l wl-odag --field-selector=status.phase!=Succeeded,status.phase!=Failed --no-headers 2>/dev/null | wc -l)
   m=$(kubectl -n argo get pods --no-headers 2>/dev/null | grep -ivE 'argo-server|workflow-controller|httpbin' | grep -vcE 'Succeeded|Completed')
   [ "${n:-0}" = 0 ] && [ "${m:-0}" = 0 ] && { echo "[idle ok]"; break; }
   sleep 15
@@ -26,9 +26,9 @@ if ! kubectl -n ray-bench wait --for=condition=Ready pod/ray-head pod/ray-worker
   echo "RAY NOTC FAILED (pods not ready)"; exit 1
 fi
 
-echo "[$(date '+%F %T')] copying microbench + running (reps=5)..."
+echo "[$(date '+%F %T')] copying microbench + running (reps=20)..."
 kubectl -n ray-bench cp "$RAY/microbench.py" ray-head:/tmp/microbench.py
-kubectl -n ray-bench exec ray-head -- python3 /tmp/microbench.py --reps 5 --out /tmp/ray-e0-notc.csv
+kubectl -n ray-bench exec ray-head -- python3 /tmp/microbench.py --reps 20 --out /tmp/ray-e0-notc.csv
 kubectl -n ray-bench cp ray-head:/tmp/ray-e0-notc.csv "$OUT"
 
 echo "[$(date '+%F %T')] harvested -> $OUT"

@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""DSF wrapper for the within-camera tracking stage."""
+"""Wayline wrapper for the within-camera tracking stage."""
 import sys
 import tempfile
 
 sys.path.insert(0, "/app")
 
-from dsf_sdk import DSFTask                          # noqa: E402
+from wl import WlTask                          # noqa: E402
 from lib.payload import pack_dir, unpack_to_dir      # noqa: E402
 from lib.track import track_within_camera            # noqa: E402
 
 
 def main() -> None:
-    task = DSFTask()
+    task = WlTask()
     blob = task.recv_raw()
 
     with tempfile.TemporaryDirectory(prefix="vemcmt-trk-in-") as in_dir, \

@@ -7,10 +7,10 @@
 #       agent restarts via DaemonSet, scans transfers/*.state,
 #       resumes the Pending transfer; receiver gets the payload.
 #   (2) Kill receiver data-agent MID-TRANSFER. Expected: no
-#       partial .tmp survives the restart; no .dsf-ready over
+#       partial .tmp survives the restart; no .wl-ready over
 #       a partial file.
 #   (3) Oversized PUT (claimed Content-Length 100 GB, 1 KB body).
-#       Expected: PUT fails cleanly, no .dsf-ready written.
+#       Expected: PUT fails cleanly, no .wl-ready written.
 #
 #   ./failure-injection.sh [NODE=anrg-3] [PEER=anrg-6]
 #
@@ -21,7 +21,7 @@ set -uo pipefail
 
 NODE="${1:-anrg-3}"
 PEER="${2:-anrg-6}"
-NS=dsf-system
+NS=wl-system
 
 get_pod()    { kubectl -n "$NS" get pod -l app=data-agent -o jsonpath="{.items[?(@.spec.nodeName==\"$1\")].metadata.name}"; }
 get_pod_ip() { kubectl -n "$NS" get pod "$1" -o jsonpath='{.status.podIP}'; }
@@ -105,17 +105,17 @@ ODAG="fij-${ts}-t1"; TASK="produce"
 
 # Stage payload + readiness state on the sender
 kubectl -n "$NS" exec "$DA_POD" -- sh -c "
-  mkdir -p /data/dsf-outputs/${ODAG}/${TASK}
-  head -c 16384 /dev/urandom > /data/dsf-outputs/${ODAG}/${TASK}/output
-  echo -n ComputeDone > /data/dsf-outputs/${ODAG}/${TASK}/.dsf-task-state
-  touch /data/dsf-outputs/${ODAG}/${TASK}/.dsf-ready
-  sha=\$(sha256sum /data/dsf-outputs/${ODAG}/${TASK}/output | awk '{print \$1}')
-  echo -n \"\$sha\" > /data/dsf-outputs/${ODAG}/${TASK}/.dsf-sha256
-  echo 16384 > /data/dsf-outputs/${ODAG}/${TASK}/.dsf-bytes
+  mkdir -p /data/wl-outputs/${ODAG}/${TASK}
+  head -c 16384 /dev/urandom > /data/wl-outputs/${ODAG}/${TASK}/output
+  echo -n ComputeDone > /data/wl-outputs/${ODAG}/${TASK}/.wl-task-state
+  touch /data/wl-outputs/${ODAG}/${TASK}/.wl-ready
+  sha=\$(sha256sum /data/wl-outputs/${ODAG}/${TASK}/output | awk '{print \$1}')
+  echo -n \"\$sha\" > /data/wl-outputs/${ODAG}/${TASK}/.wl-sha256
+  echo 16384 > /data/wl-outputs/${ODAG}/${TASK}/.dsf-bytes
 " >/dev/null 2>&1
 
 # /push from helper to sender (cross-node successor target: receiver)
-push_out=$(py push "http://${DA_IP}:8081" "$ODAG" "$TASK" "$PEER_IP" "$PEER")
+push_out=$(py push "http://${DA_IP}:8082" "$ODAG" "$TASK" "$PEER_IP" "$PEER")
 push_status=$(echo "$push_out" | grep -oP 'STATUS=\K-?\d+')
 if [ "$push_status" = "202" ]; then
     report PASS "/push returns 202 (durable enqueue committed)"
@@ -123,7 +123,7 @@ else
     report FAIL "/push returns 202 (durable enqueue committed)" "status=$push_status"
 fi
 
-state=$(kubectl -n "$NS" exec "$DA_POD" -- cat /data/dsf-outputs/${ODAG}/${TASK}/transfers/consume.state 2>/dev/null)
+state=$(kubectl -n "$NS" exec "$DA_POD" -- cat /data/wl-outputs/${ODAG}/${TASK}/transfers/consume.state 2>/dev/null)
 if [ -n "$state" ]; then
     report PASS "Sender persisted transfers/consume.state before 202" "state=$state"
 else
@@ -153,23 +153,23 @@ DA_IP=$(get_pod_ip "$DA_POD")
 sleep 10  # let recoverTransfers run
 
 recv_ok=$(kubectl -n "$NS" exec "$PEER_POD" -- sh -c "
-  test -f /data/dsf-outputs/${ODAG}/${TASK}/output && test -f /data/dsf-outputs/${ODAG}/${TASK}/.dsf-ready && echo OK
+  test -f /data/wl-outputs/${ODAG}/${TASK}/output && test -f /data/wl-outputs/${ODAG}/${TASK}/.wl-ready && echo OK
 " 2>/dev/null)
 if [ "$recv_ok" = "OK" ]; then
-    report PASS "Receiver got payload + .dsf-ready after sender restart"
+    report PASS "Receiver got payload + .wl-ready after sender restart"
 else
-    report FAIL "Receiver got payload + .dsf-ready after sender restart" "got=$recv_ok"
+    report FAIL "Receiver got payload + .wl-ready after sender restart" "got=$recv_ok"
 fi
 
-state_after=$(kubectl -n "$NS" exec "$DA_POD" -- cat /data/dsf-outputs/${ODAG}/${TASK}/transfers/consume.state 2>/dev/null)
+state_after=$(kubectl -n "$NS" exec "$DA_POD" -- cat /data/wl-outputs/${ODAG}/${TASK}/transfers/consume.state 2>/dev/null)
 case "$state_after" in
     ReadyRemote|Sent|Acknowledged)
         report PASS "Sender transfers/consume.state == terminal after recovery" "state=$state_after" ;;
     *)  report FAIL "Sender transfers/consume.state == terminal after recovery" "state=$state_after" ;;
 esac
 
-kubectl -n "$NS" exec "$DA_POD"   -- rm -rf /data/dsf-outputs/${ODAG} >/dev/null 2>&1 || true
-kubectl -n "$NS" exec "$PEER_POD" -- rm -rf /data/dsf-outputs/${ODAG} >/dev/null 2>&1 || true
+kubectl -n "$NS" exec "$DA_POD"   -- rm -rf /data/wl-outputs/${ODAG} >/dev/null 2>&1 || true
+kubectl -n "$NS" exec "$PEER_POD" -- rm -rf /data/wl-outputs/${ODAG} >/dev/null 2>&1 || true
 
 echo
 # ---------------------------------------------------------------------------
@@ -177,16 +177,16 @@ echo "== test 2: kill receiver mid-transfer (no partial bytes visible) ======="
 ODAG="fij-${ts}-t2"
 
 kubectl -n "$NS" exec "$DA_POD" -- sh -c "
-  mkdir -p /data/dsf-outputs/${ODAG}/${TASK}
-  dd if=/dev/urandom of=/data/dsf-outputs/${ODAG}/${TASK}/output bs=1M count=10 status=none
-  sha=\$(sha256sum /data/dsf-outputs/${ODAG}/${TASK}/output | awk '{print \$1}')
-  echo -n \"\$sha\" > /data/dsf-outputs/${ODAG}/${TASK}/.dsf-sha256
-  echo 10485760 > /data/dsf-outputs/${ODAG}/${TASK}/.dsf-bytes
-  echo -n ComputeDone > /data/dsf-outputs/${ODAG}/${TASK}/.dsf-task-state
-  touch /data/dsf-outputs/${ODAG}/${TASK}/.dsf-ready
+  mkdir -p /data/wl-outputs/${ODAG}/${TASK}
+  dd if=/dev/urandom of=/data/wl-outputs/${ODAG}/${TASK}/output bs=1M count=10 status=none
+  sha=\$(sha256sum /data/wl-outputs/${ODAG}/${TASK}/output | awk '{print \$1}')
+  echo -n \"\$sha\" > /data/wl-outputs/${ODAG}/${TASK}/.wl-sha256
+  echo 10485760 > /data/wl-outputs/${ODAG}/${TASK}/.dsf-bytes
+  echo -n ComputeDone > /data/wl-outputs/${ODAG}/${TASK}/.wl-task-state
+  touch /data/wl-outputs/${ODAG}/${TASK}/.wl-ready
 " >/dev/null 2>&1
 
-py push "http://${DA_IP}:8081" "$ODAG" "$TASK" "$PEER_IP" "$PEER" >/dev/null 2>&1 &
+py push "http://${DA_IP}:8082" "$ODAG" "$TASK" "$PEER_IP" "$PEER" >/dev/null 2>&1 &
 sleep 0.05
 kubectl -n "$NS" delete pod "$PEER_POD" --grace-period=0 --force >/dev/null 2>&1
 wait
@@ -203,7 +203,7 @@ done
 PEER_POD="$NEW_PEER_POD"
 PEER_IP=$(get_pod_ip "$PEER_POD")
 
-tmp_files=$(kubectl -n "$NS" exec "$PEER_POD" -- find /data/dsf-outputs/${ODAG} -name '*.tmp' 2>/dev/null | wc -l)
+tmp_files=$(kubectl -n "$NS" exec "$PEER_POD" -- find /data/wl-outputs/${ODAG} -name '*.tmp' 2>/dev/null | wc -l)
 if [ "$tmp_files" = "0" ]; then
     report PASS "No partial *.tmp files after receiver restart"
 else
@@ -211,28 +211,28 @@ else
 fi
 
 ready_ok=$(kubectl -n "$NS" exec "$PEER_POD" -- sh -c "
-  if [ -f /data/dsf-outputs/${ODAG}/${TASK}/.dsf-ready ]; then
-    size=\$(stat -c %s /data/dsf-outputs/${ODAG}/${TASK}/output 2>/dev/null || echo 0)
+  if [ -f /data/wl-outputs/${ODAG}/${TASK}/.wl-ready ]; then
+    size=\$(stat -c %s /data/wl-outputs/${ODAG}/${TASK}/output 2>/dev/null || echo 0)
     if [ \"\$size\" = \"10485760\" ]; then echo READY_FULL
     else echo READY_PARTIAL_\$size; fi
   else echo NOT_READY; fi
 " 2>/dev/null)
 case "$ready_ok" in
-    READY_FULL)       report PASS "Either clean install via retry, or no .dsf-ready" "(installed)" ;;
-    NOT_READY)        report PASS "Either clean install via retry, or no .dsf-ready" "(no leak)"   ;;
-    READY_PARTIAL_*)  report FAIL "Either clean install via retry, or no .dsf-ready" "$ready_ok"   ;;
-    *)                report FAIL "Either clean install via retry, or no .dsf-ready" "$ready_ok"   ;;
+    READY_FULL)       report PASS "Either clean install via retry, or no .wl-ready" "(installed)" ;;
+    NOT_READY)        report PASS "Either clean install via retry, or no .wl-ready" "(no leak)"   ;;
+    READY_PARTIAL_*)  report FAIL "Either clean install via retry, or no .wl-ready" "$ready_ok"   ;;
+    *)                report FAIL "Either clean install via retry, or no .wl-ready" "$ready_ok"   ;;
 esac
 
-kubectl -n "$NS" exec "$DA_POD"    -- rm -rf /data/dsf-outputs/${ODAG} >/dev/null 2>&1 || true
-kubectl -n "$NS" exec "$PEER_POD"  -- rm -rf /data/dsf-outputs/${ODAG} >/dev/null 2>&1 || true
+kubectl -n "$NS" exec "$DA_POD"    -- rm -rf /data/wl-outputs/${ODAG} >/dev/null 2>&1 || true
+kubectl -n "$NS" exec "$PEER_POD"  -- rm -rf /data/wl-outputs/${ODAG} >/dev/null 2>&1 || true
 
 echo
 # ---------------------------------------------------------------------------
 echo "== test 3: oversized PUT (claimed 100 GB, only 1 KB) ==================="
 ODAG="fij-${ts}-t3"
 
-status3=$(py oversized "$PEER_IP" 8081 "$ODAG" | grep -oP 'STATUS=\K\S+')
+status3=$(py oversized "$PEER_IP" 8082 "$ODAG" | grep -oP 'STATUS=\K\S+')
 case "$status3" in
     4*|5*)   report PASS "Oversized PUT failed cleanly" "status=$status3" ;;
     TIMEOUT) report PASS "Oversized PUT timed out (no leak observed)"      ;;
@@ -240,14 +240,14 @@ case "$status3" in
 esac
 
 leaked=$(kubectl -n "$NS" exec "$PEER_POD" -- sh -c "
-  test -f /data/dsf-outputs/${ODAG}/${TASK}/.dsf-ready && echo LEAK || echo CLEAN
+  test -f /data/wl-outputs/${ODAG}/${TASK}/.wl-ready && echo LEAK || echo CLEAN
 " 2>/dev/null)
 if [ "$leaked" = "CLEAN" ]; then
-    report PASS "Oversized PUT did not create .dsf-ready"
+    report PASS "Oversized PUT did not create .wl-ready"
 else
-    report FAIL "Oversized PUT did not create .dsf-ready" "leaked=$leaked"
+    report FAIL "Oversized PUT did not create .wl-ready" "leaked=$leaked"
 fi
-kubectl -n "$NS" exec "$PEER_POD" -- rm -rf /data/dsf-outputs/${ODAG} >/dev/null 2>&1 || true
+kubectl -n "$NS" exec "$PEER_POD" -- rm -rf /data/wl-outputs/${ODAG} >/dev/null 2>&1 || true
 
 echo
 echo "Cleaning up helper pod..."

@@ -9,15 +9,15 @@
 #
 #   ./correctness.sh [NODE=anrg-3]
 #
-# Requires: kubectl context with data-agents in dsf-system. The helper
+# Requires: kubectl context with data-agents in wl-system. The helper
 # pod is short-lived (deleted at end).
 set -uo pipefail
 
 NODE="${1:-anrg-3}"
-NS=dsf-system
+NS=wl-system
 DA_POD=$(kubectl -n "$NS" get pod -l app=data-agent -o jsonpath="{.items[?(@.spec.nodeName==\"$NODE\")].metadata.name}")
 DA_IP=$(kubectl -n "$NS" get pod "$DA_POD" -o jsonpath='{.status.podIP}')
-DA_URL="http://${DA_IP}:8081"
+DA_URL="http://${DA_IP}:8082"
 if [ -z "$DA_POD" ] || [ -z "$DA_IP" ]; then
     echo "ERROR: no data-agent on $NODE"; exit 99
 fi

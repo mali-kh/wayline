@@ -1,8 +1,8 @@
-apiVersion: dsf.io/v1
+apiVersion: wl.io/v1
 kind: CDAGTemplate
 metadata:
   name: camera-pipeline-locality
-  namespace: dsf-system
+  namespace: wl-system
 spec:
   description: "Camera fusion pipeline (locality scheduler) — 5MB frames at 1Hz"
   scheduler: locality

@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-COPY sdk/python/dsf_sdk ./dsf_sdk
+COPY sdk/python/wl ./wl
 COPY eval/videoedge-mcmt/lib ./lib
 COPY eval/videoedge-mcmt/dsf/tasks/decode_task.py   ./dsf_decode_task.py
 COPY eval/videoedge-mcmt/argo/tasks/decode_task.py  ./argo_decode_task.py

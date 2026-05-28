@@ -3,7 +3,7 @@
 # Block 6a — resource overhead poller.
 #
 # Snapshots /metrics + kubectl top pod for every data-agent in the
-# dsf-system namespace, every INTERVAL seconds, until SIGINT. Emits
+# wl-system namespace, every INTERVAL seconds, until SIGINT. Emits
 # CSV rows to OUT for off-line analysis.
 #
 #   ./poll-agents.sh [OUT=overhead.csv] [INTERVAL=5]
@@ -21,7 +21,7 @@ set -uo pipefail
 
 OUT="${1:-overhead.csv}"
 INTERVAL="${2:-5}"
-NS=dsf-system
+NS=wl-system
 
 cols="ts_s,node,agent_pod,cpu_m,mem_mb,bytes_in,bytes_out,put_total,put_ok,put_idempotent,put_conflict,put_checksum_mismatch,push_attempts,push_success,push_failed,push_inflight,disk_bytes,run_count,goroutines,mem_alloc_b,mem_sys_b,uptime_s"
 [[ -f "$OUT" ]] || echo "$cols" > "$OUT"
@@ -64,7 +64,7 @@ poll_once() {
 
         # /metrics from the agent (over cluster network — already on the node)
         local m
-        m=$(kubectl -n "$NS" exec "$pod" -- wget -qO- http://localhost:8081/metrics 2>/dev/null)
+        m=$(kubectl -n "$NS" exec "$pod" -- wget -qO- http://localhost:8082/metrics 2>/dev/null)
         [[ -z "$m" ]] && continue
 
         python3 - "$ts" "$node" "$pod" "$cpu_m" "$mem_mb" <<PY >> "$OUT"

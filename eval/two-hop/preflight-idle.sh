@@ -4,7 +4,7 @@
 # a benchmark cell can run without contention:
 #
 #   1. No active ODAG/CDAG resources (Pending / Scheduling / Running).
-#   2. No task pods (labels dsf-odag, dsf-cdag) in any namespace.
+#   2. No task pods (labels wl-odag, dsf-cdag) in any namespace.
 #   3. No two-hop microbenchmark Jobs (label app=two-hop) anywhere.
 #   4. No leftover Services for two-hop runs.
 #
@@ -23,7 +23,7 @@
 
 set -euo pipefail
 
-DSF_NS=${DSF_NS:-dsf-system}
+DSF_NS=${DSF_NS:-wl-system}
 E0_NS=${E0_NS:-e0-bench}
 TIMEOUT=${TIMEOUT:-90}
 
@@ -39,7 +39,7 @@ if ! kubectl get nodes >/dev/null 2>&1; then
 fi
 
 # Controllers should be healthy. Don't gate on UI/ui-server.
-for app in odag-controller cdag-controller data-agent; do
+for app in odag-controller data-agent; do
   ready=$(kubectl get pods -n "$DSF_NS" -l "app=$app" -o jsonpath='{.items[*].status.conditions[?(@.type=="Ready")].status}' 2>/dev/null || true)
   if [[ -z "$ready" ]]; then
     red "[preflight] no pods for app=$app in $DSF_NS — controller stack is not deployed"
@@ -58,7 +58,7 @@ check_idle() {
 
   # 1. Non-terminal ODAGs / CDAGs anywhere.
   local non_terminal
-  non_terminal=$(kubectl get odags.dsf.io -A -o json 2>/dev/null \
+  non_terminal=$(kubectl get odags.wl.io -A -o json 2>/dev/null \
     | python3 -c '
 import json, sys
 d = json.load(sys.stdin)
@@ -75,7 +75,7 @@ print(",".join(out))
   fi
 
   local non_terminal_cdag
-  non_terminal_cdag=$(kubectl get cdags.dsf.io -A --no-headers 2>/dev/null | awk '{print $1"/"$2":"$3}' | grep -v 'Succeeded\|Failed' || true)
+  non_terminal_cdag=$(kubectl get cdags.wl.io -A --no-headers 2>/dev/null | awk '{print $1"/"$2":"$3}' | grep -v 'Succeeded\|Failed' || true)
   if [[ -n "$non_terminal_cdag" ]]; then
     # CDAGs are always-on by design — flag but allow opt-in to proceed via ALLOW_CDAG=1.
     if [[ "${ALLOW_CDAG:-0}" == "1" ]]; then
@@ -90,7 +90,7 @@ print(",".join(out))
   #    pods that haven't been garbage-collected do not contend for
   #    resources and are ignored.
   local task_pods
-  task_pods=$(kubectl get pods -A -l dsf-odag --no-headers --field-selector=status.phase!=Succeeded,status.phase!=Failed 2>/dev/null | wc -l)
+  task_pods=$(kubectl get pods -A -l wl-odag --no-headers --field-selector=status.phase!=Succeeded,status.phase!=Failed 2>/dev/null | wc -l)
   if [[ "$task_pods" != "0" ]]; then
     yellow "[preflight] $task_pods non-terminal ODAG task pods alive"
     fail=1
@@ -139,8 +139,8 @@ fi
 
 yellow "[preflight] FORCE_CLEAN=1 — attempting to drain..."
 
-kubectl delete odags.dsf.io -A --all --ignore-not-found --wait=false >/dev/null 2>&1 || true
-kubectl delete pods -A -l dsf-odag --ignore-not-found --wait=false >/dev/null 2>&1 || true
+kubectl delete odags.wl.io -A --all --ignore-not-found --wait=false >/dev/null 2>&1 || true
+kubectl delete pods -A -l wl-odag --ignore-not-found --wait=false >/dev/null 2>&1 || true
 kubectl delete jobs -A -l app=two-hop --ignore-not-found --wait=false >/dev/null 2>&1 || true
 kubectl delete pods -A -l app=two-hop --ignore-not-found --wait=false >/dev/null 2>&1 || true
 kubectl delete svc -A -l app=two-hop --ignore-not-found --wait=false >/dev/null 2>&1 || true

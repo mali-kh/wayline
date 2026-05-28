@@ -3,16 +3,16 @@
 # 6,7,8,6 + equal CPU + perf governor) Wayline vs Argo. Reports speedup per seed.
 #   SEEDS=10 REPS=2 ./random-sweep.sh
 set -uo pipefail
-HERE="$(cd "$(dirname "$0")" && pwd)"; REPO=/home/anrg/dsf
+HERE="$(cd "$(dirname "$0")" && pwd)"; REPO=/home/anrg/wayline
 SEEDS="${SEEDS:-10}"; REPS="${REPS:-2}"; CELLS=("120 png" "30 jpg")
 OUT=/tmp/random-results.csv; echo "seed,cell,rep,system,phase,makespan_s,wall_s" > "$OUT"
 clearbucket(){ kubectl -n e0-bench exec mc-helper -- sh -c 'mc rm --recursive --force local/argo-bench/ >/dev/null 2>&1' >/dev/null 2>&1 || true; }
-wait_idle(){ for i in $(seq 1 60); do n=$(kubectl -n dsf-system get pods -l dsf-odag --no-headers 2>/dev/null|grep -vcE 'Succeeded|Completed'); m=$(kubectl -n argo get pods --no-headers 2>/dev/null|grep -ivE 'argo-server|workflow-controller|httpbin'|grep -vcE 'Succeeded|Completed'); [ "${n:-0}" = 0 ]&&[ "${m:-0}" = 0 ]&&return; sleep 4; done; }
+wait_idle(){ for i in $(seq 1 60); do n=$(kubectl -n wl-system get pods -l wl-odag --no-headers 2>/dev/null|grep -vcE 'Succeeded|Completed'); m=$(kubectl -n argo get pods --no-headers 2>/dev/null|grep -ivE 'argo-server|workflow-controller|httpbin'|grep -vcE 'Succeeded|Completed'); [ "${n:-0}" = 0 ]&&[ "${m:-0}" = 0 ]&&return; sleep 4; done; }
 run_wl(){ local sd=$1 cell=$2 r=$3 tpl=$4 s=$(date +%s) out run p ms
-  out=$("$REPO/bin/dsf" odag run "$tpl" -n dsf-system 2>&1); run=$(echo "$out"|sed -nE 's/Created run ([^ ]+).*/\1/p')
-  for i in $(seq 1 150); do p=$(kubectl -n dsf-system get odag "$run" -o jsonpath='{.status.phase}' 2>/dev/null); case "$p" in Succeeded|Failed) break;; esac; sleep 5; done
-  ms=$(kubectl -n dsf-system get odag "$run" -o jsonpath='{.status.makespan}' 2>/dev/null); echo "$sd,$cell,$r,wayline,$p,${ms:-?},$(( $(date +%s)-s ))">>"$OUT"
-  echo "  [seed$sd $cell] wayline rep$r: $p ms=${ms}s"; kubectl -n dsf-system delete odag "$run" --wait=false >/dev/null 2>&1; }
+  out=$("$REPO/bin/wayline" run "$tpl" -n wl-system 2>&1); run=$(echo "$out"|sed -nE 's/Created run ([^ ]+).*/\1/p')
+  for i in $(seq 1 150); do p=$(kubectl -n wl-system get odags.wl.io "$run" -o jsonpath='{.status.phase}' 2>/dev/null); case "$p" in Succeeded|Failed) break;; esac; sleep 5; done
+  ms=$(kubectl -n wl-system get odags.wl.io "$run" -o jsonpath='{.status.makespan}' 2>/dev/null); echo "$sd,$cell,$r,wayline,$p,${ms:-?},$(( $(date +%s)-s ))">>"$OUT"
+  echo "  [seed$sd $cell] wayline rep$r: $p ms=${ms}s"; kubectl -n wl-system delete odags.wl.io "$run" --wait=false >/dev/null 2>&1; }
 run_ar(){ local sd=$1 cell=$2 r=$3 tpl=$4 s=$(date +%s) out wf p ms
   out=$(kubectl -n argo create -f <(printf 'apiVersion: argoproj.io/v1alpha1\nkind: Workflow\nmetadata: { generateName: %s-, namespace: argo }\nspec: { workflowTemplateRef: { name: %s } }\n' "$tpl" "$tpl") 2>&1)
   wf=$(echo "$out"|sed -nE 's|workflow.argoproj.io/(.+) created.*|\1|p')
@@ -24,7 +24,7 @@ for sd in $(seq 1 "$SEEDS"); do
   echo "================= SEED $sd ================="
   "$HERE/setup-tc-random.sh" "$sd" >/dev/null 2>&1; sleep 5
   for spec in "${CELLS[@]}"; do read d fmt <<<"$spec"; cell="d${d}-${fmt}"
-    WL="vemcmt-n4-d${d}-${fmt}-spread"; AR="vemcmt-n4-d${d}-${fmt}-spread-argo"
+    WL="wl-vemcmt-n4-d${d}-${fmt}-spread"; AR="wl-vemcmt-n4-d${d}-${fmt}-spread-argo"
     for r in $(seq 1 "$REPS"); do wait_idle
       if (( r%2==1 )); then run_wl "$sd" "$cell" "$r" "$WL"; wait_idle; run_ar "$sd" "$cell" "$r" "$AR"
       else run_ar "$sd" "$cell" "$r" "$AR"; wait_idle; run_wl "$sd" "$cell" "$r" "$WL"; fi

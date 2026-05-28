@@ -4,11 +4,11 @@
 #   Argo (spread-argo) | Wayline-static (spread, round-robin pin) | Wayline-HEFT (heft)
 # Captures makespan + report.json semantic fields (correctness) + HEFT placement.
 set -uo pipefail
-REPO=/home/anrg/dsf; N="${N:-8}"; OUT=/tmp/ablation-results.csv
+REPO=/home/anrg/wayline; N="${N:-8}"; OUT=/tmp/ablation-results.csv
 echo "rep,config,phase,makespan_s,n_tracks,report_md5" > "$OUT"
 RP=/tmp/ablation-reports; mkdir -p "$RP"
 clearbucket(){ kubectl -n e0-bench exec mc-helper -- sh -c 'mc rm --recursive --force local/argo-bench/ >/dev/null 2>&1' >/dev/null 2>&1 || true; }
-wait_idle(){ for i in $(seq 1 60); do n=$(kubectl -n dsf-system get pods -l dsf-odag --no-headers 2>/dev/null|grep -vcE 'Succeeded|Completed'); m=$(kubectl -n argo get pods --no-headers 2>/dev/null|grep -ivE 'argo-server|workflow-controller|httpbin'|grep -vcE 'Succeeded|Completed'); [ "${n:-0}" = 0 ]&&[ "${m:-0}" = 0 ]&&return; sleep 4; done; }
+wait_idle(){ for i in $(seq 1 60); do n=$(kubectl -n wl-system get pods -l wl-odag --no-headers 2>/dev/null|grep -vcE 'Succeeded|Completed'); m=$(kubectl -n argo get pods --no-headers 2>/dev/null|grep -ivE 'argo-server|workflow-controller|httpbin'|grep -vcE 'Succeeded|Completed'); [ "${n:-0}" = 0 ]&&[ "${m:-0}" = 0 ]&&return; sleep 4; done; }
 # grab newest report.json from anrg-9 hostPath -> prints "n_tracks md5"
 grab_report(){ local tag=$1
   sshpass -p anrg ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=10 anrg-9 \
@@ -16,13 +16,13 @@ grab_report(){ local tag=$1
   python3 -c "import json;d=json.load(open('$RP/$tag.json'));print(d.get('n_global_tracks','?'))" 2>/dev/null || echo "?"
 }
 run_wl(){ local cfg=$1 rep=$2 tpl=$3 s p ms run nt md
-  out=$("$REPO/bin/dsf" odag run "$tpl" -n dsf-system 2>&1); run=$(echo "$out"|sed -nE 's/Created run ([^ ]+).*/\1/p')
-  for i in $(seq 1 150); do p=$(kubectl -n dsf-system get odag "$run" -o jsonpath='{.status.phase}' 2>/dev/null); case "$p" in Succeeded|Failed) break;; esac; sleep 5; done
-  ms=$(kubectl -n dsf-system get odag "$run" -o jsonpath='{.status.makespan}' 2>/dev/null)
-  if [ "$cfg" = wlheft ]; then kubectl -n dsf-system get odag "$run" -o json 2>/dev/null | python3 -c "import json,sys;d=json.load(sys.stdin);print('  HEFT placement:',{t['name']:t.get('node') for t in d.get('status',{}).get('tasks',[]) if 'detect' in t['name']})" 2>/dev/null; fi
+  out=$("$REPO/bin/wayline" run "$tpl" -n wl-system 2>&1); run=$(echo "$out"|sed -nE 's/Created run ([^ ]+).*/\1/p')
+  for i in $(seq 1 150); do p=$(kubectl -n wl-system get odags.wl.io "$run" -o jsonpath='{.status.phase}' 2>/dev/null); case "$p" in Succeeded|Failed) break;; esac; sleep 5; done
+  ms=$(kubectl -n wl-system get odags.wl.io "$run" -o jsonpath='{.status.makespan}' 2>/dev/null)
+  if [ "$cfg" = wlheft ]; then kubectl -n wl-system get odags.wl.io "$run" -o json 2>/dev/null | python3 -c "import json,sys;d=json.load(sys.stdin);print('  HEFT placement:',{t['name']:t.get('node') for t in d.get('status',{}).get('tasks',[]) if 'detect' in t['name']})" 2>/dev/null; fi
   nt=$(grab_report "$cfg-$rep"); md=$(md5sum "$RP/$cfg-$rep.json" 2>/dev/null|awk '{print $1}')
   echo "$rep,$cfg,$p,${ms:-?},$nt,$md">>"$OUT"; echo "  [$cfg rep$rep] $p ms=${ms}s tracks=$nt"
-  kubectl -n dsf-system delete odag "$run" --wait=false >/dev/null 2>&1; }
+  kubectl -n wl-system delete odags.wl.io "$run" --wait=false >/dev/null 2>&1; }
 run_ar(){ local rep=$1 tpl=$2 s p ms wf nt md
   out=$(kubectl -n argo create -f <(printf 'apiVersion: argoproj.io/v1alpha1\nkind: Workflow\nmetadata: { generateName: %s-, namespace: argo }\nspec: { workflowTemplateRef: { name: %s } }\n' "$tpl" "$tpl") 2>&1)
   wf=$(echo "$out"|sed -nE 's|workflow.argoproj.io/(.+) created.*|\1|p')
@@ -33,9 +33,9 @@ run_ar(){ local rep=$1 tpl=$2 s p ms wf nt md
   kubectl -n argo delete workflow "$wf" --wait=false >/dev/null 2>&1; clearbucket; }
 for rep in $(seq 1 "$N"); do
   echo "============ ABLATION rep $rep ============"
-  wait_idle; run_ar "$rep" vemcmt-n4-d120-png-spread-argo
-  wait_idle; run_wl wlstatic "$rep" vemcmt-n4-d120-png-spread
-  wait_idle; run_wl wlheft "$rep" vemcmt-n4-d120-png-heft
+  wait_idle; run_ar "$rep" wl-vemcmt-n4-d120-png-spread-argo
+  wait_idle; run_wl wlstatic "$rep" wl-vemcmt-n4-d120-png-spread
+  wait_idle; run_wl wlheft "$rep" wl-vemcmt-n4-d120-png-heft
 done
 echo "ABLATION DONE"
 python3 - <<'PY'

@@ -10,7 +10,7 @@
 #        b. dsf odag run <template-name>
 #        c. wait for phase = Succeeded
 #        d. harvest producer + consumer log lines and pod timestamps
-#        e. write results/dsf/<cell>/<run-name>.json
+#        e. write results/wayline/<cell>/<run-name>.json
 #   4. Build per-cell summary.csv.
 #
 # Resumable: skips runs whose .json already exists in the cell dir.
@@ -23,14 +23,14 @@
 set -euo pipefail
 
 E0_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-DSF="${REPO_ROOT:-$(cd "$E0_DIR/../.." && pwd)}/bin/dsf"
-NS="${NS:-dsf-system}"
+DSF="${REPO_ROOT:-$(cd "$E0_DIR/../.." && pwd)}/bin/wayline"
+NS="${NS:-wl-system}"
 N="${N:-20}"
 TIMEOUT="${TIMEOUT:-300}"
 [[ "${SMOKE:-0}" == "1" ]] && N=2
 
 CELLS_FILE="${E0_DIR}/cells.txt"
-RESULTS_ROOT="${E0_DIR}/results/dsf"
+RESULTS_ROOT="${E0_DIR}/results/wayline"
 mkdir -p "$RESULTS_ROOT"
 
 red()   { printf '\033[31m%s\033[0m\n' "$*" >&2; }
@@ -38,13 +38,13 @@ green() { printf '\033[32m%s\033[0m\n' "$*"; }
 yellow(){ printf '\033[33m%s\033[0m\n' "$*"; }
 
 if ! [[ -x "$DSF" ]]; then
-  red "dsf CLI not found at $DSF — build it (make build) before running E0"
+  red "wayline CLI not found at $DSF — build it (make build) before running E0"
   exit 2
 fi
 
 render_template() {
   local cell_tag=$1 colocation=$2 label=$3 bytes=$4 pnode=$5 cnode=$6
-  local out="${E0_DIR}/results/dsf/${cell_tag}/template.yml"
+  local out="${E0_DIR}/results/wayline/${cell_tag}/template.yml"
   mkdir -p "$(dirname "$out")"
   E0_TEMPLATE_NAME="e0-dsf-${cell_tag}" \
   E0_COLOCATION="$colocation" \
@@ -52,7 +52,7 @@ render_template() {
   E0_BYTES="$bytes" \
   E0_PRODUCER_NODE="$pnode" \
   E0_CONSUMER_NODE="$cnode" \
-  envsubst < "${E0_DIR}/dsf/odag.yml.tpl" > "$out"
+  envsubst < "${E0_DIR}/wayline/odag.yml.tpl" > "$out"
   echo "$out"
 }
 
@@ -61,7 +61,7 @@ wait_for_phase() {
   local end=$(( $(date +%s) + TIMEOUT ))
   while [[ $(date +%s) -lt $end ]]; do
     local phase
-    phase=$(kubectl -n "$NS" get odag "$name" -o jsonpath='{.status.phase}' 2>/dev/null || true)
+    phase=$(kubectl -n "$NS" get odags.wl.io "$name" -o jsonpath='{.status.phase}' 2>/dev/null || true)
     case "$phase" in
       Succeeded) echo "$phase"; return 0 ;;
       Failed)    echo "$phase"; return 1 ;;
@@ -79,7 +79,7 @@ harvest_run() {
 
   # Pull pod names from the ODAG status.
   local odag_json prod_pod cons_pod
-  odag_json="$(kubectl -n "$NS" get odag "$name" -o json 2>/dev/null || echo '{}')"
+  odag_json="$(kubectl -n "$NS" get odags.wl.io "$name" -o json 2>/dev/null || echo '{}')"
   prod_pod="$(python3 -c '
 import json, sys
 d = json.loads(sys.argv[1])
@@ -102,10 +102,10 @@ for t in (d.get("status") or {}).get("tasks", []):
     return 1
   fi
 
-  # Logs (each pod emits one DSF_E0_TIMESTAMPS line).
+  # Logs (each pod emits one WL_E0_TIMESTAMPS line).
   local prod_line cons_line
-  prod_line="$(kubectl -n "$NS" logs "$prod_pod" 2>/dev/null | grep -F 'DSF_E0_TIMESTAMPS ' | tail -1 | sed 's/^DSF_E0_TIMESTAMPS //' || true)"
-  cons_line="$(kubectl -n "$NS" logs "$cons_pod" 2>/dev/null | grep -F 'DSF_E0_TIMESTAMPS ' | tail -1 | sed 's/^DSF_E0_TIMESTAMPS //' || true)"
+  prod_line="$(kubectl -n "$NS" logs "$prod_pod" 2>/dev/null | grep -F 'WL_E0_TIMESTAMPS ' | tail -1 | sed 's/^WL_E0_TIMESTAMPS //' || true)"
+  cons_line="$(kubectl -n "$NS" logs "$cons_pod" 2>/dev/null | grep -F 'WL_E0_TIMESTAMPS ' | tail -1 | sed 's/^WL_E0_TIMESTAMPS //' || true)"
 
   # Pod API timestamps (RFC3339).
   local prod_started prod_finished cons_started cons_finished
@@ -173,7 +173,7 @@ run_cell() {
     fi
 
     local submit_out name
-    submit_out="$("$DSF" odag run "$tpl_name" -n "$NS" 2>&1)" || {
+    submit_out="$("$DSF" run "$tpl_name" -n "$NS" 2>&1)" || {
       red "submit failed:"
       echo "$submit_out"
       return 1
@@ -199,6 +199,7 @@ run_cell() {
     sleep 2
 
     harvest_run "$name" "$cell_dir" || yellow "[$cell_tag/$i] harvest had issues"
+    kubectl -n "$NS" delete odags.wl.io "$name" --wait=false >/dev/null 2>&1 || true   # reclaim node data (retention GC unreliable)
 
     # Do NOT delete the ODAG — the controller's run-counter is derived
     # from the count of existing runs, and manual deletion causes the
