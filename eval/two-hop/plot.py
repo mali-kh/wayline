@@ -37,10 +37,10 @@ import matplotlib.pyplot as plt
 
 PAYLOADS = ["1MB", "10MB", "100MB", "500MB"]
 COLOCS   = ["same", "cross"]
-SYSTEMS  = ["dsf", "minio"]
+SYSTEMS  = ["wayline", "minio"]
 
-SYSTEM_LABEL = {"dsf": "Wayline", "minio": "MinIO (baseline)"}
-SYSTEM_COLOR = {"dsf": "#2563eb", "minio": "#dc2626"}
+SYSTEM_LABEL = {"wayline": "Wayline", "minio": "MinIO (baseline)"}
+SYSTEM_COLOR = {"wayline": "#2563eb", "minio": "#dc2626"}
 
 
 def load(csv_path: pathlib.Path):
