@@ -1,0 +1,230 @@
+Template:    hetero-heft-eps
+Namespace:   wl-system
+Iterations:  20
+Timeout:     300s per run
+Binary:      /home/anrg/wayline/bin/wayline
+
+=== [1/20] submitting ===
+W0525 03:40:00.268673 3527863 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:40:00.268803 3527863 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:40:00.268809 3527863 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:40:00.268814 3527863 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:40:00.268818 3527863 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:40:00.268823 3527863 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-78gg2 (from template hetero-heft-eps)
+-> hetero-heft-eps-run-78gg2  phase=Succeeded  makespan=49s  wall=51s
+
+=== [2/20] submitting ===
+W0525 03:40:51.825654 3529250 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:40:51.825755 3529250 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:40:51.825760 3529250 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:40:51.825764 3529250 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:40:51.825768 3529250 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:40:51.825771 3529250 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-44thc (from template hetero-heft-eps)
+-> hetero-heft-eps-run-44thc  phase=Succeeded  makespan=49s  wall=52s
+
+=== [3/20] submitting ===
+W0525 03:41:43.346508 3530474 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:41:43.346575 3530474 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:41:43.346578 3530474 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:41:43.346581 3530474 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:41:43.346583 3530474 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:41:43.346586 3530474 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-7dpxw (from template hetero-heft-eps)
+-> hetero-heft-eps-run-7dpxw  phase=Succeeded  makespan=55s  wall=58s
+
+=== [4/20] submitting ===
+W0525 03:42:41.207717 3531791 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:42:41.207806 3531791 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:42:41.207811 3531791 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:42:41.207817 3531791 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:42:41.207821 3531791 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:42:41.207824 3531791 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-rl8dj (from template hetero-heft-eps)
+-> hetero-heft-eps-run-rl8dj  phase=Succeeded  makespan=49s  wall=51s
+
+=== [5/20] submitting ===
+W0525 03:43:32.802569 3533013 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:43:32.802663 3533013 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:43:32.802670 3533013 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:43:32.802675 3533013 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:43:32.802680 3533013 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:43:32.802684 3533013 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-pljpz (from template hetero-heft-eps)
+-> hetero-heft-eps-run-pljpz  phase=Succeeded  makespan=58s  wall=60s
+
+=== [6/20] submitting ===
+W0525 03:44:32.827397 3534429 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:44:32.827475 3534429 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:44:32.827482 3534429 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:44:32.827486 3534429 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:44:32.827489 3534429 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:44:32.827493 3534429 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-p7zvk (from template hetero-heft-eps)
+-> hetero-heft-eps-run-p7zvk  phase=Succeeded  makespan=49s  wall=52s
+
+=== [7/20] submitting ===
+W0525 03:45:24.309748 3535628 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:45:24.309834 3535628 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:45:24.309840 3535628 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:45:24.309844 3535628 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:45:24.309847 3535628 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:45:24.309851 3535628 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-x7wfb (from template hetero-heft-eps)
+-> hetero-heft-eps-run-x7wfb  phase=Succeeded  makespan=48s  wall=51s
+
+=== [8/20] submitting ===
+W0525 03:46:15.857651 3536868 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:46:15.857733 3536868 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:46:15.857737 3536868 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:46:15.857741 3536868 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:46:15.857744 3536868 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:46:15.857747 3536868 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-qwdj4 (from template hetero-heft-eps)
+-> hetero-heft-eps-run-qwdj4  phase=Succeeded  makespan=49s  wall=52s
+
+=== [9/20] submitting ===
+W0525 03:47:07.397178 3538113 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:47:07.397240 3538113 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:47:07.397244 3538113 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:47:07.397248 3538113 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:47:07.397250 3538113 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:47:07.397252 3538113 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-b6tql (from template hetero-heft-eps)
+-> hetero-heft-eps-run-b6tql  phase=Succeeded  makespan=49s  wall=51s
+
+=== [10/20] submitting ===
+W0525 03:47:59.032738 3539313 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:47:59.032834 3539313 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:47:59.032840 3539313 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:47:59.032845 3539313 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:47:59.032849 3539313 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:47:59.032853 3539313 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-gbbx6 (from template hetero-heft-eps)
+-> hetero-heft-eps-run-gbbx6  phase=Succeeded  makespan=50s  wall=53s
+
+=== [11/20] submitting ===
+W0525 03:48:52.764989 3540588 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:48:52.765076 3540588 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:48:52.765081 3540588 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:48:52.765085 3540588 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:48:52.765089 3540588 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:48:52.765093 3540588 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-xpfjf (from template hetero-heft-eps)
+-> hetero-heft-eps-run-xpfjf  phase=Succeeded  makespan=49s  wall=52s
+
+=== [12/20] submitting ===
+W0525 03:49:44.392176 3541770 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:49:44.392263 3541770 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:49:44.392269 3541770 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:49:44.392273 3541770 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:49:44.392277 3541770 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:49:44.392280 3541770 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-fd92w (from template hetero-heft-eps)
+-> hetero-heft-eps-run-fd92w  phase=Succeeded  makespan=49s  wall=51s
+
+=== [13/20] submitting ===
+W0525 03:50:35.956734 3543009 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:50:35.956805 3543009 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:50:35.956810 3543009 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:50:35.956813 3543009 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:50:35.956816 3543009 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:50:35.956819 3543009 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-jfvrc (from template hetero-heft-eps)
+-> hetero-heft-eps-run-jfvrc  phase=Succeeded  makespan=48s  wall=52s
+
+=== [14/20] submitting ===
+W0525 03:51:27.500795 3544200 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:51:27.500919 3544200 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:51:27.500926 3544200 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:51:27.500930 3544200 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:51:27.500938 3544200 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:51:27.500942 3544200 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-v69kp (from template hetero-heft-eps)
+-> hetero-heft-eps-run-v69kp  phase=Succeeded  makespan=49s  wall=52s
+
+=== [15/20] submitting ===
+W0525 03:52:19.054670 3545462 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:52:19.054755 3545462 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:52:19.054760 3545462 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:52:19.054763 3545462 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:52:19.054766 3545462 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:52:19.054769 3545462 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-679tg (from template hetero-heft-eps)
+-> hetero-heft-eps-run-679tg  phase=Succeeded  makespan=49s  wall=51s
+
+=== [16/20] submitting ===
+W0525 03:53:10.596748 3546643 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:53:10.596814 3546643 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:53:10.596819 3546643 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:53:10.596824 3546643 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:53:10.596827 3546643 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:53:10.596829 3546643 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-kc676 (from template hetero-heft-eps)
+-> hetero-heft-eps-run-kc676  phase=Succeeded  makespan=49s  wall=52s
+
+=== [17/20] submitting ===
+W0525 03:54:02.096442 3547857 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:54:02.096514 3547857 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:54:02.096522 3547857 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:54:02.096526 3547857 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:54:02.096530 3547857 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:54:02.096534 3547857 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-4mknd (from template hetero-heft-eps)
+-> hetero-heft-eps-run-4mknd  phase=Succeeded  makespan=48s  wall=51s
+
+=== [18/20] submitting ===
+W0525 03:54:53.730401 3549099 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:54:53.730461 3549099 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:54:53.730468 3549099 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:54:53.730472 3549099 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:54:53.730477 3549099 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:54:53.730480 3549099 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-rmk7m (from template hetero-heft-eps)
+-> hetero-heft-eps-run-rmk7m  phase=Succeeded  makespan=49s  wall=52s
+
+=== [19/20] submitting ===
+W0525 03:55:45.256889 3550274 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:55:45.256963 3550274 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:55:45.256969 3550274 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:55:45.256972 3550274 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:55:45.256975 3550274 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:55:45.256978 3550274 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-7p8sd (from template hetero-heft-eps)
+-> hetero-heft-eps-run-7p8sd  phase=Succeeded  makespan=49s  wall=51s
+
+=== [20/20] submitting ===
+W0525 03:56:36.818604 3551495 warnings.go:70] unknown field "spec.schedulerConfig"
+W0525 03:56:36.818666 3551495 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:56:36.818670 3551495 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:56:36.818672 3551495 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:56:36.818675 3551495 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:56:36.818677 3551495 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-heft-eps-run-qz85n (from template hetero-heft-eps)
+-> hetero-heft-eps-run-qz85n  phase=Succeeded  makespan=49s  wall=52s
+
+======================== Summary ========================
+#    RUN                              PHASE        MAKESPAN   WALL    
+1    hetero-heft-eps-run-78gg2        Succeeded    49         51      
+2    hetero-heft-eps-run-44thc        Succeeded    49         52      
+3    hetero-heft-eps-run-7dpxw        Succeeded    55         58      
+4    hetero-heft-eps-run-rl8dj        Succeeded    49         51      
+5    hetero-heft-eps-run-pljpz        Succeeded    58         60      
+6    hetero-heft-eps-run-p7zvk        Succeeded    49         52      
+7    hetero-heft-eps-run-x7wfb        Succeeded    48         51      
+8    hetero-heft-eps-run-qwdj4        Succeeded    49         52      
+9    hetero-heft-eps-run-b6tql        Succeeded    49         51      
+10   hetero-heft-eps-run-gbbx6        Succeeded    50         53      
+11   hetero-heft-eps-run-xpfjf        Succeeded    49         52      
+12   hetero-heft-eps-run-fd92w        Succeeded    49         51      
+13   hetero-heft-eps-run-jfvrc        Succeeded    48         52      
+14   hetero-heft-eps-run-v69kp        Succeeded    49         52      
+15   hetero-heft-eps-run-679tg        Succeeded    49         51      
+16   hetero-heft-eps-run-kc676        Succeeded    49         52      
+17   hetero-heft-eps-run-4mknd        Succeeded    48         51      
+18   hetero-heft-eps-run-rmk7m        Succeeded    49         52      
+19   hetero-heft-eps-run-7p8sd        Succeeded    49         51      
+20   hetero-heft-eps-run-qz85n        Succeeded    49         52      
+---------------------------------------------------------
+Total wall time: 1048s

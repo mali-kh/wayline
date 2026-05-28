@@ -1,0 +1,724 @@
+{
+    "apiVersion": "wl.io/v1",
+    "kind": "ODAG",
+    "metadata": {
+        "creationTimestamp": "2026-05-25T09:13:38Z",
+        "generateName": "iobt-random-run-",
+        "generation": 1,
+        "labels": {
+            "wl.io/run": "4",
+            "wl.io/template": "iobt-random"
+        },
+        "name": "iobt-random-run-xbm9l",
+        "namespace": "wl-system",
+        "resourceVersion": "22927483",
+        "uid": "e224ede2-52e9-476b-94be-0d3d4a7a928e"
+    },
+    "spec": {
+        "scheduler": "random",
+        "tasks": [
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-1"
+                    ]
+                },
+                "dataSize": "100MB",
+                "dependencies": [],
+                "image": "192.168.1.163:5000/wl-iobt-capture:latest",
+                "name": "capture-1",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-3"
+                    ]
+                },
+                "dataSize": "120MB",
+                "dependencies": [],
+                "image": "192.168.1.163:5000/wl-iobt-capture:latest",
+                "name": "capture-2",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-4"
+                    ]
+                },
+                "dataSize": "80MB",
+                "dependencies": [],
+                "image": "192.168.1.163:5000/wl-iobt-capture:latest",
+                "name": "capture-3",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-5"
+                    ]
+                },
+                "dataSize": "150MB",
+                "dependencies": [],
+                "image": "192.168.1.163:5000/wl-iobt-capture:latest",
+                "name": "capture-4",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "512Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-1"
+                    ]
+                },
+                "dataSize": "100MB",
+                "dependencies": [
+                    "capture-1"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-preprocess:latest",
+                "name": "preprocess-1",
+                "resources": {
+                    "cpu": "300m",
+                    "memory": "512Mi"
+                },
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-3"
+                    ]
+                },
+                "dataSize": "120MB",
+                "dependencies": [
+                    "capture-2"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-preprocess:latest",
+                "name": "preprocess-2",
+                "resources": {
+                    "cpu": "300m",
+                    "memory": "512Mi"
+                },
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-4"
+                    ]
+                },
+                "dataSize": "80MB",
+                "dependencies": [
+                    "capture-3"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-preprocess:latest",
+                "name": "preprocess-3",
+                "resources": {
+                    "cpu": "300m",
+                    "memory": "512Mi"
+                },
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-5"
+                    ]
+                },
+                "dataSize": "150MB",
+                "dependencies": [
+                    "capture-4"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-preprocess:latest",
+                "name": "preprocess-4",
+                "resources": {
+                    "cpu": "300m",
+                    "memory": "512Mi"
+                },
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "1MB",
+                "dependencies": [
+                    "preprocess-1"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-infer:latest",
+                "name": "infer-1",
+                "resources": {
+                    "cpu": "500m",
+                    "memory": "512Mi"
+                },
+                "runtime": 10
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "1MB",
+                "dependencies": [
+                    "preprocess-2"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-infer:latest",
+                "name": "infer-2",
+                "resources": {
+                    "cpu": "500m",
+                    "memory": "512Mi"
+                },
+                "runtime": 10
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "1MB",
+                "dependencies": [
+                    "preprocess-3"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-infer:latest",
+                "name": "infer-3",
+                "resources": {
+                    "cpu": "500m",
+                    "memory": "512Mi"
+                },
+                "runtime": 10
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "1MB",
+                "dependencies": [
+                    "preprocess-4"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-infer:latest",
+                "name": "infer-4",
+                "resources": {
+                    "cpu": "500m",
+                    "memory": "512Mi"
+                },
+                "runtime": 10
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "1MB",
+                "dependencies": [
+                    "infer-1",
+                    "infer-2",
+                    "infer-3",
+                    "infer-4"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-fuse:latest",
+                "name": "fuse-tracks",
+                "resources": {
+                    "cpu": "300m",
+                    "memory": "256Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-9"
+                    ]
+                },
+                "dataSize": "0",
+                "dependencies": [
+                    "fuse-tracks"
+                ],
+                "image": "192.168.1.163:5000/wl-iobt-report:latest",
+                "name": "generate-report",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 2
+            }
+        ]
+    },
+    "status": {
+        "actualNetworkFlows": [
+            {
+                "dataSize": 150000000,
+                "dstNode": "anrg-8",
+                "end": 40.21781301498413,
+                "fromTask": "preprocess-4",
+                "ok": true,
+                "srcNode": "anrg-5",
+                "start": 14.44849967956543,
+                "toTask": "infer-4"
+            },
+            {
+                "dataSize": 120000000,
+                "dstNode": "anrg-7",
+                "end": 24.08515167236328,
+                "fromTask": "preprocess-2",
+                "ok": true,
+                "srcNode": "anrg-3",
+                "start": 13.489250421524048,
+                "toTask": "infer-2"
+            },
+            {
+                "dataSize": 80000000,
+                "dstNode": "anrg-6",
+                "end": 19.85389232635498,
+                "fromTask": "preprocess-3",
+                "ok": true,
+                "srcNode": "anrg-4",
+                "start": 12.801992654800415,
+                "toTask": "infer-3"
+            },
+            {
+                "dataSize": 716,
+                "dstNode": "anrg-8",
+                "end": 33.631598234176636,
+                "fromTask": "infer-1",
+                "ok": true,
+                "srcNode": "anrg-7",
+                "start": 33.622031688690186,
+                "toTask": "fuse-tracks"
+            },
+            {
+                "dataSize": 1891,
+                "dstNode": "anrg-8",
+                "end": 35.65339970588684,
+                "fromTask": "infer-2",
+                "ok": true,
+                "srcNode": "anrg-7",
+                "start": 35.63635015487671,
+                "toTask": "fuse-tracks"
+            },
+            {
+                "dataSize": 711,
+                "dstNode": "anrg-8",
+                "end": 31.082486391067505,
+                "fromTask": "infer-3",
+                "ok": true,
+                "srcNode": "anrg-6",
+                "start": 31.07241678237915,
+                "toTask": "fuse-tracks"
+            },
+            {
+                "dataSize": 5147,
+                "dstNode": "anrg-9",
+                "end": 53.34590673446655,
+                "fromTask": "fuse-tracks",
+                "ok": true,
+                "srcNode": "anrg-8",
+                "start": 53.33445930480957,
+                "toTask": "generate-report"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-7",
+                "end": 22.152543306350708,
+                "fromTask": "preprocess-1",
+                "ok": true,
+                "srcNode": "anrg-1",
+                "start": 13.336742162704468,
+                "toTask": "infer-1"
+            }
+        ],
+        "completionTime": "2026-05-25T09:14:34.66202503Z",
+        "makespan": 55,
+        "message": "",
+        "phase": "Succeeded",
+        "predictedNetworkFlows": [
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-7",
+                "end": 12.89,
+                "fromTask": "preprocess-1",
+                "srcNode": "anrg-1",
+                "start": 12.09,
+                "toTask": "infer-1"
+            },
+            {
+                "dataSize": 120000000,
+                "dstNode": "anrg-7",
+                "end": 13.75,
+                "fromTask": "preprocess-2",
+                "srcNode": "anrg-3",
+                "start": 12.79,
+                "toTask": "infer-2"
+            },
+            {
+                "dataSize": 80000000,
+                "dstNode": "anrg-6",
+                "end": 12.64,
+                "fromTask": "preprocess-3",
+                "srcNode": "anrg-4",
+                "start": 12,
+                "toTask": "infer-3"
+            },
+            {
+                "dataSize": 150000000,
+                "dstNode": "anrg-8",
+                "end": 15.2,
+                "fromTask": "preprocess-4",
+                "srcNode": "anrg-5",
+                "start": 14,
+                "toTask": "infer-4"
+            },
+            {
+                "dataSize": 90650,
+                "dstNode": "anrg-8",
+                "end": 23.890725200000002,
+                "fromTask": "infer-1",
+                "srcNode": "anrg-7",
+                "start": 23.89,
+                "toTask": "fuse-tracks"
+            },
+            {
+                "dataSize": 90650,
+                "dstNode": "anrg-8",
+                "end": 24.7507252,
+                "fromTask": "infer-2",
+                "srcNode": "anrg-7",
+                "start": 24.75,
+                "toTask": "fuse-tracks"
+            },
+            {
+                "dataSize": 1055,
+                "dstNode": "anrg-8",
+                "end": 23.64000844,
+                "fromTask": "infer-3",
+                "srcNode": "anrg-6",
+                "start": 23.64,
+                "toTask": "fuse-tracks"
+            },
+            {
+                "dataSize": 5147,
+                "dstNode": "anrg-9",
+                "end": 27.200041176,
+                "fromTask": "fuse-tracks",
+                "srcNode": "anrg-8",
+                "start": 27.2,
+                "toTask": "generate-report"
+            }
+        ],
+        "predictedTasks": [
+            {
+                "estEnd": 6.09,
+                "estStart": 0,
+                "name": "capture-1",
+                "node": "anrg-1"
+            },
+            {
+                "estEnd": 6.699999999999999,
+                "estStart": 0,
+                "name": "capture-2",
+                "node": "anrg-3"
+            },
+            {
+                "estEnd": 6,
+                "estStart": 0,
+                "name": "capture-3",
+                "node": "anrg-4"
+            },
+            {
+                "estEnd": 7,
+                "estStart": 0,
+                "name": "capture-4",
+                "node": "anrg-5"
+            },
+            {
+                "estEnd": 12.09,
+                "estStart": 6.09,
+                "name": "preprocess-1",
+                "node": "anrg-1"
+            },
+            {
+                "estEnd": 12.79,
+                "estStart": 6.699999999999999,
+                "name": "preprocess-2",
+                "node": "anrg-3"
+            },
+            {
+                "estEnd": 12,
+                "estStart": 6,
+                "name": "preprocess-3",
+                "node": "anrg-4"
+            },
+            {
+                "estEnd": 14,
+                "estStart": 7,
+                "name": "preprocess-4",
+                "node": "anrg-5"
+            },
+            {
+                "estEnd": 23.89,
+                "estStart": 12.89,
+                "name": "infer-1",
+                "node": "anrg-7"
+            },
+            {
+                "estEnd": 24.75,
+                "estStart": 13.75,
+                "name": "infer-2",
+                "node": "anrg-7"
+            },
+            {
+                "estEnd": 23.64,
+                "estStart": 12.64,
+                "name": "infer-3",
+                "node": "anrg-6"
+            },
+            {
+                "estEnd": 26.2,
+                "estStart": 15.2,
+                "name": "infer-4",
+                "node": "anrg-8"
+            },
+            {
+                "estEnd": 27.2,
+                "estStart": 26.2,
+                "name": "fuse-tracks",
+                "node": "anrg-8"
+            },
+            {
+                "estEnd": 28.500041176,
+                "estStart": 27.200041176,
+                "name": "generate-report",
+                "node": "anrg-9"
+            }
+        ],
+        "startTime": "2026-05-25T09:13:38.508192995Z",
+        "tasks": [
+            {
+                "completionTime": "2026-05-25T09:13:50Z",
+                "dataSize": "80000000",
+                "name": "preprocess-3",
+                "node": "anrg-4",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-preprocess-3",
+                "startTime": "2026-05-25T09:13:44Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:13:44Z",
+                "dataSize": "80000000",
+                "name": "capture-3",
+                "node": "anrg-4",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-capture-3",
+                "startTime": "2026-05-25T09:13:38Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:14:29Z",
+                "dataSize": "1000000",
+                "name": "infer-4",
+                "node": "anrg-8",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-infer-4",
+                "startTime": "2026-05-25T09:14:18Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:14:09Z",
+                "dataSize": "1000000",
+                "name": "infer-3",
+                "node": "anrg-6",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-infer-3",
+                "startTime": "2026-05-25T09:13:58Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:14:31Z",
+                "dataSize": "1000000",
+                "name": "fuse-tracks",
+                "node": "anrg-8",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-fuse-tracks",
+                "startTime": "2026-05-25T09:14:30Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:14:33Z",
+                "name": "generate-report",
+                "node": "anrg-9",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-generate-report",
+                "startTime": "2026-05-25T09:14:31Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:14:13Z",
+                "dataSize": "1000000",
+                "name": "infer-2",
+                "node": "anrg-7",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-infer-2",
+                "startTime": "2026-05-25T09:14:02Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:13:44Z",
+                "dataSize": "100000000",
+                "name": "capture-1",
+                "node": "anrg-1",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-capture-1",
+                "startTime": "2026-05-25T09:13:38Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:13:52Z",
+                "dataSize": "150000000",
+                "name": "preprocess-4",
+                "node": "anrg-5",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-preprocess-4",
+                "startTime": "2026-05-25T09:13:45Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:14:11Z",
+                "dataSize": "1000000",
+                "name": "infer-1",
+                "node": "anrg-7",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-infer-1",
+                "startTime": "2026-05-25T09:14:00Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:13:51Z",
+                "dataSize": "100000000",
+                "name": "preprocess-1",
+                "node": "anrg-1",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-preprocess-1",
+                "startTime": "2026-05-25T09:13:44Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:13:45Z",
+                "dataSize": "150000000",
+                "name": "capture-4",
+                "node": "anrg-5",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-capture-4",
+                "startTime": "2026-05-25T09:13:38Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:13:44Z",
+                "dataSize": "120000000",
+                "name": "capture-2",
+                "node": "anrg-3",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-capture-2",
+                "startTime": "2026-05-25T09:13:38Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T09:13:51Z",
+                "dataSize": "120000000",
+                "name": "preprocess-2",
+                "node": "anrg-3",
+                "phase": "Succeeded",
+                "podName": "iobt-random-run-xbm9l-preprocess-2",
+                "startTime": "2026-05-25T09:13:44Z",
+                "state": "ComputeDone"
+            }
+        ]
+    }
+}

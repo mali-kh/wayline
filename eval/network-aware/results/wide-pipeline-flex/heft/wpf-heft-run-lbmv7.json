@@ -1,0 +1,567 @@
+{
+    "apiVersion": "wl.io/v1",
+    "kind": "ODAG",
+    "metadata": {
+        "creationTimestamp": "2026-05-25T11:30:14Z",
+        "generateName": "wpf-heft-run-",
+        "generation": 1,
+        "labels": {
+            "wl.io/run": "13",
+            "wl.io/template": "wpf-heft"
+        },
+        "name": "wpf-heft-run-lbmv7",
+        "namespace": "wl-system",
+        "resourceVersion": "22989058",
+        "uid": "611bf2c3-8fcf-4eb4-b563-f0fdf9f33acd"
+    },
+    "spec": {
+        "scheduler": "heft",
+        "tasks": [
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-1"
+                    ]
+                },
+                "dataSize": "100MB",
+                "dependencies": [],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "source",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-3",
+                        "anrg-4",
+                        "anrg-5"
+                    ]
+                },
+                "dataSize": "50MB",
+                "dependencies": [
+                    "source"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "extract",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-3",
+                        "anrg-4",
+                        "anrg-5"
+                    ]
+                },
+                "dataSize": "50MB",
+                "dependencies": [
+                    "source"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "scan",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-3",
+                        "anrg-4",
+                        "anrg-5"
+                    ]
+                },
+                "dataSize": "50MB",
+                "dependencies": [
+                    "source"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "index",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "100MB",
+                "dependencies": [
+                    "extract",
+                    "scan",
+                    "index"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "merge",
+                "resources": {
+                    "cpu": "300m",
+                    "memory": "256Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "30MB",
+                "dependencies": [
+                    "merge"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "filter-a",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "30MB",
+                "dependencies": [
+                    "merge"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "filter-b",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "30MB",
+                "dependencies": [
+                    "merge"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "filter-c",
+                "resources": {
+                    "cpu": "200m",
+                    "memory": "128Mi"
+                },
+                "runtime": 3
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-6",
+                        "anrg-7",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "10MB",
+                "dependencies": [
+                    "filter-a",
+                    "filter-b",
+                    "filter-c"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "aggregate",
+                "resources": {
+                    "cpu": "300m",
+                    "memory": "256Mi"
+                },
+                "runtime": 2
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-9"
+                    ]
+                },
+                "dataSize": "0",
+                "dependencies": [
+                    "aggregate"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "output",
+                "resources": {
+                    "cpu": "100m",
+                    "memory": "64Mi"
+                },
+                "runtime": 1
+            }
+        ]
+    },
+    "status": {
+        "actualNetworkFlows": [
+            {
+                "dataSize": 10000000,
+                "dstNode": "anrg-9",
+                "end": 35.03609013557434,
+                "fromTask": "aggregate",
+                "ok": true,
+                "srcNode": "anrg-6",
+                "start": 34.15186929702759,
+                "toTask": "output"
+            },
+            {
+                "dataSize": 50000000,
+                "dstNode": "anrg-6",
+                "end": 21.106146335601807,
+                "fromTask": "index",
+                "ok": true,
+                "srcNode": "anrg-5",
+                "start": 16.690221071243286,
+                "toTask": "merge"
+            },
+            {
+                "dataSize": 50000000,
+                "dstNode": "anrg-6",
+                "end": 21.582026958465576,
+                "fromTask": "scan",
+                "ok": true,
+                "srcNode": "anrg-3",
+                "start": 12.964611053466797,
+                "toTask": "merge"
+            },
+            {
+                "dataSize": 50000000,
+                "dstNode": "anrg-6",
+                "end": 18.63603162765503,
+                "fromTask": "extract",
+                "ok": true,
+                "srcNode": "anrg-4",
+                "start": 14.211602926254272,
+                "toTask": "merge"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-3",
+                "end": 7.28247594833374,
+                "fromTask": "source",
+                "ok": true,
+                "srcNode": "anrg-1",
+                "start": 5.761373996734619,
+                "toTask": "scan"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-4",
+                "end": 8.3834068775177,
+                "fromTask": "source",
+                "ok": true,
+                "srcNode": "anrg-1",
+                "start": 5.761379241943359,
+                "toTask": "extract"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-5",
+                "end": 11.140140771865845,
+                "fromTask": "source",
+                "ok": true,
+                "srcNode": "anrg-1",
+                "start": 5.760387420654297,
+                "toTask": "index"
+            }
+        ],
+        "completionTime": "2026-05-25T11:30:53.572362062Z",
+        "makespan": 37,
+        "message": "",
+        "phase": "Succeeded",
+        "predictedNetworkFlows": [
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-3",
+                "end": 5.79432586657,
+                "fromTask": "source",
+                "srcNode": "anrg-1",
+                "start": 4.9943258665700005,
+                "toTask": "scan"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-5",
+                "end": 6.59432586657,
+                "fromTask": "source",
+                "srcNode": "anrg-1",
+                "start": 5.79432586657,
+                "toTask": "index"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-4",
+                "end": 7.39432586657,
+                "fromTask": "source",
+                "srcNode": "anrg-1",
+                "start": 6.59432586657,
+                "toTask": "extract"
+            },
+            {
+                "dataSize": 50000000,
+                "dstNode": "anrg-6",
+                "end": 14.49432586657,
+                "fromTask": "extract",
+                "srcNode": "anrg-4",
+                "start": 14.09432586657,
+                "toTask": "merge"
+            },
+            {
+                "dataSize": 50000000,
+                "dstNode": "anrg-6",
+                "end": 12.89432586657,
+                "fromTask": "scan",
+                "srcNode": "anrg-3",
+                "start": 12.49432586657,
+                "toTask": "merge"
+            },
+            {
+                "dataSize": 50000000,
+                "dstNode": "anrg-6",
+                "end": 13.694325866569999,
+                "fromTask": "index",
+                "srcNode": "anrg-5",
+                "start": 13.294325866569999,
+                "toTask": "merge"
+            },
+            {
+                "dataSize": 10000000,
+                "dstNode": "anrg-9",
+                "end": 27.18431996167,
+                "fromTask": "aggregate",
+                "srcNode": "anrg-6",
+                "start": 27.10431996167,
+                "toTask": "output"
+            }
+        ],
+        "predictedTasks": [
+            {
+                "estEnd": 4.9943258665700005,
+                "estStart": 0,
+                "name": "source",
+                "node": "anrg-1"
+            },
+            {
+                "estEnd": 14.09432586657,
+                "estStart": 7.39432586657,
+                "name": "extract",
+                "node": "anrg-4"
+            },
+            {
+                "estEnd": 12.49432586657,
+                "estStart": 5.79432586657,
+                "name": "scan",
+                "node": "anrg-3"
+            },
+            {
+                "estEnd": 13.294325866569999,
+                "estStart": 6.594325866569999,
+                "name": "index",
+                "node": "anrg-5"
+            },
+            {
+                "estEnd": 19.19432586657,
+                "estStart": 14.494325866570001,
+                "name": "merge",
+                "node": "anrg-6"
+            },
+            {
+                "estEnd": 23.89432586657,
+                "estStart": 19.19432586657,
+                "name": "filter-a",
+                "node": "anrg-6"
+            },
+            {
+                "estEnd": 24.10432586657,
+                "estStart": 19.19432586657,
+                "name": "filter-b",
+                "node": "anrg-6"
+            },
+            {
+                "estEnd": 24.10432586657,
+                "estStart": 19.19432586657,
+                "name": "filter-c",
+                "node": "anrg-6"
+            },
+            {
+                "estEnd": 27.10431996167,
+                "estStart": 24.10432586657,
+                "name": "aggregate",
+                "node": "anrg-6"
+            },
+            {
+                "estEnd": 29.18431996167,
+                "estStart": 27.18431996167,
+                "name": "output",
+                "node": "anrg-9"
+            }
+        ],
+        "startTime": "2026-05-25T11:30:14.897347056Z",
+        "tasks": [
+            {
+                "completionTime": "2026-05-25T11:30:45Z",
+                "dataSize": "30000000",
+                "name": "filter-c",
+                "node": "anrg-6",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-filter-c",
+                "startTime": "2026-05-25T11:30:40Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:45Z",
+                "dataSize": "30000000",
+                "name": "filter-a",
+                "node": "anrg-6",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-filter-a",
+                "startTime": "2026-05-25T11:30:40Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:45Z",
+                "dataSize": "30000000",
+                "name": "filter-b",
+                "node": "anrg-6",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-filter-b",
+                "startTime": "2026-05-25T11:30:40Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:30Z",
+                "dataSize": "50000000",
+                "name": "index",
+                "node": "anrg-5",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-index",
+                "startTime": "2026-05-25T11:30:25Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:40Z",
+                "dataSize": "100000000",
+                "name": "merge",
+                "node": "anrg-6",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-merge",
+                "startTime": "2026-05-25T11:30:35Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:26Z",
+                "dataSize": "50000000",
+                "name": "scan",
+                "node": "anrg-3",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-scan",
+                "startTime": "2026-05-25T11:30:21Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:19Z",
+                "dataSize": "100000000",
+                "name": "source",
+                "node": "anrg-1",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-source",
+                "startTime": "2026-05-25T11:30:14Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:28Z",
+                "dataSize": "50000000",
+                "name": "extract",
+                "node": "anrg-4",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-extract",
+                "startTime": "2026-05-25T11:30:22Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:51Z",
+                "name": "output",
+                "node": "anrg-9",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-output",
+                "startTime": "2026-05-25T11:30:49Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T11:30:48Z",
+                "dataSize": "10000000",
+                "name": "aggregate",
+                "node": "anrg-6",
+                "phase": "Succeeded",
+                "podName": "wpf-heft-run-lbmv7-aggregate",
+                "startTime": "2026-05-25T11:30:45Z",
+                "state": "ComputeDone"
+            }
+        ]
+    }
+}

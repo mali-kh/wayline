@@ -1,0 +1,210 @@
+Template:    hetero-random
+Namespace:   wl-system
+Iterations:  20
+Timeout:     300s per run
+Binary:      /home/anrg/wayline/bin/wayline
+
+=== [1/20] submitting ===
+W0525 03:01:44.696722 3464824 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:01:44.696782 3464824 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:01:44.696786 3464824 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:01:44.696789 3464824 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:01:44.696791 3464824 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-pdv7z (from template hetero-random)
+-> hetero-random-run-pdv7z  phase=Succeeded  makespan=57s  wall=60s
+
+=== [2/20] submitting ===
+W0525 03:02:44.781563 3466243 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:02:44.781618 3466243 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:02:44.781622 3466243 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:02:44.781625 3466243 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:02:44.781628 3466243 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-24v9f (from template hetero-random)
+-> hetero-random-run-24v9f  phase=Succeeded  makespan=61s  wall=62s
+
+=== [3/20] submitting ===
+W0525 03:03:46.969638 3467612 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:03:46.969704 3467612 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:03:46.969709 3467612 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:03:46.969712 3467612 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:03:46.969714 3467612 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-lws9n (from template hetero-random)
+-> hetero-random-run-lws9n  phase=Succeeded  makespan=49s  wall=52s
+
+=== [4/20] submitting ===
+W0525 03:04:38.573954 3468865 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:04:38.574025 3468865 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:04:38.574030 3468865 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:04:38.574033 3468865 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:04:38.574035 3468865 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-djn4z (from template hetero-random)
+-> hetero-random-run-djn4z  phase=Succeeded  makespan=44s  wall=47s
+
+=== [5/20] submitting ===
+W0525 03:05:25.832259 3469977 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:05:25.832345 3469977 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:05:25.832349 3469977 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:05:25.832353 3469977 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:05:25.832357 3469977 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-8n4l5 (from template hetero-random)
+-> hetero-random-run-8n4l5  phase=Succeeded  makespan=60s  wall=63s
+
+=== [6/20] submitting ===
+W0525 03:06:28.034771 3471376 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:06:28.034829 3471376 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:06:28.034834 3471376 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:06:28.034837 3471376 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:06:28.034839 3471376 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-p9wzj (from template hetero-random)
+-> hetero-random-run-p9wzj  phase=Succeeded  makespan=66s  wall=68s
+
+=== [7/20] submitting ===
+W0525 03:07:36.764588 3472809 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:07:36.764679 3472809 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:07:36.764685 3472809 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:07:36.764705 3472809 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:07:36.764709 3472809 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-qnft2 (from template hetero-random)
+-> hetero-random-run-qnft2  phase=Succeeded  makespan=45s  wall=48s
+
+=== [8/20] submitting ===
+W0525 03:08:24.049680 3473929 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:08:24.049787 3473929 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:08:24.049795 3473929 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:08:24.049801 3473929 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:08:24.049806 3473929 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-wpb46 (from template hetero-random)
+-> hetero-random-run-wpb46  phase=Succeeded  makespan=66s  wall=68s
+
+=== [9/20] submitting ===
+W0525 03:09:32.776441 3475446 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:09:32.776536 3475446 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:09:32.776544 3475446 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:09:32.776548 3475446 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:09:32.776552 3475446 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-rvsqj (from template hetero-random)
+-> hetero-random-run-rvsqj  phase=Succeeded  makespan=49s  wall=52s
+
+=== [10/20] submitting ===
+W0525 03:10:24.563843 3476778 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:10:24.563922 3476778 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:10:24.563927 3476778 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:10:24.563931 3476778 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:10:24.563934 3476778 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-9t2c2 (from template hetero-random)
+-> hetero-random-run-9t2c2  phase=Succeeded  makespan=59s  wall=63s
+
+=== [11/20] submitting ===
+W0525 03:11:27.171128 3486924 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:11:27.171213 3486924 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:11:27.171219 3486924 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:11:27.171223 3486924 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:11:27.171227 3486924 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-9khbn (from template hetero-random)
+-> hetero-random-run-9khbn  phase=Succeeded  makespan=63s  wall=66s
+
+=== [12/20] submitting ===
+W0525 03:12:33.650173 3488358 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:12:33.650230 3488358 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:12:33.650234 3488358 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:12:33.650237 3488358 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:12:33.650240 3488358 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-6fpws (from template hetero-random)
+-> hetero-random-run-6fpws  phase=Succeeded  makespan=48s  wall=52s
+
+=== [13/20] submitting ===
+W0525 03:13:25.139675 3489597 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:13:25.139741 3489597 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:13:25.139745 3489597 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:13:25.139748 3489597 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:13:25.139750 3489597 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-j74d2 (from template hetero-random)
+-> hetero-random-run-j74d2  phase=Succeeded  makespan=57s  wall=60s
+
+=== [14/20] submitting ===
+W0525 03:14:25.266836 3491031 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:14:25.266956 3491031 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:14:25.266963 3491031 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:14:25.266968 3491031 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:14:25.266973 3491031 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-hsq8c (from template hetero-random)
+-> hetero-random-run-hsq8c  phase=Succeeded  makespan=44s  wall=47s
+
+=== [15/20] submitting ===
+W0525 03:15:12.539543 3492247 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:15:12.539603 3492247 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:15:12.539607 3492247 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:15:12.539611 3492247 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:15:12.539613 3492247 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-zwnwk (from template hetero-random)
+-> hetero-random-run-zwnwk  phase=Succeeded  makespan=61s  wall=62s
+
+=== [16/20] submitting ===
+W0525 03:16:14.738510 3493596 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:16:14.738563 3493596 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:16:14.738566 3493596 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:16:14.738569 3493596 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:16:14.738571 3493596 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-tvlk4 (from template hetero-random)
+-> hetero-random-run-tvlk4  phase=Succeeded  makespan=61s  wall=62s
+
+=== [17/20] submitting ===
+W0525 03:17:16.926056 3495098 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:17:16.926109 3495098 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:17:16.926113 3495098 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:17:16.926116 3495098 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:17:16.926119 3495098 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-6fnbr (from template hetero-random)
+-> hetero-random-run-6fnbr  phase=Succeeded  makespan=54s  wall=56s
+
+=== [18/20] submitting ===
+W0525 03:18:12.672680 3496353 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:18:12.672774 3496353 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:18:12.672779 3496353 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:18:12.672783 3496353 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:18:12.672786 3496353 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-rt8tx (from template hetero-random)
+-> hetero-random-run-rt8tx  phase=Succeeded  makespan=59s  wall=60s
+
+=== [19/20] submitting ===
+W0525 03:19:12.819346 3497746 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:19:12.819418 3497746 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:19:12.819423 3497746 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:19:12.819426 3497746 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:19:12.819428 3497746 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-l4dhl (from template hetero-random)
+-> hetero-random-run-l4dhl  phase=Succeeded  makespan=51s  wall=54s
+
+=== [20/20] submitting ===
+W0525 03:20:06.556324 3498977 warnings.go:70] unknown field "spec.tasks[0].runtimeProfile"
+W0525 03:20:06.556399 3498977 warnings.go:70] unknown field "spec.tasks[1].runtimeProfile"
+W0525 03:20:06.556404 3498977 warnings.go:70] unknown field "spec.tasks[2].runtimeProfile"
+W0525 03:20:06.556408 3498977 warnings.go:70] unknown field "spec.tasks[3].runtimeProfile"
+W0525 03:20:06.556411 3498977 warnings.go:70] unknown field "spec.tasks[4].runtimeProfile"
+Created run hetero-random-run-zfw7w (from template hetero-random)
+-> hetero-random-run-zfw7w  phase=Succeeded  makespan=55s  wall=58s
+
+======================== Summary ========================
+#    RUN                              PHASE        MAKESPAN   WALL    
+1    hetero-random-run-pdv7z          Succeeded    57         60      
+2    hetero-random-run-24v9f          Succeeded    61         62      
+3    hetero-random-run-lws9n          Succeeded    49         52      
+4    hetero-random-run-djn4z          Succeeded    44         47      
+5    hetero-random-run-8n4l5          Succeeded    60         63      
+6    hetero-random-run-p9wzj          Succeeded    66         68      
+7    hetero-random-run-qnft2          Succeeded    45         48      
+8    hetero-random-run-wpb46          Succeeded    66         68      
+9    hetero-random-run-rvsqj          Succeeded    49         52      
+10   hetero-random-run-9t2c2          Succeeded    59         63      
+11   hetero-random-run-9khbn          Succeeded    63         66      
+12   hetero-random-run-6fpws          Succeeded    48         52      
+13   hetero-random-run-j74d2          Succeeded    57         60      
+14   hetero-random-run-hsq8c          Succeeded    44         47      
+15   hetero-random-run-zwnwk          Succeeded    61         62      
+16   hetero-random-run-tvlk4          Succeeded    61         62      
+17   hetero-random-run-6fnbr          Succeeded    54         56      
+18   hetero-random-run-rt8tx          Succeeded    59         60      
+19   hetero-random-run-l4dhl          Succeeded    51         54      
+20   hetero-random-run-zfw7w          Succeeded    55         58      
+---------------------------------------------------------
+Total wall time: 1160s

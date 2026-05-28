@@ -1,0 +1,130 @@
+Template:    iobt-heft
+Namespace:   wl-system
+Iterations:  20
+Timeout:     300s per run
+Binary:      /home/anrg/wayline/bin/wayline
+
+=== [1/20] submitting ===
+W0525 02:28:27.222941 3388310 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-fgms7 (from template iobt-heft)
+-> iobt-heft-run-fgms7  phase=Succeeded  makespan=42s  wall=45s
+
+=== [2/20] submitting ===
+W0525 02:29:12.385178 3390162 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-z6fvt (from template iobt-heft)
+-> iobt-heft-run-z6fvt  phase=Succeeded  makespan=42s  wall=45s
+
+=== [3/20] submitting ===
+W0525 02:29:57.748763 3391915 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-6sqll (from template iobt-heft)
+-> iobt-heft-run-6sqll  phase=Succeeded  makespan=43s  wall=45s
+
+=== [4/20] submitting ===
+W0525 02:30:42.936832 3393654 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-z7bs4 (from template iobt-heft)
+-> iobt-heft-run-z7bs4  phase=Succeeded  makespan=42s  wall=46s
+
+=== [5/20] submitting ===
+W0525 02:31:28.136233 3395481 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-mrvhp (from template iobt-heft)
+-> iobt-heft-run-mrvhp  phase=Succeeded  makespan=42s  wall=45s
+
+=== [6/20] submitting ===
+W0525 02:32:13.286094 3397199 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-bp8kv (from template iobt-heft)
+-> iobt-heft-run-bp8kv  phase=Succeeded  makespan=42s  wall=45s
+
+=== [7/20] submitting ===
+W0525 02:32:58.606026 3398928 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-2wkt8 (from template iobt-heft)
+-> iobt-heft-run-2wkt8  phase=Succeeded  makespan=43s  wall=45s
+
+=== [8/20] submitting ===
+W0525 02:33:43.963557 3400742 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-ldkt6 (from template iobt-heft)
+-> iobt-heft-run-ldkt6  phase=Succeeded  makespan=41s  wall=46s
+
+=== [9/20] submitting ===
+W0525 02:34:29.117653 3402497 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-7ct6v (from template iobt-heft)
+-> iobt-heft-run-7ct6v  phase=Succeeded  makespan=45s  wall=47s
+
+=== [10/20] submitting ===
+W0525 02:35:16.476344 3404278 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-5sgbx (from template iobt-heft)
+-> iobt-heft-run-5sgbx  phase=Succeeded  makespan=42s  wall=45s
+
+=== [11/20] submitting ===
+W0525 02:36:01.627312 3406027 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-rfmmv (from template iobt-heft)
+-> iobt-heft-run-rfmmv  phase=Succeeded  makespan=42s  wall=45s
+
+=== [12/20] submitting ===
+W0525 02:36:46.805653 3407693 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-kn5lw (from template iobt-heft)
+-> iobt-heft-run-kn5lw  phase=Succeeded  makespan=43s  wall=45s
+
+=== [13/20] submitting ===
+W0525 02:37:31.946992 3409464 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-4kvfs (from template iobt-heft)
+-> iobt-heft-run-4kvfs  phase=Succeeded  makespan=42s  wall=46s
+
+=== [14/20] submitting ===
+W0525 02:38:17.101939 3411193 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-dh426 (from template iobt-heft)
+-> iobt-heft-run-dh426  phase=Succeeded  makespan=41s  wall=45s
+
+=== [15/20] submitting ===
+W0525 02:39:02.342528 3412935 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-sbnts (from template iobt-heft)
+-> iobt-heft-run-sbnts  phase=Succeeded  makespan=42s  wall=45s
+
+=== [16/20] submitting ===
+W0525 02:39:47.616027 3414735 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-m696d (from template iobt-heft)
+-> iobt-heft-run-m696d  phase=Succeeded  makespan=42s  wall=45s
+
+=== [17/20] submitting ===
+W0525 02:40:32.902717 3416615 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-r5g5f (from template iobt-heft)
+-> iobt-heft-run-r5g5f  phase=Succeeded  makespan=42s  wall=46s
+
+=== [18/20] submitting ===
+W0525 02:41:18.197538 3418467 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-j4gp2 (from template iobt-heft)
+-> iobt-heft-run-j4gp2  phase=Succeeded  makespan=42s  wall=45s
+
+=== [19/20] submitting ===
+W0525 02:42:03.379311 3420266 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-zpktb (from template iobt-heft)
+-> iobt-heft-run-zpktb  phase=Succeeded  makespan=42s  wall=45s
+
+=== [20/20] submitting ===
+W0525 02:42:48.664608 3422012 warnings.go:70] unknown field "spec.schedulerConfig"
+Created run iobt-heft-run-tr8vr (from template iobt-heft)
+-> iobt-heft-run-tr8vr  phase=Succeeded  makespan=42s  wall=45s
+
+======================== Summary ========================
+#    RUN                              PHASE        MAKESPAN   WALL    
+1    iobt-heft-run-fgms7              Succeeded    42         45      
+2    iobt-heft-run-z6fvt              Succeeded    42         45      
+3    iobt-heft-run-6sqll              Succeeded    43         45      
+4    iobt-heft-run-z7bs4              Succeeded    42         46      
+5    iobt-heft-run-mrvhp              Succeeded    42         45      
+6    iobt-heft-run-bp8kv              Succeeded    42         45      
+7    iobt-heft-run-2wkt8              Succeeded    43         45      
+8    iobt-heft-run-ldkt6              Succeeded    41         46      
+9    iobt-heft-run-7ct6v              Succeeded    45         47      
+10   iobt-heft-run-5sgbx              Succeeded    42         45      
+11   iobt-heft-run-rfmmv              Succeeded    42         45      
+12   iobt-heft-run-kn5lw              Succeeded    43         45      
+13   iobt-heft-run-4kvfs              Succeeded    42         46      
+14   iobt-heft-run-dh426              Succeeded    41         45      
+15   iobt-heft-run-sbnts              Succeeded    42         45      
+16   iobt-heft-run-m696d              Succeeded    42         45      
+17   iobt-heft-run-r5g5f              Succeeded    42         46      
+18   iobt-heft-run-j4gp2              Succeeded    42         45      
+19   iobt-heft-run-zpktb              Succeeded    42         45      
+20   iobt-heft-run-tr8vr              Succeeded    42         45      
+---------------------------------------------------------
+Total wall time: 906s

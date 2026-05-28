@@ -1,0 +1,4 @@
+K,rep,run_name,phase,makespan_s,wall_s
+K=1,rep1,wl-vemcmt-n4-d60-jpg-heft-run-dx5vq,Succeeded,90,92
+K=1,rep2,wl-vemcmt-n4-d60-jpg-heft-run-8wxhx,Succeeded,88,92
+K=1,rep3,wl-vemcmt-n4-d60-jpg-heft-run-rg979,Succeeded,88,93

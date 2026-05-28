@@ -1,0 +1,290 @@
+{
+    "apiVersion": "wl.io/v1",
+    "kind": "ODAG",
+    "metadata": {
+        "creationTimestamp": "2026-05-25T10:50:35Z",
+        "generateName": "hetero-heft-eps-run-",
+        "generation": 1,
+        "labels": {
+            "wl.io/run": "13",
+            "wl.io/template": "hetero-heft-eps"
+        },
+        "name": "hetero-heft-eps-run-jfvrc",
+        "namespace": "wl-system",
+        "resourceVersion": "22973074",
+        "uid": "97305664-bccd-476e-9f4c-24e909b2ba0f"
+    },
+    "spec": {
+        "scheduler": "heft",
+        "tasks": [
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-3",
+                        "anrg-4",
+                        "anrg-8"
+                    ]
+                },
+                "dataSize": "20MB",
+                "dependencies": [],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "preprocess",
+                "runtime": 8
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-5",
+                        "anrg-6"
+                    ]
+                },
+                "dataSize": "100MB",
+                "dependencies": [
+                    "preprocess"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "train",
+                "runtime": 20
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-3",
+                        "anrg-4",
+                        "anrg-7",
+                        "anrg-9"
+                    ]
+                },
+                "dataSize": "5MB",
+                "dependencies": [
+                    "train"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "evaluate",
+                "runtime": 4
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-1",
+                        "anrg-7",
+                        "anrg-9"
+                    ]
+                },
+                "dataSize": "50MB",
+                "dependencies": [
+                    "train"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "export",
+                "runtime": 6
+            },
+            {
+                "command": [
+                    "python",
+                    "task.py"
+                ],
+                "constraints": {
+                    "nodeNames": [
+                        "anrg-1",
+                        "anrg-7"
+                    ]
+                },
+                "dataSize": "0",
+                "dependencies": [
+                    "evaluate",
+                    "export"
+                ],
+                "image": "192.168.1.163:5000/wl-multi-odag-task:latest",
+                "name": "report",
+                "runtime": 3
+            }
+        ]
+    },
+    "status": {
+        "actualNetworkFlows": [
+            {
+                "dataSize": 5000000,
+                "dstNode": "anrg-1",
+                "end": 44.552621364593506,
+                "fromTask": "evaluate",
+                "ok": true,
+                "srcNode": "anrg-7",
+                "start": 44.10554909706116,
+                "toTask": "report"
+            },
+            {
+                "dataSize": 20000000,
+                "dstNode": "anrg-5",
+                "end": 9.046940088272095,
+                "fromTask": "preprocess",
+                "ok": true,
+                "srcNode": "anrg-3",
+                "start": 8.784705638885498,
+                "toTask": "train"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-1",
+                "end": 31.878937482833862,
+                "fromTask": "train",
+                "ok": true,
+                "srcNode": "anrg-5",
+                "start": 30.502882957458496,
+                "toTask": "export"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-7",
+                "end": 39.335299491882324,
+                "fromTask": "train",
+                "ok": true,
+                "srcNode": "anrg-5",
+                "start": 30.50353741645813,
+                "toTask": "evaluate"
+            }
+        ],
+        "completionTime": "2026-05-25T10:51:25.568648519Z",
+        "makespan": 48,
+        "message": "",
+        "phase": "Succeeded",
+        "predictedNetworkFlows": [
+            {
+                "dataSize": 20000000,
+                "dstNode": "anrg-5",
+                "end": 9.141100000000002,
+                "fromTask": "preprocess",
+                "srcNode": "anrg-3",
+                "start": 8.981100000000001,
+                "toTask": "train"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-1",
+                "end": 30.941100000000002,
+                "fromTask": "train",
+                "srcNode": "anrg-5",
+                "start": 30.1411,
+                "toTask": "export"
+            },
+            {
+                "dataSize": 100000000,
+                "dstNode": "anrg-7",
+                "end": 31.741100000000003,
+                "fromTask": "train",
+                "srcNode": "anrg-5",
+                "start": 30.941100000000002,
+                "toTask": "evaluate"
+            },
+            {
+                "dataSize": 5000000,
+                "dstNode": "anrg-1",
+                "end": 36.0737247071377,
+                "fromTask": "evaluate",
+                "srcNode": "anrg-7",
+                "start": 36.0337247071377,
+                "toTask": "report"
+            }
+        ],
+        "predictedTasks": [
+            {
+                "estEnd": 8.981100000000001,
+                "estStart": 0,
+                "name": "preprocess",
+                "node": "anrg-3"
+            },
+            {
+                "estEnd": 30.1411,
+                "estStart": 9.141100000000002,
+                "name": "train",
+                "node": "anrg-5"
+            },
+            {
+                "estEnd": 36.0337247071377,
+                "estStart": 31.7411,
+                "name": "evaluate",
+                "node": "anrg-7"
+            },
+            {
+                "estEnd": 38.6411,
+                "estStart": 30.941100000000002,
+                "name": "export",
+                "node": "anrg-1"
+            },
+            {
+                "estEnd": 42.3491524609623,
+                "estStart": 38.6411,
+                "name": "report",
+                "node": "anrg-1"
+            }
+        ],
+        "startTime": "2026-05-25T10:50:36.003796414Z",
+        "tasks": [
+            {
+                "completionTime": "2026-05-25T10:51:14Z",
+                "dataSize": "50000000",
+                "name": "export",
+                "node": "anrg-1",
+                "phase": "Succeeded",
+                "podName": "hetero-heft-eps-run-jfvrc-export",
+                "startTime": "2026-05-25T10:51:07Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T10:51:06Z",
+                "dataSize": "100000000",
+                "name": "train",
+                "node": "anrg-5",
+                "phase": "Succeeded",
+                "podName": "hetero-heft-eps-run-jfvrc-train",
+                "startTime": "2026-05-25T10:50:45Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T10:50:44Z",
+                "dataSize": "20000000",
+                "name": "preprocess",
+                "node": "anrg-3",
+                "phase": "Succeeded",
+                "podName": "hetero-heft-eps-run-jfvrc-preprocess",
+                "startTime": "2026-05-25T10:50:36Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T10:51:20Z",
+                "dataSize": "5000000",
+                "name": "evaluate",
+                "node": "anrg-7",
+                "phase": "Succeeded",
+                "podName": "hetero-heft-eps-run-jfvrc-evaluate",
+                "startTime": "2026-05-25T10:51:15Z",
+                "state": "ComputeDone"
+            },
+            {
+                "completionTime": "2026-05-25T10:51:24Z",
+                "name": "report",
+                "node": "anrg-1",
+                "phase": "Succeeded",
+                "podName": "hetero-heft-eps-run-jfvrc-report",
+                "startTime": "2026-05-25T10:51:20Z",
+                "state": "ComputeDone"
+            }
+        ]
+    }
+}

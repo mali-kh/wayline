@@ -1,0 +1,110 @@
+Template:    iobt-random
+Namespace:   wl-system
+Iterations:  20
+Timeout:     300s per run
+Binary:      /home/anrg/wayline/bin/wayline
+
+=== [1/20] submitting ===
+Created run iobt-random-run-c5hqb (from template iobt-random)
+-> iobt-random-run-c5hqb  phase=Succeeded  makespan=43s  wall=47s
+
+=== [2/20] submitting ===
+Created run iobt-random-run-75jjf (from template iobt-random)
+-> iobt-random-run-75jjf  phase=Succeeded  makespan=42s  wall=45s
+
+=== [3/20] submitting ===
+Created run iobt-random-run-rqqrh (from template iobt-random)
+-> iobt-random-run-rqqrh  phase=Succeeded  makespan=48s  wall=52s
+
+=== [4/20] submitting ===
+Created run iobt-random-run-xbm9l (from template iobt-random)
+-> iobt-random-run-xbm9l  phase=Succeeded  makespan=55s  wall=58s
+
+=== [5/20] submitting ===
+Created run iobt-random-run-pqt5h (from template iobt-random)
+-> iobt-random-run-pqt5h  phase=Succeeded  makespan=42s  wall=45s
+
+=== [6/20] submitting ===
+Created run iobt-random-run-8ppsl (from template iobt-random)
+-> iobt-random-run-8ppsl  phase=Succeeded  makespan=42s  wall=45s
+
+=== [7/20] submitting ===
+Created run iobt-random-run-765jv (from template iobt-random)
+-> iobt-random-run-765jv  phase=Succeeded  makespan=43s  wall=46s
+
+=== [8/20] submitting ===
+Created run iobt-random-run-h4lnq (from template iobt-random)
+-> iobt-random-run-h4lnq  phase=Succeeded  makespan=42s  wall=45s
+
+=== [9/20] submitting ===
+Created run iobt-random-run-g947f (from template iobt-random)
+-> iobt-random-run-g947f  phase=Succeeded  makespan=54s  wall=58s
+
+=== [10/20] submitting ===
+Created run iobt-random-run-gvjns (from template iobt-random)
+-> iobt-random-run-gvjns  phase=Succeeded  makespan=49s  wall=52s
+
+=== [11/20] submitting ===
+Created run iobt-random-run-wnwgf (from template iobt-random)
+-> iobt-random-run-wnwgf  phase=Succeeded  makespan=54s  wall=58s
+
+=== [12/20] submitting ===
+Created run iobt-random-run-r6th8 (from template iobt-random)
+-> iobt-random-run-r6th8  phase=Succeeded  makespan=49s  wall=51s
+
+=== [13/20] submitting ===
+Created run iobt-random-run-7296g (from template iobt-random)
+-> iobt-random-run-7296g  phase=Succeeded  makespan=54s  wall=58s
+
+=== [14/20] submitting ===
+Created run iobt-random-run-9kpmv (from template iobt-random)
+-> iobt-random-run-9kpmv  phase=Succeeded  makespan=54s  wall=58s
+
+=== [15/20] submitting ===
+Created run iobt-random-run-qd452 (from template iobt-random)
+-> iobt-random-run-qd452  phase=Succeeded  makespan=54s  wall=58s
+
+=== [16/20] submitting ===
+Created run iobt-random-run-94wll (from template iobt-random)
+-> iobt-random-run-94wll  phase=Succeeded  makespan=54s  wall=58s
+
+=== [17/20] submitting ===
+Created run iobt-random-run-chxb6 (from template iobt-random)
+-> iobt-random-run-chxb6  phase=Succeeded  makespan=42s  wall=45s
+
+=== [18/20] submitting ===
+Created run iobt-random-run-wqxrh (from template iobt-random)
+-> iobt-random-run-wqxrh  phase=Succeeded  makespan=42s  wall=45s
+
+=== [19/20] submitting ===
+Created run iobt-random-run-7q8z9 (from template iobt-random)
+-> iobt-random-run-7q8z9  phase=Succeeded  makespan=48s  wall=52s
+
+=== [20/20] submitting ===
+Created run iobt-random-run-km5pk (from template iobt-random)
+-> iobt-random-run-km5pk  phase=Succeeded  makespan=42s  wall=46s
+
+======================== Summary ========================
+#    RUN                              PHASE        MAKESPAN   WALL    
+1    iobt-random-run-c5hqb            Succeeded    43         47      
+2    iobt-random-run-75jjf            Succeeded    42         45      
+3    iobt-random-run-rqqrh            Succeeded    48         52      
+4    iobt-random-run-xbm9l            Succeeded    55         58      
+5    iobt-random-run-pqt5h            Succeeded    42         45      
+6    iobt-random-run-8ppsl            Succeeded    42         45      
+7    iobt-random-run-765jv            Succeeded    43         46      
+8    iobt-random-run-h4lnq            Succeeded    42         45      
+9    iobt-random-run-g947f            Succeeded    54         58      
+10   iobt-random-run-gvjns            Succeeded    49         52      
+11   iobt-random-run-wnwgf            Succeeded    54         58      
+12   iobt-random-run-r6th8            Succeeded    49         51      
+13   iobt-random-run-7296g            Succeeded    54         58      
+14   iobt-random-run-9kpmv            Succeeded    54         58      
+15   iobt-random-run-qd452            Succeeded    54         58      
+16   iobt-random-run-94wll            Succeeded    54         58      
+17   iobt-random-run-chxb6            Succeeded    42         45      
+18   iobt-random-run-wqxrh            Succeeded    42         45      
+19   iobt-random-run-7q8z9            Succeeded    48         52      
+20   iobt-random-run-km5pk            Succeeded    42         46      
+---------------------------------------------------------
+Total wall time: 1023s

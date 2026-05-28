@@ -1,0 +1,34 @@
+{
+  "run_name": "e0-minio-cross-1mb-23415082",
+  "producer_pod": "e0-minio-cross-1mb-23415082-producer-sgw84",
+  "consumer_pod": "e0-minio-cross-1mb-23415082-consumer-cdh6j",
+  "producer_log": {
+    "role": "producer",
+    "pod": "e0-minio-cross-1mb-23415082-producer-sgw84",
+    "node": "anrg-3",
+    "t0_wall": 1779811197.0218008,
+    "t1_wall": 1779811202.1349926,
+    "t1p_wall": 1779811202.2509797,
+    "bytes": 1048576,
+    "bucket": "e0-bench",
+    "object": "e0-minio-cross-1mb-23415082/payload"
+  },
+  "consumer_log": {
+    "role": "consumer",
+    "pod": "e0-minio-cross-1mb-23415082-consumer-cdh6j",
+    "node": "anrg-6",
+    "t3_wall": 1779811197.1331444,
+    "t_found_wall": 1779811202.2730432,
+    "t4_wall": 1779811202.3645575,
+    "bytes": 1048576,
+    "expected_bytes": 1048576,
+    "ok": true,
+    "poll_s": 0.025
+  },
+  "pod_api": {
+    "producer_started": "2026-05-26T15:59:56Z",
+    "producer_finished": "2026-05-26T16:00:02Z",
+    "consumer_started": "2026-05-26T15:59:56Z",
+    "consumer_finished": "2026-05-26T16:00:02Z"
+  }
+}
