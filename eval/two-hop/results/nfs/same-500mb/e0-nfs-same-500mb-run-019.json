@@ -1,0 +1,29 @@
+{
+  "run_name": "e0-nfs-same-500mb-run-019",
+  "producer_pod": "e0-nfs-same-500mb-run-019-producer-4rgn2",
+  "consumer_pod": "e0-nfs-same-500mb-run-019-consumer-6rxr9",
+  "producer_log": {
+    "role": "producer",
+    "pod": "e0-nfs-same-500mb-run-019-producer-4rgn2",
+    "node": "anrg-3",
+    "t0_wall": 1779647417.4989698,
+    "t1_wall": 1779647422.4992895,
+    "t1p_wall": 1779647468.069618,
+    "bytes": 524288000
+  },
+  "consumer_log": {
+    "role": "consumer",
+    "pod": "e0-nfs-same-500mb-run-019-consumer-6rxr9",
+    "node": "anrg-3",
+    "t3_wall": 1779647417.2248526,
+    "t_found_wall": 1779647468.0924942,
+    "t4_wall": 1779647468.1423638,
+    "bytes": 524288000
+  },
+  "pod_api": {
+    "producer_started": "2026-05-24T18:30:17Z",
+    "producer_finished": "2026-05-24T18:31:08Z",
+    "consumer_started": "2026-05-24T18:30:17Z",
+    "consumer_finished": "2026-05-24T18:31:08Z"
+  }
+}
