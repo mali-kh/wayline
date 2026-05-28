@@ -1,0 +1,128 @@
+[
+  {
+    "task": "track-3",
+    "node": "anrg-8",
+    "startedAt": "2026-05-25T05:35:34Z",
+    "finishedAt": "2026-05-25T05:35:40Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "track-2",
+    "node": "anrg-7",
+    "startedAt": "2026-05-25T05:34:19Z",
+    "finishedAt": "2026-05-25T05:34:25Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "track-1",
+    "node": "anrg-6",
+    "startedAt": "2026-05-25T05:33:59Z",
+    "finishedAt": "2026-05-25T05:34:04Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "track-4",
+    "node": "anrg-6",
+    "startedAt": "2026-05-25T05:35:34Z",
+    "finishedAt": "2026-05-25T05:35:40Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "preprocess-2",
+    "node": "anrg-3",
+    "startedAt": "2026-05-25T05:32:41Z",
+    "finishedAt": "2026-05-25T05:33:17Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "preprocess-3",
+    "node": "anrg-4",
+    "startedAt": "2026-05-25T05:33:14Z",
+    "finishedAt": "2026-05-25T05:33:58Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "preprocess-1",
+    "node": "anrg-1",
+    "startedAt": "2026-05-25T05:32:41Z",
+    "finishedAt": "2026-05-25T05:33:03Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "preprocess-4",
+    "node": "anrg-5",
+    "startedAt": "2026-05-25T05:33:14Z",
+    "finishedAt": "2026-05-25T05:34:00Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "report",
+    "node": "anrg-9",
+    "startedAt": "2026-05-25T05:35:54Z",
+    "finishedAt": "2026-05-25T05:35:59Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "detect-embed-1",
+    "node": "anrg-6",
+    "startedAt": "2026-05-25T05:33:14Z",
+    "finishedAt": "2026-05-25T05:33:53Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "detect-embed-3",
+    "node": "anrg-8",
+    "startedAt": "2026-05-25T05:34:09Z",
+    "finishedAt": "2026-05-25T05:35:25Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "detect-embed-2",
+    "node": "anrg-7",
+    "startedAt": "2026-05-25T05:33:24Z",
+    "finishedAt": "2026-05-25T05:34:08Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "detect-embed-4",
+    "node": "anrg-6",
+    "startedAt": "2026-05-25T05:34:09Z",
+    "finishedAt": "2026-05-25T05:35:32Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "cross-camera-match",
+    "node": "anrg-9",
+    "startedAt": "2026-05-25T05:35:44Z",
+    "finishedAt": "2026-05-25T05:35:48Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "decode-4",
+    "node": "anrg-5",
+    "startedAt": "2026-05-25T05:32:19Z",
+    "finishedAt": "2026-05-25T05:33:03Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "decode-2",
+    "node": "anrg-3",
+    "startedAt": "2026-05-25T05:32:19Z",
+    "finishedAt": "2026-05-25T05:32:33Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "decode-3",
+    "node": "anrg-4",
+    "startedAt": "2026-05-25T05:32:19Z",
+    "finishedAt": "2026-05-25T05:33:04Z",
+    "phase": "Succeeded"
+  },
+  {
+    "task": "decode-1",
+    "node": "anrg-1",
+    "startedAt": "2026-05-25T05:32:19Z",
+    "finishedAt": "2026-05-25T05:32:33Z",
+    "phase": "Succeeded"
+  }
+]
